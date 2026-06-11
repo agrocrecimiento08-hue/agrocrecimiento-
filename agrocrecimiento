@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Agrocrecimiento · Sabiduría del Campo</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --v1: #0a2217; --v2: #1a3327; --v3: #275e44; --v4: #3b8a67; 
+  --gold: #e9b741; --gold-light: #fad47a;
+  --text-primary: #eae9e3; --text-secondary: #b0b5ae; --text-tertiary: #7a7f79;
+  --bg-main: #0a2217; --bg-card: #1a3327; --bg-input: #0f2d1e;
+  --shadow: 0 4px 20px rgba(0,0,0,0.6); --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+  --radius: 16px; --radius-lg: 24px;
+  --font: 'Inter', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary);min-height:100vh;font-size:15px;}
+
+/* ----- SPLASH / AUTH ----- */
+#splash{
+  position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--bg-main);
+  transition:opacity .5s;
+  padding:20px;
+}
+#splash.oculta{opacity:0;pointer-events:none;}
+.auth-card{
+  width:100%;max-width:440px;
+  background:rgba(26,51,39,0.85); backdrop-filter:blur(8px);
+  border-radius:var(--radius-lg); padding:30px 28px 32px;
+  box-shadow:var(--shadow);
+  position:relative; overflow:hidden;
+}
+.auth-card::before{
+  content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+  background:url('https://nuevarioja.com.ar/galeria/fotos/2026/01/23/l_1769217631.webp') no-repeat center/cover;
+  opacity:0.15; z-index:0;
+}
+.auth-card > *{position:relative;z-index:1;}
+.auth-brand{text-align:center;margin-bottom:20px;}
+.auth-brand .green{color:var(--v4);font-weight:800;font-size:2rem;letter-spacing:-1px;}
+.auth-brand .gold{color:var(--gold);font-weight:800;font-size:2rem;letter-spacing:-1px;}
+.auth-brand .sub{font-size:0.85rem;color:var(--text-secondary);margin-top:4px;}
+.auth-tabs{display:flex;background:var(--bg-input);border-radius:30px;padding:4px;margin-bottom:20px;}
+.auth-tabs button{
+  flex:1;border:none;padding:10px 0;border-radius:30px;font-weight:700;font-size:0.85rem;cursor:pointer;transition:.2s;
+  background:transparent;color:var(--text-tertiary);font-family:var(--font);
+}
+.auth-tabs button.activo{background:var(--gold);color:var(--v1);box-shadow:0 2px 12px rgba(233,183,65,0.3);}
+.auth-panel{display:none;flex-direction:column;gap:14px;}
+.auth-panel.activo{display:flex;}
+.fl{font-size:0.75rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;display:block;}
+.input-dark{
+  width:100%;padding:12px 16px;border-radius:10px;border:1px solid var(--v2);
+  background:var(--bg-input);color:var(--text-primary);font-family:var(--font);font-size:0.95rem;
+  transition:.2s;
+}
+.input-dark:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(233,183,65,0.2);}
+.btn-gold-full{
+  width:100%;padding:14px;margin-top:4px;
+  background:var(--gold);color:var(--v1);border:none;border-radius:30px;
+  font-weight:800;font-size:1.05rem;cursor:pointer;transition:.2s;
+  font-family:var(--font);letter-spacing:.3px;
+}
+.btn-gold-full:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(233,183,65,0.5);}
+.msg{font-size:0.8rem;padding:8px 12px;border-radius:8px;display:none;font-weight:500;}
+
+/* ----- APP PRINCIPAL ----- */
+#app{display:none;}#app.visible{display:block;}
+.hdr{background:var(--v1);color:var(--text-primary);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--v2);}
+.hdr-left{display:flex;align-items:center;gap:10px;}
+.hdr-left h1{font-size:1.2rem;font-weight:800;}
+.hdr-left span.gold{color:var(--gold);}
+.hdr-right{display:flex;align-items:center;gap:8px;}
+.btn-salir{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:var(--text-primary);padding:5px 14px;border-radius:20px;cursor:pointer;font-family:var(--font);font-size:.78rem;font-weight:600;}
+
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:var(--v1);border-top:1px solid var(--v2);display:flex;z-index:200;padding:6px 0 10px;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:var(--text-tertiary);transition:color .2s;gap:2px;}
+.nav-item.activo{color:var(--gold);}
+.nav-item i{font-size:1.3rem;}
+.nav-item span{font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px;}
+
+.content{padding:16px 14px 90px;max-width:600px;margin:auto;}
+.section{display:none;}.section.activo{display:block;}
+.card{background:var(--bg-card);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm);margin-bottom:16px;border:1px solid var(--v2);}
+.card-title{font-size:1.1rem;font-weight:700;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.card-title i{font-size:.9rem;opacity:.8;}
+
+/* ----- INICIO ----- */
+.dash-hero{background:linear-gradient(135deg, var(--v1), var(--v3));border-radius:var(--radius-lg);padding:24px;margin-bottom:16px;color:var(--text-primary);position:relative;overflow:hidden;}
+.dash-hero h2{font-size:1.3rem;font-weight:700;}
+.dash-hero p{opacity:.85;font-size:.95rem;margin-top:4px;}
+.mvv-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px;}
+.mvv-item{background:var(--bg-input);padding:16px;border-radius:var(--radius);text-align:center;border:1px solid var(--v2);}
+.mvv-item i{font-size:1.5rem;color:var(--gold);margin-bottom:6px;}
+.mvv-item h4{font-size:.9rem;color:var(--gold);}
+.mvv-item p{font-size:.8rem;color:var(--text-secondary);margin-top:4px;}
+
+/* ----- RESEÑAS ----- */
+.resena-item{background:var(--bg-card);border-radius:var(--radius);padding:16px;margin-bottom:14px;border-left:4px solid var(--gold);}
+.resena-item h3{font-size:1.05rem;font-weight:700;color:var(--gold);}
+.resena-item .meta{font-size:.8rem;color:var(--text-secondary);margin:4px 0;}
+.resena-item p{font-size:.9rem;line-height:1.6;color:var(--text-primary);}
+
+/* ----- CALCULADORA ----- */
+.calc-campo{margin-bottom:12px;}
+.calc-campo label{display:block;font-size:.75rem;font-weight:600;color:var(--text-secondary);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px;}
+.input-app{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--v2);background:var(--bg-input);color:var(--text-primary);font-family:var(--font);font-size:0.9rem;transition:.2s;}
+.input-app:focus{outline:none;border-color:var(--gold);}
+.resultado{background:var(--bg-input);padding:14px 16px;border-radius:14px;margin-top:12px;font-size:.9rem;line-height:1.8;border-left:4px solid var(--gold);}
+.btn-group{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+.btn-whatsapp{flex:1;background:#25d366;color:#fff;border:none;padding:10px;border-radius:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-correo{flex:1;background:var(--v3);color:#fff;border:none;padding:10px;border-radius:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-main{width:100%;padding:12px;background:var(--gold);color:var(--v1);border:none;border-radius:12px;font-weight:700;cursor:pointer;font-size:.95rem;}
+
+.glosario{background:var(--bg-input);border-radius:var(--radius);padding:16px;margin-top:12px;border:1px solid var(--v2);}
+.glosario h4{color:var(--gold);margin-bottom:8px;}
+.glosario .term{display:flex;gap:8px;margin-bottom:6px;font-size:.85rem;}
+.glosario .term strong{color:var(--gold);min-width:70px;}
+
+/* ----- CONSULTAS ----- */
+.consulta-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.consulta-card{background:var(--bg-input);border-radius:var(--radius);padding:16px;text-align:center;cursor:pointer;transition:.2s;border:1px solid transparent;}
+.consulta-card:hover{border-color:var(--gold);transform:translateY(-2px);}
+.consulta-card h4{font-size:.9rem;color:var(--gold);margin-top:6px;}
+.form-consulta{display:none;margin-top:12px;flex-direction:column;gap:10px;}
+.form-consulta.activo{display:flex;}
+.btn-responder{background:var(--gold);color:var(--v1);padding:12px;border:none;border-radius:10px;font-weight:700;cursor:pointer;}
+
+/* ----- MAPA ----- */
+#mapa{height:380px;border-radius:16px;margin-top:8px;border:1px solid var(--v2);}
+.info-mapa{background:var(--bg-card);border-radius:12px;margin-top:12px;padding:0;overflow:hidden;border:1px solid var(--v2);}
+.info-mapa-img{width:100%;height:180px;object-fit:cover;display:block;}
+.info-mapa-body{padding:16px;}
+.info-mapa-body h4{color:var(--gold);margin-bottom:4px;font-size:1.2rem;}
+.info-mapa-body p{font-size:.85rem;line-height:1.6;color:var(--text-primary);}
+
+/* ----- TIENDAS ----- */
+.tienda-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;}
+.tienda-card{background:var(--bg-input);border-radius:var(--radius);padding:14px;border:1px solid var(--v2);text-align:center;transition:.2s;}
+.tienda-card:hover{border-color:var(--gold);}
+.tienda-card img{width:100%;height:120px;object-fit:cover;border-radius:10px;margin-bottom:8px;}
+.tienda-card h4{font-size:.9rem;color:var(--gold);margin-bottom:4px;}
+.tienda-card .reseña{font-size:.75rem;color:var(--text-secondary);margin:4px 0;}
+.tienda-card .contacto{display:flex;justify-content:center;gap:12px;margin-top:6px;font-size:.85rem;}
+.tienda-card .contacto a{color:var(--text-primary);transition:.2s;}
+.tienda-card .contacto a:hover{color:var(--gold);}
+.tienda-card .btn-tienda{display:inline-block;margin-top:6px;padding:4px 12px;background:var(--gold);color:var(--v1);border-radius:20px;text-decoration:none;font-size:.7rem;font-weight:700;}
+
+/* ----- PERFIL ----- */
+.perfil-avatar{width:80px;height:80px;border-radius:50%;background:var(--bg-input);display:flex;align-items:center;justify-content:center;font-size:3rem;margin:0 auto 12px;border:2px solid var(--gold);}
+.perfil-info{text-align:center;margin-bottom:16px;}
+.perfil-info h3{font-size:1.2rem;font-weight:700;color:var(--gold);}
+.perfil-info p{font-size:.85rem;color:var(--text-secondary);}
+.perfil-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--v2);font-size:.9rem;}
+.perfil-row:last-child{border-bottom:none;}
+.perfil-row i{color:var(--gold);width:20px;text-align:center;}
+
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--v1);padding:12px 24px;border-radius:30px;z-index:9999;font-weight:700;font-size:.9rem;box-shadow:0 4px 20px rgba(233,183,65,0.4);animation:ta 4.2s forwards;}
+@keyframes ta{0%{opacity:0;transform:translateX(-50%) translateY(20px)}10%{opacity:1;transform:translateX(-50%) translateY(0)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-10px)}}
+@media(min-width:500px){.content{padding:20px 20px 100px;}}
+@media (max-width: 480px) {
+  .tienda-grid { grid-template-columns: 1fr; }
+  .mvv-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== SPLASH / AUTH ====== -->
+<div id="splash">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div><span class="green">Agro</span><span class="gold">crecimiento</span></div>
+      <div class="sub">La sabiduría del campo en tus manos</div>
+    </div>
+    <div class="auth-tabs">
+      <button class="activo" id="tab-registro" onclick="cambiarPanelAuth('registro')">Crear cuenta</button>
+      <button id="tab-login" onclick="cambiarPanelAuth('login')">Ya tengo cuenta</button>
+    </div>
+    <!-- REGISTRO -->
+    <div class="auth-panel activo" id="panelRegistro">
+      <div><span class="fl">Nombre completo</span><input type="text" id="regNombre" class="input-dark" placeholder="Juan Mamani"></div>
+      <div><span class="fl">Teléfono / WhatsApp</span><input type="tel" id="regTelefono" class="input-dark" placeholder="7XXXXXXX"></div>
+      <div><span class="fl">Correo electrónico</span><input type="email" id="regCorreo" class="input-dark" placeholder="juan@email.com"></div>
+      <div><span class="fl">Zona / Departamento</span><input type="text" id="regZona" class="input-dark" placeholder="Santa Cruz, Montero..."></div>
+      <button class="btn-gold-full" id="btnRegistro" onclick="handleRegistro()">Registrarme <i class="fas fa-arrow-right"></i></button>
+      <div id="mensajeRegistro" class="msg"></div>
+    </div>
+    <!-- LOGIN -->
+    <div class="auth-panel" id="panelLogin">
+      <div><span class="fl">Correo electrónico</span><input type="email" id="loginCorreo" class="input-dark" placeholder="tu@correo.com"></div>
+      <button class="btn-gold-full" id="btnLogin" onclick="handleLogin()">Iniciar sesión</button>
+      <div id="mensajeLogin" class="msg"></div>
+      <p style="text-align:center;font-size:0.8rem;color:var(--text-tertiary);margin-top:8px;">¿Sin cuenta? <a onclick="cambiarPanelAuth('registro')" style="color:var(--gold);cursor:pointer;">Crea una aquí</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== APP PRINCIPAL ====== -->
+<div id="app">
+  <div class="hdr">
+    <div class="hdr-left"><div><h1>Agro<span class="gold">crecimiento</span></h1></div></div>
+    <div class="hdr-right">
+      <span id="hdrUser" style="font-size:.82rem;opacity:.85"></span>
+      <button class="btn-salir" onclick="cerrarSesion()">Salir</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ===== INICIO ===== -->
+    <div class="section activo" id="s-inicio">
+      <div class="dash-hero">
+        <h2 id="saludo">¡Muy buenos días, productor!</h2>
+        <p id="saludo-sub">Tu aliado digital para decisiones agrícolas inteligentes.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="fas fa-bullseye"></i> Objetivo, Misión y Visión</div>
+        <div class="mvv-grid">
+          <div class="mvv-item">
+            <i class="fas fa-bullseye"></i>
+            <h4>Objetivo</h4>
+            <p>Empoderar a los productores bolivianos con herramientas digitales, datos agrícolas y acceso a servicios que optimicen su producción y rentabilidad.</p>
+          </div>
+          <div class="mvv-item">
+            <i class="fas fa-flag"></i>
+            <h4>Misión</h4>
+            <p>Proveer información agrícola confiable, calcular inversiones, conectar con proveedores y facilitar la toma de decisiones basadas en datos reales.</p>
+          </div>
+          <div class="mvv-item">
+            <i class="fas fa-eye"></i>
+            <h4>Visión</h4>
+            <p>Ser la plataforma agrícola líder de Bolivia, transformando el campo con tecnología y conocimiento al alcance de todos.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="fas fa-star"></i> ¿Qué puedes hacer hoy?</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.85rem;color:var(--text-secondary);">
+          <div>📖 <strong>Explorar reseñas de cultivos</strong><br><small>Conoce la historia y datos de cada producto</small></div>
+          <div>🧮 <strong>Calcular tu inversión con glosario</strong><br><small>Aprende los términos financieros</small></div>
+          <div>🗺️ <strong>Descubrir el mapa agrícola de Bolivia</strong><br><small>Ubica los cultivos en cada región</small></div>
+          <div>🏪 <strong>Conocer proveedores y tiendas</strong><br><small>Encuentra insumos y servicios cerca de ti</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== RESEÑAS HISTÓRICAS ===== -->
+    <div class="section" id="s-resenas">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-book-open"></i> Reseña histórica de cultivos de Bolivia</div>
+        <div id="resenaList"></div>
+      </div>
+    </div>
+
+    <!-- ===== CALCULADORA ===== -->
+    <div class="section" id="s-calc">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-calculator"></i> Calculadora de inversión</div>
+        <div class="calc-campo"><label>Cultivo</label><select id="calcCultivo" class="input-app" onchange="calcular()">
+            <option value="soya">🌿 Soya</option><option value="maiz">🌽 Maíz</option><option value="cana">🪵 Caña</option>
+            <option value="arroz">🍚 Arroz</option><option value="trigo">🌾 Trigo</option><option value="papa">🥔 Papa</option>
+            <option value="cacao">🍫 Cacao</option><option value="cafe">☕ Café</option><option value="banano">🍌 Banano</option>
+            <option value="quinua">🌾 Quinua</option>
+        </select></div>
+        <div class="calc-campo"><label>Hectáreas (1 ha = 10,000 m²)</label><input type="number" id="calcHa" class="input-app" value="1" min="0.1" step="0.5" oninput="calcular()"></div>
+        <div class="calc-campo"><label>Capital disponible (Bs)</label><input type="number" id="calcCap" class="input-app" value="5000" min="0" oninput="calcular()"></div>
+        <div id="calcResult" class="resultado">Selecciona un cultivo para ver el análisis detallado.</div>
+        <div class="btn-group">
+          <button class="btn-whatsapp" onclick="enviarWhatsApp()"><i class="fab fa-whatsapp"></i> Enviar a WhatsApp</button>
+          <button class="btn-correo" onclick="enviarCorreo()"><i class="fas fa-envelope"></i> Enviar a Correo</button>
+        </div>
+        <button class="btn-main" onclick="guardarCalculo()" style="margin-top:10px;"><i class="fas fa-save"></i> Guardar en historial</button>
+        
+        <div class="glosario">
+          <h4>📘 Glosario educativo</h4>
+          <div class="term"><strong>Hectárea:</strong> Unidad de superficie agrícola. 1 hectárea equivale a 10,000 metros cuadrados (aprox. un campo de fútbol).</div>
+          <div class="term"><strong>Rendimiento (t/ha):</strong> Es la cantidad de toneladas que se cosechan por cada hectárea sembrada. A mayor rendimiento, más producción.</div>
+          <div class="term"><strong>Costo/Ha:</strong> Cuánto dinero se invierte en preparar la tierra, semillas, fertilizantes y labores por cada hectárea.</div>
+          <div class="term"><strong>Precio/ton:</strong> Valor de venta de una tonelada del producto. Fluctúa según el mercado.</div>
+          <div class="term"><strong>Ganancia:</strong> Lo que realmente se obtiene después de restar todos los costos de inversión. Ganancia = (Producción × Precio) - Costos.</div>
+          <div class="term"><strong>ROI (%):</strong> Retorno sobre la inversión. Indica qué porcentaje de ganancia generó cada boliviano invertido. Ej: 50% significa que por cada 100 Bs invertidos, ganaste 50 Bs.</div>
+        </div>
+      </div>
+      <!-- Comparador -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-balance-scale"></i> Comparar dos cultivos</div>
+        <div style="display:flex;gap:8px;margin-bottom:10px;">
+          <select id="compA" class="input-app" style="flex:1;" onchange="actualizarComp()">
+            <option value="soya">Soya</option><option value="maiz">Maíz</option><option value="arroz">Arroz</option><option value="trigo">Trigo</option><option value="cana">Caña</option><option value="papa">Papa</option>
+            <option value="cacao">Cacao</option><option value="cafe">Café</option><option value="banano">Banano</option><option value="quinua">Quinua</option>
+          </select>
+          <span style="align-self:center;font-weight:700;color:var(--gold)">vs</span>
+          <select id="compB" class="input-app" style="flex:1;" onchange="actualizarComp()">
+            <option value="maiz">Maíz</option><option value="soya">Soya</option><option value="arroz">Arroz</option><option value="trigo">Trigo</option><option value="cana">Caña</option><option value="papa">Papa</option>
+            <option value="cacao">Cacao</option><option value="cafe">Café</option><option value="banano">Banano</option><option value="quinua">Quinua</option>
+          </select>
+        </div>
+        <div class="comp-grid" id="compGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"></div>
+        <button class="btn-main" onclick="guardarComparacion()" style="margin-top:10px;"><i class="fas fa-save"></i> Guardar comparación en historial</button>
+      </div>
+    </div>
+
+    <!-- ===== CONSULTAS (Formulario que envía a Sheets) ===== -->
+    <div class="section" id="s-consulta">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-headset"></i> Consulta técnica o asesoría</div>
+        <div class="consulta-grid">
+          <div class="consulta-card" onclick="mostrarFormulario('tecnica')">
+            <i class="fas fa-microscope" style="font-size:2rem;color:var(--gold);"></i><h4>Consulta Técnica</h4>
+          </div>
+          <div class="consulta-card" onclick="mostrarFormulario('inversion')">
+            <i class="fas fa-chart-pie" style="font-size:2rem;color:var(--gold);"></i><h4>Asesoría de Inversión</h4>
+          </div>
+        </div>
+        <div id="form-tecnica" class="form-consulta">
+          <span class="fl">Título de la consulta</span><input type="text" id="tecTitulo" class="input-app" placeholder="Ej. Control de plagas en soya">
+          <span class="fl">Detalle</span><textarea id="tecDetalle" class="input-app" rows="3" placeholder="Describe tu problema o duda técnica..."></textarea>
+          <span class="fl">Tu nombre</span><input type="text" id="tecNombre" class="input-app" placeholder="Tu nombre">
+          <span class="fl">Correo de contacto</span><input type="email" id="tecCorreo" class="input-app" placeholder="tu@correo.com">
+          <button class="btn-responder" onclick="enviarConsulta('Técnica')"><i class="fas fa-paper-plane"></i> Enviar consulta</button>
+        </div>
+        <div id="form-inversion" class="form-consulta">
+          <span class="fl">Monto a invertir (Bs)</span><input type="number" id="invMonto" class="input-app" placeholder="Ej. 50000">
+          <span class="fl">Objetivo de inversión</span><select id="invObjetivo" class="input-app"><option>Expansión de cultivos</option><option>Mejora de infraestructura</option><option>Compra de maquinaria</option></select>
+          <span class="fl">Detalle adicional</span><textarea id="invDetalle" class="input-app" rows="3" placeholder="Cuéntanos tu plan..."></textarea>
+          <span class="fl">Tu nombre</span><input type="text" id="invNombre" class="input-app" placeholder="Tu nombre">
+          <span class="fl">Correo de contacto</span><input type="email" id="invCorreo" class="input-app" placeholder="tu@correo.com">
+          <button class="btn-responder" onclick="enviarConsulta('Inversión')"><i class="fas fa-paper-plane"></i> Enviar consulta</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MAPA DE BOLIVIA ===== -->
+    <div class="section" id="s-mapa">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-map-marked-alt"></i> Mapa interactivo de productos de Bolivia</div>
+        <div id="mapa"></div>
+        <div id="infoMapa" class="info-mapa">
+          <div class="info-mapa-body" style="text-align:center;color:var(--text-secondary);">
+            <i class="fas fa-search" style="font-size:2rem;margin-bottom:8px;"></i><br>Haz clic en cualquier punto del mapa para explorar los cultivos y las condiciones de la región.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TIENDAS ===== -->
+    <div class="section" id="s-tiendas">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-store"></i> Tiendas y proveedores agrícolas</div>
+        <div id="tiendaList" class="tienda-grid"></div>
+      </div>
+    </div>
+
+    <!-- ===== PERFIL USUARIO ===== -->
+    <div class="section" id="s-perfil-usuario">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-user-circle"></i> Mi perfil</div>
+        <div class="perfil-avatar">🧑‍🌾</div>
+        <div class="perfil-info">
+          <h3 id="pNombre">—</h3>
+          <p id="pZona">📍 —</p>
+        </div>
+        <div class="perfil-row"><i class="fas fa-envelope"></i><span id="pCorreo">—</span></div>
+        <div class="perfil-row"><i class="fas fa-phone"></i><span id="pTel">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV BOTTOM (Sin Solicitudes, Catálogo, Fuentes) -->
+  <nav class="nav-bottom">
+    <div class="nav-item activo" id="nav-inicio" onclick="navegar('inicio')"><i class="fas fa-home"></i><span>Inicio</span></div>
+    <div class="nav-item" id="nav-resenas" onclick="navegar('resenas')"><i class="fas fa-book"></i><span>Reseñas</span></div>
+    <div class="nav-item" id="nav-calc" onclick="navegar('calc')"><i class="fas fa-calculator"></i><span>Calcular</span></div>
+    <div class="nav-item" id="nav-consulta" onclick="navegar('consulta')"><i class="fas fa-headset"></i><span>Consultas</span></div>
+    <div class="nav-item" id="nav-mapa" onclick="navegar('mapa')"><i class="fas fa-map"></i><span>Mapa</span></div>
+    <div class="nav-item" id="nav-tiendas" onclick="navegar('tiendas')"><i class="fas fa-store"></i><span>Tiendas</span></div>
+    <div class="nav-item" id="nav-perfil-usuario" onclick="navegar('perfil-usuario')"><i class="fas fa-user"></i><span>Perfil</span></div>
+  </nav>
+</div>
+
+<script>
+// ===== CONFIGURACIÓN DE GOOGLE APPS SCRIPT (YA CON TU URL) =====
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxCayzJLOppqNMTQK7PbqgCoL4xMoG3KINQLWgJ-RcqW5ShA-ULoHt4kMfkYIGY3Yvs/exec';
+
+// ===== DATOS COMPLETOS DE CULTIVOS =====
+var CULTIVOS = {
+  soya:   {nombre:'Soya', emoji:'🌿', color:'#f1c40f', rend:2.7, costo:1300, precio:450, ciclo:130, 
+           img:'https://nexusavicultura.com/wp-content/uploads/sites/3/2024/12/soja-10.png',
+           campania:'Siembra: Nov-Dic / Cosecha: Mar-Abr', 
+           produccion:'<a href="https://www.anapobolivia.org/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en ANAPO (Soya)</a>.',
+           economia:'Principal producto de exportación de Bolivia', empleo:'+200,000 empleos directos e indirectos', 
+           plagas:'Picudo de la soya, Oruga militar', animales:'Escarabajos depredadores, Arañas lobo', 
+           datos:'Bolivia produce soya no transgénica con alta demanda internacional.', 
+           herramientas:'Cosechadoras con GPS, Sembradoras de precisión', 
+           clima:'Tropical húmedo (26-30°C y humedad alta). Requiere lluvias regulares y temperaturas altas para un buen crecimiento. El estrés hídrico reduce el rendimiento.',
+           clima_explicacion:'Tropical húmedo: 26-30°C con alta humedad. Requiere lluvias regulares. Estrés hídrico reduce el rendimiento.',
+           campania_explicacion:'Siembra en Nov-Dic (aprovechando las primeras lluvias). Cosecha en Mar-Abr (final del verano, cuando la planta está seca).'},
+  maiz:   {nombre:'Maíz', emoji:'🌽', color:'#e67e22', rend:4.2, costo:850, precio:250, ciclo:110, 
+           img:'https://humanidades.com/wp-content/uploads/2018/10/maiz-2-1-e1581908276964.jpg',
+           campania:'Siembra: Oct-Nov / Cosecha: Feb-Mar', 
+           produccion:'<a href="https://www.anapobolivia.org/maiz" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en ANAPO (Maíz)</a>.',
+           economia:'Base de la alimentación animal y humana', empleo:'+150,000 empleos', 
+           plagas:'Gusano cogollero, Pulgón del maíz', animales:'Aves insectívoras, Abejas polinizadoras', 
+           datos:'Es el segundo cultivo más sembrado en el país.', 
+           herramientas:'Sembradoras mecánicas, Arados de cincel', 
+           clima:'Templado a cálido (20-28°C). Es sensible a heladas; temperaturas extremas afectan la floración.',
+           clima_explicacion:'Templado a cálido: 20-28°C. Sensible a heladas. Extremos térmicos afectan la floración.',
+           campania_explicacion:'Siembra en Oct-Nov (inicio de lluvias). Cosecha en Feb-Mar (verano, con suficiente madurez).'},
+  arroz:  {nombre:'Arroz', emoji:'🍚', color:'#d35400', rend:3.5, costo:1800, precio:380, ciclo:135, 
+           img:'https://www.molineraamazonas.com/wp-content/uploads/2018/11/arroz-de-calidad.jpg',
+           campania:'Siembra: Dic-Ene / Cosecha: May-Jun', 
+           produccion:'<a href="https://www.ibepa.gob.bo/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en IBEPA (Arroz)</a>.',
+           economia:'Autosuficiencia nacional', empleo:'+100,000 empleos', 
+           plagas:'Barrenador del tallo, Soguero', animales:'Patos, Peces en arrozales', 
+           datos:'Beni y Santa Cruz son los mayores productores.', 
+           herramientas:'Bombas de fumigación, Trilladoras', 
+           clima:'Tropical muy húmedo (28-32°C). Necesita campos inundados la mayor parte del tiempo.',
+           clima_explicacion:'Tropical muy húmedo: 28-32°C. Requiere campos inundados casi todo el ciclo.',
+           campania_explicacion:'Siembra en Dic-Ene (época de lluvias intensas). Cosecha en May-Jun (después de las lluvias).'},
+  trigo:  {nombre:'Trigo', emoji:'🌾', color:'#aab7b8', rend:2.0, costo:1100, precio:300, ciclo:100, 
+           img:'https://www.naturitas.es/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fidphpoec%2Fproduction%2F7822869dc0f9913dc987ea179e900c8c09a40d73-1280x853.jpg%3Ffit%3Dmax%26auto%3Dformat&w=960&q=75',
+           campania:'Siembra: May-Jun / Cosecha: Sep-Oct', 
+           produccion:'<a href="https://www.anapobolivia.org/trigo" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en ANAPO (Trigo)</a>.',
+           economia:'Reducción de importaciones', empleo:'+50,000 empleos', 
+           plagas:'Pulgón del trigo, Roya', animales:'Pájaros insectívoros, Escarabajos', 
+           datos:'Se cultiva en valles y tierras bajas.', 
+           herramientas:'Trilladoras, Cosechadoras', 
+           clima:'Templado (15-22°C). Prefiere temperaturas más frescas, lejos del calor extremo.',
+           clima_explicacion:'Templado: 15-22°C. Prefiere frescura y evita calor extremo.',
+           campania_explicacion:'Siembra en May-Jun (invierno, menos lluvias). Cosecha en Sep-Oct (primavera, con madurez óptima).'},
+  cana:   {nombre:'Caña', emoji:'🪵', color:'#2ecc71', rend:80, costo:5000, precio:120, ciclo:400, 
+           img:'https://www.herbazest.com/imgs/4/b/2/871191/cana-de-azucar.jpg',
+           campania:'Siembra: Mar-May / Cosecha: Jun-Ago (del año siguiente)', 
+           produccion:'<a href="https://www.apaca.org.bo/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en APACA (Caña)</a>.',
+           economia:'Producción de azúcar y alcohol', empleo:'+150,000 empleos', 
+           plagas:'Taladro de la caña, Mosca pinta', animales:'Aves, Hormigas', 
+           datos:'Bolivia es autosuficiente en azúcar.', 
+           herramientas:'Alzadoras, Tractores', 
+           clima:'Cálido (25-30°C). Mucho sol y agua abundante son sus aliados.',
+           clima_explicacion:'Cálido: 25-30°C. Necesita mucho sol y agua abundante.',
+           campania_explicacion:'Siembra en Mar-May (otoño/invierno). Cosecha en Jun-Ago del año siguiente (18 meses después).'},
+  papa:   {nombre:'Papa', emoji:'🥔', color:'#8e44ad', rend:12.0, costo:800, precio:200, ciclo:110, 
+           img:'https://sqm.com/wp-content/uploads/2018/04/papa-992x550.jpg',
+           campania:'Siembra: Ago-Sep / Cosecha: Dic-Ene', 
+           produccion:'<a href="https://www.iniaf.gob.bo/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en INIAF (Papa)</a>.',
+           economia:'Base de la alimentación andina', empleo:'+500,000 empleos', 
+           plagas:'Gorgojo de la papa, Tizón tardío', animales:'Zorros, Búhos', 
+           datos:'La papa es originaria de Bolivia (Titicaca).', 
+           herramientas:'Arados de mano, Mallas de sombra', 
+           clima:'Frío altoandino (5-15°C). Soporta bien el frío de la noche y el sol moderado del día.',
+           clima_explicacion:'Frío altoandino: 5-15°C. Soporta heladas nocturnas.',
+           campania_explicacion:'Siembra en Ago-Sep (invierno seco). Cosecha en Dic-Ene (verano, inicio de lluvias).'},
+  cacao:  {nombre:'Cacao', emoji:'🍫', color:'#6b4c3b', rend:1.2, costo:3000, precio:15000, ciclo:300, 
+           img:'https://thumbs.dreamstime.com/b/granos-de-cacao-frescos-dentro-una-bolsa-con-vaina-sobre-mesa-madera-r%C3%BAstica-toma-estudio-muestra-crudo-reci%C3%A9n-derramados-desde-382131932.jpg?w=768',
+           campania:'Siembra: Oct-Nov / Cosecha: Todo el año', 
+           produccion:'<a href="https://www.aprocafe.org/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en APROCAFE (Cacao)</a>.',
+           economia:'Exportación de alto valor', empleo:'+20,000 empleos', 
+           plagas:'Moniliasis, Escoba de bruja', animales:'Abejas, Hormigas', 
+           datos:'El cacao boliviano es reconocido por su fino aroma.', 
+           herramientas:'Podadoras, Sombras', 
+           clima:'Tropical húmedo (24-28°C). Un clima cálido y lluvioso es ideal para su crecimiento.',
+           clima_explicacion:'Tropical húmedo: 24-28°C. Calor y lluvias constantes son ideales.',
+           campania_explicacion:'Siembra en Oct-Nov (lluvias). Cosecha durante todo el año (producción continua).'},
+  cafe:   {nombre:'Café', emoji:'☕', color:'#c0392b', rend:0.8, costo:2500, precio:8000, ciclo:200, 
+           img:'https://images.ctfassets.net/9g6wdvusquq5/7wg7hwvVe4XEWMPkyxqCyT/78a155b44318c6668cd9512dfaf6dff4/Caf_.jpg?w=1531&h=1021&q=50&fm=webp',
+           campania:'Siembra: Oct-Dic / Cosecha: Mar-May', 
+           produccion:'<a href="https://www.abc-bolivia.org/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en ABC (Café)</a>.',
+           economia:'Producción de café arábico', empleo:'+30,000 empleos', 
+           plagas:'Ojo de gallo, Broca del café', animales:'Aves polinizadoras, Ardillas', 
+           datos:'Bolivia produce café orgánico de altura.', 
+           herramientas:'Despulpadoras, Tostadoras', 
+           clima:'Templado de Yungas (18-24°C). El café de altura necesita temperaturas estables y sin heladas.',
+           clima_explicacion:'Templado de Yungas: 18-24°C. Estable y sin heladas, ideal para altura.',
+           campania_explicacion:'Siembra en Oct-Dic (lluvias). Cosecha en Mar-May (post-lluvias).'},
+  banano: {nombre:'Banano', emoji:'🍌', color:'#f1c40f', rend:40, costo:2000, precio:150, ciclo:180, 
+           img:'https://static.nationalgeographicla.com/files/styles/image_3200/public/banana_from_maracaibo.webp?w=900&h=629',
+           campania:'Siembra: Ene-Mar / Cosecha: Oct-Dic', 
+           produccion:'<a href="https://www.aproban.com.bo/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en APROBAN (Banano)</a>.',
+           economia:'Exportación a Argentina y Perú', empleo:'+40,000 empleos', 
+           plagas:'Mosca de la fruta, Nematodos', animales:'Aves frugívoras, Murciélagos', 
+           datos:'El banano boliviano es de alta calidad.', 
+           herramientas:'Mallas de sombra, Riego', 
+           clima:'Cálido húmedo (26-30°C). El sol y la alta humedad son fundamentales.',
+           clima_explicacion:'Cálido húmedo: 26-30°C. Sol y humedad altos son fundamentales.',
+           campania_explicacion:'Siembra en Ene-Mar (verano). Cosecha en Oct-Dic (primavera, más seco).'},
+  quinua: {nombre:'Quinua', emoji:'🌾', color:'#e67e22', rend:1.0, costo:1500, precio:3000, ciclo:150, 
+           img:'https://www.minsalud.gob.bo/images/Noticias18/codex_quinua_nota.jpg',
+           campania:'Siembra: Ago-Sep / Cosecha: Mar-Abr', 
+           produccion:'<a href="https://www.cadex.org.bo/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en CADEX (Quinua)</a>.',
+           economia:'Exportación a países de la UE y Estados Unidos', empleo:'+100,000 empleos', 
+           plagas:'Pulgón, Gorgojo', animales:'Vicuñas, Llama', 
+           datos:'La quinua fue un alimento sagrado para los Incas.', 
+           herramientas:'Cosechadoras para altura, Mallas', 
+           clima:'Frío y seco (10-20°C). Tolera bajas temperaturas, pero el granizo puede dañarla.',
+           clima_explicacion:'Frío y seco: 10-20°C. Tolera frío pero no granizo fuerte.',
+           campania_explicacion:'Siembra en Ago-Sep (invierno seco). Cosecha en Mar-Abr (inicio de otoño).'}
+};
+
+// ===== DATOS TIENDAS =====
+var TIENDAS = [
+  { nombre:'Agropecuaria La Cosecha', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHUtNh9N79I0cxmJpp7gV05BEMCtyf9d3_5RcqwnPCcHv0dk2ynlK-nAnLKLnyCFDqKsW3sC77C5jEuwcsS_fIqJx3erOy13jTa9K5G79M1-XnMoV-8M1JQozuK94VxSTkA1hw=w408-h544-k-no', celular:'+591 71002933', maps:'https://maps.app.goo.gl/83CWAG5FjvLgdf4S8', redes:'https://www.facebook.com/Agrop.LaCosecha/', reseña:'Venta de insumos agrícolas, semillas de soya, maíz y fertilizantes. Con más de 15 años apoyando al productor.' },
+  { nombre:'Agropecuaria SANTA CRUZ', img:'https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=h3QTaeVu6s_pDZFLC-_-vg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=13.404443&pitch=0&thumbfov=100', celular:'78545296', maps:'https://maps.app.goo.gl/sG85PZSSdYQsE7VC8', redes:'https://www.facebook.com/p/Agropecuaria-SANTA-CRUZ-100063785510666/', reseña:'Distribuidor de agroquímicos, fungicidas y herbicidas para cultivos extensivos.' },
+  { nombre:'CIAGRO S.A.', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHRC0572RQMTRDbLAHkMt2vPZUlNFyaXN0GurBfvaTmiRWWVKynpxkPmmcp5mRzUKL4YHwFP1WOOMkXfzzUrKlfMjtQ7lMZA55ZZZ-DSOrtSXb0Rw7wv8Ss9psQlzjy6bMZVzNtZg=w437-h240-k-no', celular:'71090050', maps:'https://maps.app.goo.gl/RwWbbeT5mfVwrMxi6', redes:'https://www.facebook.com/ciagrobolivia/?locale=es_LA', reseña:'Asistencia técnica, venta de maquinaria agrícola, implementos y análisis de suelos.' },
+  { nombre:'CIAT - Centro de Investigación Agrícola Tropical', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHymsOhLfZ6qTrj2BV_QgBfyGesyNon29XFoU7gkenu1YOGwIYIlDVhT5TINU_VZV2nbr3sx4Bj9c_wdS1lPaaItx7ZtVkUUdrME7HBNaLGROPNMcnm_tMUFmx2hu5qxZqPfp3DVA=w408-h725-k-no', celular:'71691261', maps:'https://maps.app.goo.gl/71NS1RtDDjQ8MbFP6', redes:'https://www.facebook.com/ciatbolivia/?locale=es_LA', reseña:'Centro de investigación que ofrece capacitación, semillas mejoradas y asesoría en manejo de cultivos.' },
+  { nombre:'Surtiagro', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAF4lcCrGr8CVsJXawO76vtRurAPyErPzUeLSHC5RZ2IuKAJg6o4xhtgh82hw3TJ85S5QuYAi7jVNWM5QPFgIJrGt7UwiyXB8fdlN8dBcMeKCXXwR4_q7UrlTA2J3qC08cyih7LS=w408-h545-k-no', celular:'76305866', maps:'https://maps.app.goo.gl/1Cgz8gZsZRjx48wH7', redes:'https://www.facebook.com/p/SurtiAgro-100064128281463/', reseña:'Venta de fertilizantes (urea, NPK) y productos para nutrición vegetal a granel.' },
+  { nombre:'ANAPO', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAF7HnKm9xsLBA0sGczGw-40yx0hRBHq19xbdLl5RhdSGqRSjqr86rk-SDbvXcBZ62Irzs0AWBcQHEbjQGolWj9fUvMMDBXggNTcpZm7IjRBVQMwV3awr3gFcoUSyi1DzMQkkN9IHM2-sL9x=w408-h960-k-no', celular:'33423030', maps:'https://maps.app.goo.gl/TAKw8xxVwYTN2Ehu6', redes:'https://www.facebook.com/anapobolivia/?locale=es_LA', reseña:'Asociación que agrupa productores de soya, trigo y girasol. Proporciona datos estadísticos, certificación y representación.' },
+  { nombre:'Agripac', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGv_4HMqBCrPje9kYVCFb3ptD8KlImAwAsbBO0oydefUQJHL28sFeSs9lPdMtCz3seGCxTacmtEDmQP8Rd_uhqcagjB8j879U_TC3bcXoo9KPiP-3XtKClg53iq_BCIzt1JCcFZ2g=w408-h306-k-no', celular:'3 3341012', maps:'https://maps.app.goo.gl/AY8wikkGkcANgjr16', redes:'https://www.facebook.com/p/Agripac-Boliviana-100063595525240/?locale=es_LA', reseña:'Distribuidor de semillas de alta calidad, maquinaria agrícola y sistemas de riego.' },
+  { nombre:'AGROINCO SRL', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHXkuYJRfrelAxgoxRQ4oV1uf9m9ZNAMGmPP3fud7Xl3qZRcnYhmnDBpwXg1u8UirgpgvKBHg1uIrl27IRRwKLh6FV1cQUWmjp_m4XaJpLbCbTJsHTacQ3LwWdNwcAXPpzF7t_r=w408-h544-k-no', celular:'68939311', maps:'https://maps.app.goo.gl/eQPkP9hpMDjfMpe67', redes:'https://www.facebook.com/Agroinco/?locale=es_LA', reseña:'Importación y venta de herramientas agrícolas, motocultivadores, bombas de fumigación y repuestos.' },
+  { nombre:'Mainter - Oficina Central', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFOOR3zPJsZEr0go74DUsZslE8j4ShXAEQQbOIKq1KeLPYO_9U9KPxHgipqoqM3UpqQh0zq9bTp55Nskif-ggV48hBi-xj_DD7-qlUOH6hAqS1CdhrcD7tL6fEIDKpGauv56Qnuqg=w408-h306-k-no', celular:'33178000', maps:'https://maps.app.goo.gl/WHo5fDELVK3aMWJx7', redes:'https://www.facebook.com/Mainteragro/', reseña:'Especialistas en maquinaria para cosecha, tractores y equipos de almacenamiento de granos.' }
+];
+
+// ===== REGIONES DE BOLIVIA PARA EL MAPA =====
+var REGIONES_BOLIVIA = [
+  { nombre: 'Santa Cruz (Oriente)', coords: [-17.78, -63.18], productos: ['soya', 'maiz', 'arroz', 'cana', 'banano'], descripcion: 'La región más productiva del país. Produce el 90% de la soya, la mayor cantidad de maíz, arroz, y caña de azúcar. Gran potencial para la agroindustria.' },
+  { nombre: 'Beni (Norte)', coords: [-14.83, -64.90], productos: ['arroz', 'banano', 'cacao'], descripcion: 'Zona inundable con gran producción de arroz y cacao silvestre. Se destaca por su producción de cacao nativo de alta calidad.' },
+  { nombre: 'Cochabamba (Valles)', coords: [-17.39, -66.16], productos: ['papa', 'maiz', 'trigo', 'banano'], descripcion: 'Tierra de valles y yungas. Es el corazón de la producción de papa, hortalizas y frutas.' },
+  { nombre: 'La Paz (Altiplano y Yungas)', coords: [-16.50, -68.15], productos: ['papa', 'quinua', 'cafe'], descripcion: 'El altiplano es la cuna de la papa y la quinua. Los Yungas ofrecen el café arábico más fino de Bolivia.' },
+  { nombre: 'Tarija (Sur)', coords: [-21.53, -64.73], productos: ['trigo', 'papa'], descripcion: 'Región vitivinícola por excelencia, pero también gran productora de trigo, papa y hortalizas en sus valles templados.' },
+  { nombre: 'Chuquisaca (Centro Sur)', coords: [-19.03, -65.26], productos: ['trigo', 'maiz', 'papa', 'cana'], descripcion: 'Histórica región agrícola que produce trigo, maíz y caña de azúcar en sus valles.' },
+  { nombre: 'Pando (Norte)', coords: [-11.03, -68.78], productos: ['cacao', 'banano'], descripcion: 'El departamento más joven de Bolivia. Su agricultura se basa en la castaña y el cacao, con gran potencial para la producción sostenible.' },
+  { nombre: 'Oruro (Altiplano)', coords: [-17.98, -67.11], productos: ['quinua', 'papa'], descripcion: 'Tierras altas y frías donde la quinua y la papa son los cultivos estrella. La producción de quinua blanca real es de las más apreciadas.' }
+];
+
+// ===== VARIABLES GLOBALES =====
+var preciosActuales = {soya:450, maiz:250, arroz:380, trigo:300, cana:120, papa:200, cacao:15000, cafe:8000, banano:150, quinua:3000};
+var usuario = null;
+var historial = [];
+var mapaObj = null;
+var mapaIniciado = false;
+var coloresProductos = {};
+
+function generarColores() {
+  var coloresBase = ['#e74c3c', '#f1c40f', '#2ecc71', '#3498db', '#e67e22', '#9b59b6', '#1abc9c', '#d35400', '#aab7b8', '#f39c12'];
+  var keys = Object.keys(CULTIVOS);
+  keys.forEach(function(k, i) {
+    coloresProductos[k] = CULTIVOS[k].color || coloresBase[i % coloresBase.length];
+  });
+}
+generarColores();
+
+// ===== UTILIDADES =====
+function toast(msg) {
+  var t = document.createElement('div'); t.className = 'toast'; t.innerHTML = '✅ ' + msg;
+  document.body.appendChild(t); setTimeout(function(){t.remove();}, 4200);
+}
+function mostrarMsg(id, msg, tipo) {
+  var el = document.getElementById(id); el.innerHTML = msg; el.style.display = 'block';
+  el.style.background = tipo === 'error' ? '#4a1c1c' : '#1c4a2a';
+  el.style.color = '#fff'; setTimeout(function(){el.style.display = 'none';}, 4000);
+}
+function generarId() { return Date.now(); }
+
+// ===== AUTH =====
+function cambiarPanelAuth(pestana) {
+  var r = document.getElementById('panelRegistro');
+  var l = document.getElementById('panelLogin');
+  var tr = document.getElementById('tab-registro');
+  var tl = document.getElementById('tab-login');
+  if (pestana === 'registro') {
+    r.classList.add('activo'); l.classList.remove('activo');
+    tr.classList.add('activo'); tl.classList.remove('activo');
+  } else {
+    r.classList.remove('activo'); l.classList.add('activo');
+    tr.classList.remove('activo'); tl.classList.add('activo');
+  }
+}
+window.cambiarPanelAuth = cambiarPanelAuth;
+
+function handleRegistro() {
+  var nombre = document.getElementById('regNombre').value.trim();
+  var tel = document.getElementById('regTelefono').value.trim();
+  var correo = document.getElementById('regCorreo').value.trim().toLowerCase();
+  var zona = document.getElementById('regZona').value.trim();
+  if (!nombre || !tel || !correo || !zona) {
+    mostrarMsg('mensajeRegistro', 'Todos los campos son obligatorios.', 'error');
+    return;
+  }
+  var users = JSON.parse(localStorage.getItem('agro_users')) || [];
+  if (users.find(function(u){ return u.correo === correo; })) {
+    mostrarMsg('mensajeRegistro', 'Ese correo ya existe. Inicia sesión.', 'error');
+    return;
+  }
+  var nuevo = { nombre: nombre, telefono: tel, correo: correo, zona: zona };
+  users.push(nuevo);
+  localStorage.setItem('agro_users', JSON.stringify(users));
+  
+  // Enviar a Google Sheets (Usuarios)
+  enviarAGoogleSheets('registro', nuevo);
+  
+  iniciarSesion(nuevo);
+}
+window.handleRegistro = handleRegistro;
+
+function handleLogin() {
+  var correo = document.getElementById('loginCorreo').value.trim().toLowerCase();
+  if (!correo) { mostrarMsg('mensajeLogin', 'Ingresa tu correo.', 'error'); return; }
+  var users = JSON.parse(localStorage.getItem('agro_users')) || [];
+  var encontrado = users.find(function(u){ return u.correo === correo; });
+  if (encontrado) { iniciarSesion(encontrado); } 
+  else { mostrarMsg('mensajeLogin', 'Correo no encontrado. Regístrate.', 'error'); }
+}
+window.handleLogin = handleLogin;
+
+function iniciarSesion(user) {
+  usuario = user;
+  sessionStorage.setItem('usuario', JSON.stringify(user));
+  document.getElementById('splash').classList.add('oculta');
+  setTimeout(function(){ 
+    document.getElementById('splash').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    iniciarApp();
+  }, 400);
+}
+
+function cerrarSesion() {
+  sessionStorage.removeItem('usuario');
+  document.getElementById('app').classList.remove('visible');
+  var s = document.getElementById('splash'); s.style.display = 'flex'; s.classList.remove('oculta');
+  document.getElementById('loginCorreo').value = '';
+  cambiarPanelAuth('registro');
+}
+window.cerrarSesion = cerrarSesion;
+
+// ===== NAVEGACIÓN =====
+function navegar(sec) {
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('activo');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('activo');});
+  document.getElementById('s-' + sec).classList.add('activo');
+  document.getElementById('nav-' + sec).classList.add('activo');
+  window.scrollTo(0,0);
+  
+  if (sec === 'resenas') renderResenas();
+  if (sec === 'calc') { calcular(); actualizarComp(); }
+  if (sec === 'mapa') setTimeout(iniciarMapa, 300);
+  if (sec === 'tiendas') renderTiendas();
+  if (sec === 'perfil-usuario') renderPerfil();
+  if (sec === 'consulta') { document.querySelectorAll('.form-consulta').forEach(function(f){f.classList.remove('activo');}); }
+}
+window.navegar = navegar;
+
+// ===== INICIO APP =====
+function iniciarApp() {
+  var h = new Date().getHours();
+  var sal = h < 12 ? '¡Muy buenos días, productor!' : h < 18 ? '¡Muy buenas tardes, productor!' : '¡Muy buenas noches, productor!';
+  document.getElementById('saludo').textContent = sal;
+  document.getElementById('hdrUser').textContent = usuario.nombre.split(' ')[0];
+  cargarHistorial();
+  renderResenas();
+  renderPerfil();
+  renderTiendas();
+  calcular();
+  actualizarComp();
+  toast('Bienvenido, ' + usuario.nombre.split(' ')[0] + '!');
+}
+
+// ===== GOOGLE SHEETS INTEGRACIÓN =====
+function enviarAGoogleSheets(tipo, datos) {
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ tipo: tipo, datos: datos })
+  })
+  .then(res => res.text())
+  .then(text => {
+    console.log('Enviado a Sheets:', text);
+  })
+  .catch(error => {
+    console.error('Error al enviar a Sheets:', error);
+  });
+}
+
+// ===== CONSULTAS (NUEVA LÓGICA) =====
+function enviarConsulta(tipo) {
+  var nombre, correo, detalle, titulo;
+  if (tipo === 'Técnica') {
+    nombre = document.getElementById('tecNombre').value.trim();
+    correo = document.getElementById('tecCorreo').value.trim();
+    detalle = document.getElementById('tecDetalle').value.trim() || 'Sin detalle';
+    titulo = document.getElementById('tecTitulo').value.trim() || 'Consulta técnica general';
+  } else {
+    nombre = document.getElementById('invNombre').value.trim();
+    correo = document.getElementById('invCorreo').value.trim();
+    detalle = document.getElementById('invDetalle').value.trim() || 'Sin detalle';
+    titulo = 'Inversión: ' + document.getElementById('invObjetivo').value;
+  }
+  
+  if (!nombre || !correo) { toast('Por favor completa tu nombre y correo.'); return; }
+  
+  var solicitud = {
+    id: 'SOL-' + Date.now(),
+    fecha: new Date().toLocaleString('es-BO'),
+    nombre: nombre,
+    correo: correo,
+    tipoSolicitud: tipo,
+    detalle: detalle,
+    titulo: titulo,
+    estado: 'Pendiente'
+  };
+  
+  // Enviar a Google Sheets (Solicitudes)
+  enviarAGoogleSheets('solicitud', solicitud);
+  
+  // Notificar al usuario
+  var mensaje = '✅ ¡Buenas ' + (new Date().getHours() < 12 ? 'días' : new Date().getHours() < 18 ? 'tardes' : 'noches') + ', ' + nombre + '!\n\n' +
+                'Gracias por contactarte con Agrocrecimiento. Tu solicitud de **' + tipo + '** ha sido registrada con éxito.\n\n' +
+                '📋 **Detalle de tu solicitud:**\n' + detalle + '\n\n' +
+                '⏳ Estado: **Pendiente**. Nos comunicaremos contigo dentro de las **24 horas** hábiles.\n\n' +
+                '🌱 Obtenemos los mejores cálculos para tu producción.';
+  
+  toast('✅ Consulta enviada. Recibirás respuesta en 24h.');
+  alert(mensaje);
+  
+  // Limpiar formularios
+  document.querySelectorAll('.form-consulta').forEach(function(f){f.classList.remove('activo');});
+}
+window.enviarConsulta = enviarConsulta;
+
+// ===== RESEÑAS COMPLETAS =====
+function renderResenas() {
+  var el = document.getElementById('resenaList');
+  if (!el) return;
+  var html = '';
+  Object.keys(CULTIVOS).forEach(function(k) {
+    var d = CULTIVOS[k];
+    html += '<div class="resena-item" style="border-left-color:' + d.color + ';">' +
+            '<div style="display:flex;gap:12px;align-items:center;">' +
+            '<img src="' + d.img + '" style="width:70px;height:70px;object-fit:cover;border-radius:10px;">' +
+            '<div><h3>' + d.emoji + ' ' + d.nombre + '</h3>' +
+            '<div class="meta">Ciclo: ' + d.ciclo + ' días · Rendimiento: ' + d.rend + ' t/ha</div></div></div>' +
+            '<p><strong style="color:var(--gold);">🌾 Campaña:</strong> ' + d.campania + '</p>' +
+            '<p><strong style="color:var(--gold);">📦 Producción:</strong> ' + d.produccion + '</p>' +
+            '<p><strong style="color:var(--gold);">💰 Economía:</strong> ' + d.economia + '</p>' +
+            '<p><strong style="color:var(--gold);">👥 Empleo:</strong> ' + d.empleo + '</p>' +
+            '<p><strong style="color:var(--gold);">🐛 Plagas:</strong> ' + d.plagas + '</p>' +
+            '<p><strong style="color:var(--gold);">🦋 Animales beneficiosos:</strong> ' + d.animales + '</p>' +
+            '<p><strong style="color:var(--gold);">✨ Datos curiosos:</strong> ' + d.datos + '</p>' +
+            '<p><strong style="color:var(--gold);">🛠️ Herramientas:</strong> ' + d.herramientas + '</p>' +
+            '<p><strong style="color:var(--gold);">🌡️ Clima:</strong> ' + d.clima + '</p>' +
+            '</div>';
+  });
+  el.innerHTML = html;
+}
+
+// ===== CALCULADORA =====
+function calcular() {
+  var cult = document.getElementById('calcCultivo').value;
+  var ha = parseFloat(document.getElementById('calcHa').value) || 0;
+  var cap = parseFloat(document.getElementById('calcCap').value) || 0;
+  if (ha <= 0) return;
+  var d = CULTIVOS[cult];
+  var precio = preciosActuales[cult] || d.precio;
+  var prod = ha * d.rend;
+  var inv = ha * d.costo;
+  var gan = prod * precio - inv;
+  var roi = inv > 0 ? (gan / inv * 100).toFixed(1) : 0;
+  var col = gan >= 0 ? 'var(--gold)' : '#e74c3c';
+  var capTxt = cap >= inv ? '✅ Capital suficiente. Sobran <strong>Bs ' + (cap - inv).toLocaleString('es-BO') + '</strong>' : '⚠️ Faltan <strong>Bs ' + (inv - cap).toLocaleString('es-BO') + '</strong>';
+  document.getElementById('calcResult').innerHTML =
+    '<strong style="font-size:1rem;color:var(--gold);">' + d.nombre + ' · ' + ha + ' ha</strong><br>' +
+    '📦 Producción: <strong>' + prod.toFixed(1) + ' ton</strong><br>' +
+    '💰 Inversión: <strong>Bs ' + inv.toLocaleString('es-BO') + '</strong><br>' +
+    '📈 Ganancia: <strong style="color:' + col + ';">Bs ' + gan.toLocaleString('es-BO') + '</strong><br>' +
+    '🔁 ROI: <strong style="color:' + col + ';">' + roi + '%</strong><br>' + capTxt;
+}
+window.calcular = calcular;
+
+function guardarCalculo() {
+  var cult = document.getElementById('calcCultivo').value;
+  var ha = parseFloat(document.getElementById('calcHa').value) || 0;
+  var d = CULTIVOS[cult];
+  var gan = (ha * d.rend * preciosActuales[cult] - ha * d.costo).toFixed(0);
+  var reg = { id: generarId(), fecha: new Date().toLocaleDateString('es-BO'), tipo: 'Simulación simple', cultivo: d.nombre, ha: ha, ganancia: parseInt(gan) };
+  historial.unshift(reg);
+  if (historial.length > 20) historial.pop();
+  localStorage.setItem('agro_historial_' + usuario.correo, JSON.stringify(historial));
+  toast('Simulación guardada.');
+}
+
+function enviarWhatsApp() {
+  var cult = document.getElementById('calcCultivo').value;
+  var d = CULTIVOS[cult];
+  var ha = document.getElementById('calcHa').value;
+  var res = document.getElementById('calcResult').innerText;
+  var txt = '🌱 *Resultado de cálculo - Agrocrecimiento*\n\nCultivo: ' + d.nombre + '\nHectáreas: ' + ha + '\n\n' + res.substring(0, 400);
+  var url = 'https://api.whatsapp.com/send?phone=59177712345&text=' + encodeURIComponent(txt);
+  window.open(url, '_blank');
+}
+
+function enviarCorreo() {
+  var cult = document.getElementById('calcCultivo').value;
+  var d = CULTIVOS[cult];
+  var ha = document.getElementById('calcHa').value;
+  var res = document.getElementById('calcResult').innerText;
+  var subject = 'Resultado de cálculo - Agrocrecimiento';
+  var body = 'Cultivo: ' + d.nombre + '\nHectáreas: ' + ha + '\n\n' + res;
+  window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+}
+
+// ===== COMPARADOR =====
+function actualizarComp() {
+  var ca = document.getElementById('compA').value;
+  var cb = document.getElementById('compB').value;
+  var da = CULTIVOS[ca], db = CULTIVOS[cb];
+  function filas(d) {
+    var gan = (1 * d.rend * preciosActuales[d.nombre.toLowerCase()] - 1 * d.costo).toFixed(0);
+    return '<div style="display:flex;justify-content:space-between;"><span style="color:var(--text-secondary);">Rendimiento</span><span style="color:var(--gold);">' + d.rend + ' t/ha</span></div>' +
+           '<div style="display:flex;justify-content:space-between;"><span style="color:var(--text-secondary);">Costo/ha</span><span style="color:var(--gold);">Bs ' + d.costo.toLocaleString('es-BO') + '</span></div>' +
+           '<div style="display:flex;justify-content:space-between;"><span style="color:var(--text-secondary);">Ganancia/ha</span><span style="color:var(--gold);">Bs ' + parseInt(gan).toLocaleString('es-BO') + '</span></div>';
+  }
+  document.getElementById('compGrid').innerHTML =
+    '<div style="background:var(--bg-input);border-radius:var(--radius);padding:12px;"><h4 style="color:var(--gold);">' + da.emoji + ' ' + da.nombre + '</h4>' + filas(da) + '</div>' +
+    '<div style="background:var(--bg-input);border-radius:var(--radius);padding:12px;"><h4 style="color:var(--gold);">' + db.emoji + ' ' + db.nombre + '</h4>' + filas(db) + '</div>';
+}
+window.actualizarComp = actualizarComp;
+
+function guardarComparacion() {
+  var ca = document.getElementById('compA').value;
+  var cb = document.getElementById('compB').value;
+  var da = CULTIVOS[ca], db = CULTIVOS[cb];
+  var reg = { id: generarId(), fecha: new Date().toLocaleDateString('es-BO'), tipo: 'Comparación', cultivo: da.nombre + ' vs ' + db.nombre, ha: 'N/A', ganancia: 0 };
+  historial.unshift(reg);
+  if (historial.length > 20) historial.pop();
+  localStorage.setItem('agro_historial_' + usuario.correo, JSON.stringify(historial));
+  toast('Comparación guardada.');
+}
+
+// ===== CONSULTAS (Formulario) =====
+function mostrarFormulario(tipo) {
+  document.querySelectorAll('.form-consulta').forEach(function(f){f.classList.remove('activo');});
+  document.getElementById('form-' + tipo).classList.add('activo');
+}
+window.mostrarFormulario = mostrarFormulario;
+
+// ===== HISTORIAL =====
+function cargarHistorial() {
+  if (usuario) {
+    var h = localStorage.getItem('agro_historial_' + usuario.correo);
+    if (h) historial = JSON.parse(h);
+  }
+}
+
+// ===== TIENDAS =====
+function renderTiendas() {
+  var el = document.getElementById('tiendaList');
+  if (!el) return;
+  var html = '';
+  TIENDAS.forEach(function(t) {
+    html += '<div class="tienda-card">' +
+            '<img src="' + t.img + '" alt="' + t.nombre + '">' +
+            '<h4>' + t.nombre + '</h4>' +
+            '<div class="reseña">' + t.reseña + '</div>' +
+            '<div class="contacto">' +
+            '<a href="tel:' + t.celular + '" title="Llamar"><i class="fas fa-phone"></i></a>' +
+            '<a href="' + t.maps + '" target="_blank" title="Ver en Maps"><i class="fas fa-map-marker-alt"></i></a>' +
+            '<a href="' + t.redes + '" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>' +
+            '</div>' +
+            '<a href="' + t.maps + '" target="_blank" class="btn-tienda"><i class="fas fa-directions"></i> Cómo llegar</a>' +
+            '</div>';
+  });
+  el.innerHTML = html;
+}
+
+// ===== MAPA DE BOLIVIA =====
+function iniciarMapa() {
+  if (mapaIniciado) return;
+  mapaIniciado = true;
+  mapaObj = L.map('mapa', { maxBounds: [[-22.9, -69.6], [-9.7, -57.5]] }).setView([-16.5, -64.5], 6);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '© OpenStreetMap' }).addTo(mapaObj);
+  
+  REGIONES_BOLIVIA.forEach(function(region) {
+    var lat = region.coords[0];
+    var lng = region.coords[1];
+    
+    var circulo = L.circle([lat, lng], { 
+      radius: 80000, 
+      color: 'rgba(255,255,255,0.6)', 
+      fillColor: '#3b8a67', 
+      fillOpacity: 0.25,
+      weight: 2
+    });
+    circulo.addTo(mapaObj);
+    
+    region.productos.forEach(function(p) {
+      var angulo = Math.random() * 2 * Math.PI;
+      var offset = 0.5 + Math.random() * 1.2;
+      var latP = lat + offset * Math.cos(angulo);
+      var lngP = lng + offset * Math.sin(angulo);
+      var color = coloresProductos[p] || '#ffffff';
+      var d = CULTIVOS[p];
+      
+      var marcador = L.circleMarker([latP, lngP], {
+        radius: 6,
+        color: color,
+        fillColor: color,
+        fillOpacity: 0.8
+      });
+      marcador.addTo(mapaObj);
+      marcador.bindPopup('<div style="color:#222;max-width:200px;"><b style="color:#e9b741;">' + d.emoji + ' ' + d.nombre + '</b><br>' + 
+                         '<img src="' + d.img + '" style="width:100%;border-radius:8px;margin:4px 0;"><br>' +
+                         '<small style="color:#444;">' + d.datos.substring(0, 80) + '...</small></div>');
+    });
+    
+    circulo.on('click', function() {
+      var html = '<div style="padding:0;">';
+      var cultivosRegion = region.productos.map(function(p) { return CULTIVOS[p]; });
+      
+      if (cultivosRegion.length > 0) {
+        html += '<img src="' + cultivosRegion[0].img + '" class="info-mapa-img" style="width:100%;height:180px;object-fit:cover;display:block;">';
+      } else {
+        html += '<div style="height:180px;background:var(--bg-input);display:flex;align-items:center;justify-content:center;color:var(--text-tertiary);">🌾 Cultivos variados</div>';
+      }
+      html += '<div class="info-mapa-body">';
+      html += '<h4>' + region.nombre + '</h4>';
+      html += '<p>' + region.descripcion + '</p>';
+      html += '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">';
+      cultivosRegion.forEach(function(d) {
+        html += '<span style="background:' + d.color + ';color:#fff;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:700;">' + d.emoji + ' ' + d.nombre + '</span>';
+      });
+      html += '</div>';
+      html += '<div style="margin-top:8px;font-size:.8rem;">';
+      // Mostrar TODOS los productos de la región con explicación educativa
+      cultivosRegion.forEach(function(d) {
+        html += '<div style="padding:6px 0;border-bottom:1px solid var(--v2);">';
+        html += '<strong>' + d.emoji + ' ' + d.nombre + ':</strong><br>';
+        html += '<span style="display:inline-block;margin-top:2px;">🌡️ <strong>Clima ideal:</strong> ' + d.clima_explicacion + '</span><br>';
+        html += '<span>📅 <strong>Época de siembra y cosecha:</strong> ' + d.campania_explicacion + '</span>';
+        html += '</div>';
+      });
+      html += '</div></div></div>';
+      
+      document.getElementById('infoMapa').innerHTML = html;
+      if (!document.getElementById('s-mapa').classList.contains('activo')) {
+        navegar('mapa');
+      }
+    });
+  });
+  
+  setTimeout(function(){ mapaObj.invalidateSize(); }, 500);
+}
+
+// ===== PERFIL USUARIO =====
+function renderPerfil() {
+  if (!usuario) return;
+  document.getElementById('pNombre').textContent = usuario.nombre;
+  document.getElementById('pZona').textContent = '📍 ' + usuario.zona;
+  document.getElementById('pCorreo').textContent = usuario.correo;
+  document.getElementById('pTel').textContent = '📞 ' + usuario.telefono;
+}
+
+// ===== AUTO-LOGIN =====
+var saved = sessionStorage.getItem('usuario');
+if (saved) {
+  usuario = JSON.parse(saved);
+  document.getElementById('splash').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+  iniciarApp();
+}
+</script>
+</body>
+</html>
