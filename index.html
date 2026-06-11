@@ -152,7 +152,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
 .tienda-card .contacto a:hover{color:var(--gold);}
 .tienda-card .btn-tienda{display:inline-block;margin-top:6px;padding:4px 12px;background:var(--gold);color:var(--v1);border-radius:20px;text-decoration:none;font-size:.7rem;font-weight:700;}
 
-/* ----- PERFIL ----- */
+/* ----- PERFIL USUARIO ----- */
 .perfil-avatar{width:80px;height:80px;border-radius:50%;background:var(--bg-input);display:flex;align-items:center;justify-content:center;font-size:3rem;margin:0 auto 12px;border:2px solid var(--gold);}
 .perfil-info{text-align:center;margin-bottom:16px;}
 .perfil-info h3{font-size:1.2rem;font-weight:700;color:var(--gold);}
@@ -161,12 +161,379 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
 .perfil-row:last-child{border-bottom:none;}
 .perfil-row i{color:var(--gold);width:20px;text-align:center;}
 
+/* ----- HISTORIAL EN PERFIL ----- */
+.historial-lista{max-height:200px;overflow-y:auto;margin-top:8px;}
+.historial-item{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--v2);font-size:.8rem;}
+.historial-item .fecha{color:var(--text-tertiary);}
+.historial-item .cultivo{font-weight:600;}
+.historial-item .ganancia{color:var(--gold);}
+
+/* ----- ESTILOS DEL JUEGO ALQUIMISTA ----- */
+.alquimista-container {
+  max-width: 100%;
+  background: rgba(20, 30, 50, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 32px;
+  padding: 24px 20px 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(240,192,64,0.05);
+  border: 1px solid rgba(255,255,255,0.05);
+  margin-top: 8px;
+}
+.alquimista-container .crop-selector {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  justify-content: center;
+}
+.alquimista-container .crop-btn {
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  color: #8a8aa8;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: inherit;
+}
+.alquimista-container .crop-btn:hover { background: rgba(255,255,255,0.08); }
+.alquimista-container .crop-btn.active {
+  background: rgba(240,192,64,0.12);
+  border-color: #f0c040;
+  color: #f0c040;
+  box-shadow: 0 0 12px rgba(240,192,64,0.05);
+}
+.alquimista-container .crop-card {
+  background: rgba(30, 40, 65, 0.7);
+  border-radius: 20px;
+  padding: 16px 18px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 20px;
+}
+.alquimista-container .crop-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #2a3a5a, #1a2a3a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+  flex-shrink: 0;
+  border: 1px solid rgba(240,192,64,0.15);
+}
+.alquimista-container .crop-info {
+  flex: 1;
+}
+.alquimista-container .crop-info h3 {
+  font-size: 1.1rem;
+  margin-bottom: 2px;
+}
+.alquimista-container .plaga-nombre {
+  font-size: 0.8rem;
+  color: #a0a0c0;
+  margin-bottom: 6px;
+}
+.alquimista-container .health-bar {
+  width: 100%;
+  height: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.alquimista-container .health-fill {
+  height: 100%;
+  width: 60%;
+  border-radius: 8px;
+  background: #2ecc71;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 12px rgba(46,204,113,0.3);
+}
+.alquimista-container .health-fill.danger { background: #e74c3c; box-shadow: 0 0 12px rgba(231,76,60,0.4); }
+.alquimista-container .health-fill.warning { background: #f1c40f; box-shadow: 0 0 12px rgba(241,196,15,0.3); }
+.alquimista-container .stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #8a8aa8;
+  margin-top: 4px;
+}
+.alquimista-container .product-selector {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.alquimista-container .product-tab {
+  flex: 1;
+  padding: 8px 0;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: 0.2s;
+  color: #8a8aa8;
+  font-family: inherit;
+  min-width: 60px;
+}
+.alquimista-container .product-tab:hover { background: rgba(255,255,255,0.08); }
+.alquimista-container .product-tab.active {
+  background: rgba(240,192,64,0.12);
+  border-color: #f0c040;
+  color: #f0c040;
+  box-shadow: 0 0 20px rgba(240,192,64,0.05);
+}
+.alquimista-container .product-tab .badge {
+  font-size: 0.65rem;
+  background: rgba(255,255,255,0.03);
+  padding: 0 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+.alquimista-container .tubos-container {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-bottom: 16px;
+  padding: 16px 0;
+  background: rgba(0,0,0,0.2);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.03);
+  position: relative;
+}
+.alquimista-container .tubo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 80px;
+}
+.alquimista-container .tubo-wrapper label {
+  font-size: 0.6rem;
+  color: #8a8aa8;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.alquimista-container .tubo {
+  width: 50px;
+  height: 140px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 0 0 30px 30px;
+  border: 2px solid rgba(255,255,255,0.1);
+  border-top: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,255,255,0.02);
+  transition: border-color 0.3s;
+}
+.alquimista-container .tubo::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  height: 24px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 24px 24px 0 0;
+  border: 2px solid rgba(255,255,255,0.1);
+  border-bottom: none;
+  z-index: 2;
+}
+.alquimista-container .tubo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.2) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+.alquimista-container .tubo-liquido {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0%;
+  border-radius: 0 0 28px 28px;
+  transition: height 0.4s ease, background 0.3s;
+  z-index: 0;
+}
+.alquimista-container .tubo-liquido.rojo { background: linear-gradient(to top, #8e1a1a, #e74c3c, #ff6b6b); box-shadow: 0 0 20px rgba(231,76,60,0.3); }
+.alquimista-container .tubo-liquido.azul { background: linear-gradient(to top, #1a4a7a, #3498db, #5dade2); box-shadow: 0 0 20px rgba(52,152,219,0.3); }
+.alquimista-container .tubo-liquido.amarillo { background: linear-gradient(to top, #a67c00, #f1c40f, #f7dc6f); box-shadow: 0 0 20px rgba(241,196,15,0.3); }
+.alquimista-container .tubo-liquido .brillo {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 20%;
+  height: 30%;
+  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  filter: blur(8px);
+  animation: brilloPulso 2s ease-in-out infinite alternate;
+}
+@keyframes brilloPulso {
+  0% { opacity: 0.2; transform: scale(0.9); }
+  100% { opacity: 0.6; transform: scale(1.1); }
+}
+.alquimista-container .tubo-valor {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #f0c040;
+  margin-top: 2px;
+  min-height: 20px;
+}
+.alquimista-container .dosis-control {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: center;
+  margin: 4px 0 12px;
+}
+.alquimista-container .dosis-control button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  font-weight: 700;
+  font-size: 1.4rem;
+  background: rgba(255,255,255,0.06);
+  color: #eae9e3;
+  cursor: pointer;
+  transition: 0.15s;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.alquimista-container .dosis-control button:hover {
+  background: rgba(240,192,64,0.15);
+  color: #f0c040;
+  border-color: rgba(240,192,64,0.3);
+  transform: scale(1.05);
+}
+.alquimista-container .dosis-control button:active {
+  transform: scale(0.95);
+}
+.alquimista-container .dosis-control .dosis-numero {
+  font-size: 1.4rem;
+  font-weight: 700;
+  min-width: 40px;
+  text-align: center;
+  color: #f0c040;
+}
+.alquimista-container .action-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.alquimista-container .btn {
+  flex: 1;
+  padding: 12px 10px;
+  border: none;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: inherit;
+  text-align: center;
+  min-width: 100px;
+}
+.alquimista-container .btn-primary {
+  background: linear-gradient(135deg, #f0c040, #e6a800);
+  color: #0a0a1a;
+  box-shadow: 0 4px 16px rgba(240,192,64,0.2);
+}
+.alquimista-container .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(240,192,64,0.35); }
+.alquimista-container .btn-primary:disabled { opacity: 0.4; transform: none; cursor: not-allowed; }
+.alquimista-container .btn-secondary {
+  background: rgba(255,255,255,0.06);
+  color: #eae9e3;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.alquimista-container .btn-secondary:hover { background: rgba(255,255,255,0.12); }
+.alquimista-container .btn-danger {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(231,76,60,0.2);
+}
+.alquimista-container .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(231,76,60,0.35); }
+.alquimista-container .btn-danger:disabled { opacity: 0.4; transform: none; cursor: not-allowed; }
+.alquimista-container .vidas-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 12px 0 4px;
+  font-size: 1.4rem;
+}
+.alquimista-container .vidas-row span {
+  transition: 0.3s;
+}
+.alquimista-container .vidas-row .perdida {
+  opacity: 0.15;
+  transform: scale(0.7);
+  filter: grayscale(1);
+}
+.alquimista-container .racha-row {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #8a8aa8;
+  margin-bottom: 4px;
+}
+.alquimista-container .racha-row .numero {
+  color: #f0c040;
+  font-weight: 700;
+}
+.alquimista-container .mensaje {
+  margin-top: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: none;
+  text-align: center;
+  line-height: 1.5;
+}
+.alquimista-container .mensaje.ok { display: block; background: rgba(46,204,113,0.12); border: 1px solid #2ecc71; color: #2ecc71; }
+.alquimista-container .mensaje.error { display: block; background: rgba(231,76,60,0.12); border: 1px solid #e74c3c; color: #e74c3c; }
+.alquimista-container .mensaje.muerte { display: block; background: rgba(231,76,60,0.25); border: 2px solid #e74c3c; color: #ff6b6b; }
+.alquimista-container .mensaje.exito { display: block; background: rgba(240,192,64,0.12); border: 2px solid #f0c040; color: #f0c040; }
+.alquimista-container .mensaje.penalizacion { display: block; background: rgba(231,76,60,0.18); border: 2px solid #f39c12; color: #f39c12; }
+.alquimista-container .mensaje.solucion { display: block; background: rgba(46,204,113,0.1); border: 2px solid #2ecc71; color: #2ecc71; }
+.alquimista-container .nota-secreta {
+  font-size: 0.7rem;
+  color: #6a6a88;
+  margin-top: 4px;
+  font-style: italic;
+}
+
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--v1);padding:12px 24px;border-radius:30px;z-index:9999;font-weight:700;font-size:.9rem;box-shadow:0 4px 20px rgba(233,183,65,0.4);animation:ta 4.2s forwards;}
 @keyframes ta{0%{opacity:0;transform:translateX(-50%) translateY(20px)}10%{opacity:1;transform:translateX(-50%) translateY(0)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-10px)}}
 @media(min-width:500px){.content{padding:20px 20px 100px;}}
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .tienda-grid { grid-template-columns: 1fr; }
   .mvv-grid { grid-template-columns: 1fr; }
+  .alquimista-container .tubos-container { gap: 12px; flex-wrap: wrap; }
+  .alquimista-container .tubo { width: 40px; height: 100px; }
+  .alquimista-container .action-row .btn { font-size: 0.75rem; padding: 8px 6px; min-width: 60px; }
+  .alquimista-container .crop-btn { font-size: 0.6rem; padding: 2px 8px; }
+  .alquimista-container .product-tab { font-size: 0.7rem; padding: 4px 0; min-width: 40px; }
+  .alquimista-container .dosis-control button { width: 30px; height: 30px; font-size: 1.0rem; }
+  .alquimista-container .dosis-control .dosis-numero { font-size: 1.0rem; min-width: 30px; }
 }
 </style>
 </head>
@@ -186,7 +553,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
     <!-- REGISTRO -->
     <div class="auth-panel activo" id="panelRegistro">
       <div><span class="fl">Nombre completo</span><input type="text" id="regNombre" class="input-dark" placeholder="Juan Mamani"></div>
-      <div><span class="fl">Teléfono / WhatsApp</span><input type="tel" id="regTelefono" class="input-dark" placeholder="7XXXXXXX"></div>
+      <div><span class="fl">Teléfono / WhatsApp</span><input type="text" id="regTelefono" class="input-dark" placeholder="77712345" maxlength="8" pattern="[0-9]{8}" oninput="this.value=this.value.replace(/[^0-9]/g,'')"></div>
       <div><span class="fl">Correo electrónico</span><input type="email" id="regCorreo" class="input-dark" placeholder="juan@email.com"></div>
       <div><span class="fl">Zona / Departamento</span><input type="text" id="regZona" class="input-dark" placeholder="Santa Cruz, Montero..."></div>
       <button class="btn-gold-full" id="btnRegistro" onclick="handleRegistro()">Registrarme <i class="fas fa-arrow-right"></i></button>
@@ -247,6 +614,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
           <div>🧮 <strong>Calcular tu inversión con glosario</strong><br><small>Aprende los términos financieros</small></div>
           <div>🗺️ <strong>Descubrir el mapa agrícola de Bolivia</strong><br><small>Ubica los cultivos en cada región</small></div>
           <div>🏪 <strong>Conocer proveedores y tiendas</strong><br><small>Encuentra insumos y servicios cerca de ti</small></div>
+          <div>🧪 <strong>Jugar "El Alquimista del Campo"</strong><br><small>Salva tu cosecha encontrando la dosis correcta</small></div>
         </div>
       </div>
     </div>
@@ -307,7 +675,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
       </div>
     </div>
 
-    <!-- ===== CONSULTAS (Formulario que envía a Sheets) ===== -->
+    <!-- ===== CONSULTAS ===== -->
     <div class="section" id="s-consulta">
       <div class="card">
         <div class="card-title"><i class="fas fa-headset"></i> Consulta técnica o asesoría</div>
@@ -358,6 +726,109 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
       </div>
     </div>
 
+    <!-- ===== EL ALQUIMISTA DEL CAMPO (NUEVA PESTAÑA) ===== -->
+    <div class="section" id="s-alquimista">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-flask"></i> El Alquimista del Campo 🧪</div>
+        <div class="alquimista-container" id="alquimistaContainer">
+          <div class="subtitle" style="text-align:center;color:#8a8aa8;font-size:0.85rem;margin-bottom:16px;">Elige tu cultivo, mezcla la dosis exacta y salva tu cosecha</div>
+          
+          <!-- SELECTOR DE CULTIVO -->
+          <div class="crop-selector" id="cropSelector">
+            <button class="crop-btn active" data-cultivo="soya">🌿 Soya</button>
+            <button class="crop-btn" data-cultivo="maiz">🌽 Maíz</button>
+            <button class="crop-btn" data-cultivo="arroz">🍚 Arroz</button>
+            <button class="crop-btn" data-cultivo="trigo">🌾 Trigo</button>
+            <button class="crop-btn" data-cultivo="cana">🪵 Caña</button>
+            <button class="crop-btn" data-cultivo="papa">🥔 Papa</button>
+            <button class="crop-btn" data-cultivo="cacao">🍫 Cacao</button>
+            <button class="crop-btn" data-cultivo="cafe">☕ Café</button>
+            <button class="crop-btn" data-cultivo="banano">🍌 Banano</button>
+            <button class="crop-btn" data-cultivo="quinua">🌾 Quinua</button>
+          </div>
+
+          <!-- CULTIVO CARD -->
+          <div class="crop-card">
+            <div class="crop-img" id="cropEmoji">🌿</div>
+            <div class="crop-info">
+              <h3 id="cropNombre">Soya</h3>
+              <div class="plaga-nombre" id="plagaNombre">🐛 Plaga: Oruga militar</div>
+              <div class="health-bar">
+                <div class="health-fill" id="healthFill" style="width:60%;"></div>
+              </div>
+              <div class="stats">
+                <span id="infestacionText">Infestación: 60%</span>
+                <span id="healthText">Salud: 60%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SELECTOR DE PRODUCTO -->
+          <div class="product-selector" id="productSelector">
+            <button class="product-tab active" data-producto="insecticida">🔴 Insecticida</button>
+            <button class="product-tab" data-producto="fungicida">🔵 Fungicida</button>
+            <button class="product-tab" data-producto="adherente">🟡 Adherente</button>
+          </div>
+
+          <!-- TUBOS DE ENSAYO -->
+          <div class="tubos-container" id="tubosContainer">
+            <div class="tubo-wrapper">
+              <label>Insecticida</label>
+              <div class="tubo">
+                <div class="tubo-liquido rojo" id="tuboInsecticida" style="height:0%;">
+                  <div class="brillo"></div>
+                </div>
+              </div>
+              <div class="tubo-valor" id="valInsecticida">0 ml</div>
+            </div>
+            <div class="tubo-wrapper">
+              <label>Fungicida</label>
+              <div class="tubo">
+                <div class="tubo-liquido azul" id="tuboFungicida" style="height:0%;">
+                  <div class="brillo"></div>
+                </div>
+              </div>
+              <div class="tubo-valor" id="valFungicida">0 ml</div>
+            </div>
+            <div class="tubo-wrapper">
+              <label>Adherente</label>
+              <div class="tubo">
+                <div class="tubo-liquido amarillo" id="tuboAdherente" style="height:0%;">
+                  <div class="brillo"></div>
+                </div>
+              </div>
+              <div class="tubo-valor" id="valAdherente">0 ml</div>
+            </div>
+          </div>
+
+          <!-- CONTROL DE DOSIS -->
+          <div class="dosis-control">
+            <button id="btnMenos">−</button>
+            <span class="dosis-numero" id="dosisActual">0</span>
+            <button id="btnMas">+</button>
+            <span style="color:#8a8aa8;font-size:0.8rem;margin-left:6px;">ml</span>
+          </div>
+
+          <!-- BOTONES ACCIÓN -->
+          <div class="action-row">
+            <button class="btn btn-primary" id="btnAplicar">🧪 Aplicar mezcla</button>
+            <button class="btn btn-danger" id="btnRendirse" disabled>😔 Me rindo, dame la respuesta</button>
+            <button class="btn btn-secondary" id="btnReiniciar">🔄 Reiniciar</button>
+          </div>
+
+          <!-- VIDAS Y RACHA -->
+          <div class="vidas-row" id="vidasRow">
+            <span>🌱</span><span>🌱</span><span>🌱</span>
+          </div>
+          <div class="racha-row">🔥 Racha de aciertos: <span class="numero" id="rachaNumero">0</span></div>
+
+          <!-- MENSAJE -->
+          <div class="mensaje" id="mensaje"></div>
+          <div class="nota-secreta">* La respuesta correcta es diferente para cada cultivo y producto. ¡Descúbrela!</div>
+        </div>
+      </div>
+    </div>
+
     <!-- ===== PERFIL USUARIO ===== -->
     <div class="section" id="s-perfil-usuario">
       <div class="card">
@@ -370,14 +841,23 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
         <div class="perfil-row"><i class="fas fa-envelope"></i><span id="pCorreo">—</span></div>
         <div class="perfil-row"><i class="fas fa-phone"></i><span id="pTel">—</span></div>
       </div>
+
+      <!-- HISTORIAL DE CÁLCULOS EN EL PERFIL -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-history"></i> Mi historial de cálculos</div>
+        <div id="perfilHistorial" class="historial-lista">
+          <p style="color:var(--text-tertiary);text-align:center;">Aún no has guardado ningún cálculo.</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- NAV BOTTOM (Sin Solicitudes, Catálogo, Fuentes) -->
+  <!-- NAV BOTTOM -->
   <nav class="nav-bottom">
     <div class="nav-item activo" id="nav-inicio" onclick="navegar('inicio')"><i class="fas fa-home"></i><span>Inicio</span></div>
     <div class="nav-item" id="nav-resenas" onclick="navegar('resenas')"><i class="fas fa-book"></i><span>Reseñas</span></div>
     <div class="nav-item" id="nav-calc" onclick="navegar('calc')"><i class="fas fa-calculator"></i><span>Calcular</span></div>
+    <div class="nav-item" id="nav-alquimista" onclick="navegar('alquimista')"><i class="fas fa-flask"></i><span>El Alquimista</span></div>
     <div class="nav-item" id="nav-consulta" onclick="navegar('consulta')"><i class="fas fa-headset"></i><span>Consultas</span></div>
     <div class="nav-item" id="nav-mapa" onclick="navegar('mapa')"><i class="fas fa-map"></i><span>Mapa</span></div>
     <div class="nav-item" id="nav-tiendas" onclick="navegar('tiendas')"><i class="fas fa-store"></i><span>Tiendas</span></div>
@@ -386,7 +866,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
 </div>
 
 <script>
-// ===== CONFIGURACIÓN DE GOOGLE APPS SCRIPT (YA CON TU URL) =====
+// ===== CONFIGURACIÓN DE GOOGLE APPS SCRIPT =====
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxCayzJLOppqNMTQK7PbqgCoL4xMoG3KINQLWgJ-RcqW5ShA-ULoHt4kMfkYIGY3Yvs/exec';
 
 // ===== DATOS COMPLETOS DE CULTIVOS =====
@@ -394,126 +874,136 @@ var CULTIVOS = {
   soya:   {nombre:'Soya', emoji:'🌿', color:'#f1c40f', rend:2.7, costo:1300, precio:450, ciclo:130, 
            img:'https://nexusavicultura.com/wp-content/uploads/sites/3/2024/12/soja-10.png',
            campania:'Siembra: Nov-Dic / Cosecha: Mar-Abr', 
-           produccion:'<a href="https://www.anapobolivia.org/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en ANAPO (Soya)</a>.',
+           produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Soya)</a>.',
            economia:'Principal producto de exportación de Bolivia', empleo:'+200,000 empleos directos e indirectos', 
            plagas:'Picudo de la soya, Oruga militar', animales:'Escarabajos depredadores, Arañas lobo', 
            datos:'Bolivia produce soya no transgénica con alta demanda internacional.', 
            herramientas:'Cosechadoras con GPS, Sembradoras de precisión', 
            clima:'Tropical húmedo (26-30°C y humedad alta). Requiere lluvias regulares y temperaturas altas para un buen crecimiento. El estrés hídrico reduce el rendimiento.',
            clima_explicacion:'Tropical húmedo: 26-30°C con alta humedad. Requiere lluvias regulares. Estrés hídrico reduce el rendimiento.',
-           campania_explicacion:'Siembra en Nov-Dic (aprovechando las primeras lluvias). Cosecha en Mar-Abr (final del verano, cuando la planta está seca).'},
+           campania_explicacion:'Siembra en Nov-Dic (aprovechando las primeras lluvias). Cosecha en Mar-Abr (final del verano, cuando la planta está seca).',
+           solucion: { insecticida: 4, fungicida: 1, adherente: 0 }},
   maiz:   {nombre:'Maíz', emoji:'🌽', color:'#e67e22', rend:4.2, costo:850, precio:250, ciclo:110, 
            img:'https://humanidades.com/wp-content/uploads/2018/10/maiz-2-1-e1581908276964.jpg',
            campania:'Siembra: Oct-Nov / Cosecha: Feb-Mar', 
-           produccion:'<a href="https://www.anapobolivia.org/maiz" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en ANAPO (Maíz)</a>.',
+           produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Maíz)</a>.',
            economia:'Base de la alimentación animal y humana', empleo:'+150,000 empleos', 
            plagas:'Gusano cogollero, Pulgón del maíz', animales:'Aves insectívoras, Abejas polinizadoras', 
            datos:'Es el segundo cultivo más sembrado en el país.', 
            herramientas:'Sembradoras mecánicas, Arados de cincel', 
            clima:'Templado a cálido (20-28°C). Es sensible a heladas; temperaturas extremas afectan la floración.',
            clima_explicacion:'Templado a cálido: 20-28°C. Sensible a heladas. Extremos térmicos afectan la floración.',
-           campania_explicacion:'Siembra en Oct-Nov (inicio de lluvias). Cosecha en Feb-Mar (verano, con suficiente madurez).'},
+           campania_explicacion:'Siembra en Oct-Nov (inicio de lluvias). Cosecha en Feb-Mar (verano, con suficiente madurez).',
+           solucion: { insecticida: 3, fungicida: 2, adherente: 1 }},
   arroz:  {nombre:'Arroz', emoji:'🍚', color:'#d35400', rend:3.5, costo:1800, precio:380, ciclo:135, 
            img:'https://www.molineraamazonas.com/wp-content/uploads/2018/11/arroz-de-calidad.jpg',
            campania:'Siembra: Dic-Ene / Cosecha: May-Jun', 
-           produccion:'<a href="https://www.ibepa.gob.bo/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en IBEPA (Arroz)</a>.',
+           produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Arroz)</a>.',
            economia:'Autosuficiencia nacional', empleo:'+100,000 empleos', 
            plagas:'Barrenador del tallo, Soguero', animales:'Patos, Peces en arrozales', 
            datos:'Beni y Santa Cruz son los mayores productores.', 
            herramientas:'Bombas de fumigación, Trilladoras', 
            clima:'Tropical muy húmedo (28-32°C). Necesita campos inundados la mayor parte del tiempo.',
            clima_explicacion:'Tropical muy húmedo: 28-32°C. Requiere campos inundados casi todo el ciclo.',
-           campania_explicacion:'Siembra en Dic-Ene (época de lluvias intensas). Cosecha en May-Jun (después de las lluvias).'},
+           campania_explicacion:'Siembra en Dic-Ene (época de lluvias intensas). Cosecha en May-Jun (después de las lluvias).',
+           solucion: { insecticida: 5, fungicida: 0, adherente: 1 }},
   trigo:  {nombre:'Trigo', emoji:'🌾', color:'#aab7b8', rend:2.0, costo:1100, precio:300, ciclo:100, 
            img:'https://www.naturitas.es/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fidphpoec%2Fproduction%2F7822869dc0f9913dc987ea179e900c8c09a40d73-1280x853.jpg%3Ffit%3Dmax%26auto%3Dformat&w=960&q=75',
            campania:'Siembra: May-Jun / Cosecha: Sep-Oct', 
-           produccion:'<a href="https://www.anapobolivia.org/trigo" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en ANAPO (Trigo)</a>.',
+           produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Trigo)</a>.',
            economia:'Reducción de importaciones', empleo:'+50,000 empleos', 
            plagas:'Pulgón del trigo, Roya', animales:'Pájaros insectívoros, Escarabajos', 
            datos:'Se cultiva en valles y tierras bajas.', 
            herramientas:'Trilladoras, Cosechadoras', 
            clima:'Templado (15-22°C). Prefiere temperaturas más frescas, lejos del calor extremo.',
            clima_explicacion:'Templado: 15-22°C. Prefiere frescura y evita calor extremo.',
-           campania_explicacion:'Siembra en May-Jun (invierno, menos lluvias). Cosecha en Sep-Oct (primavera, con madurez óptima).'},
+           campania_explicacion:'Siembra en May-Jun (invierno, menos lluvias). Cosecha en Sep-Oct (primavera, con madurez óptima).',
+           solucion: { insecticida: 2, fungicida: 3, adherente: 0 }},
   cana:   {nombre:'Caña', emoji:'🪵', color:'#2ecc71', rend:80, costo:5000, precio:120, ciclo:400, 
            img:'https://www.herbazest.com/imgs/4/b/2/871191/cana-de-azucar.jpg',
            campania:'Siembra: Mar-May / Cosecha: Jun-Ago (del año siguiente)', 
-           produccion:'<a href="https://www.apaca.org.bo/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en APACA (Caña)</a>.',
+           produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Caña)</a>.',
            economia:'Producción de azúcar y alcohol', empleo:'+150,000 empleos', 
            plagas:'Taladro de la caña, Mosca pinta', animales:'Aves, Hormigas', 
            datos:'Bolivia es autosuficiente en azúcar.', 
            herramientas:'Alzadoras, Tractores', 
            clima:'Cálido (25-30°C). Mucho sol y agua abundante son sus aliados.',
            clima_explicacion:'Cálido: 25-30°C. Necesita mucho sol y agua abundante.',
-           campania_explicacion:'Siembra en Mar-May (otoño/invierno). Cosecha en Jun-Ago del año siguiente (18 meses después).'},
+           campania_explicacion:'Siembra en Mar-May (otoño/invierno). Cosecha en Jun-Ago del año siguiente (18 meses después).',
+           solucion: { insecticida: 4, fungicida: 2, adherente: 1 }},
   papa:   {nombre:'Papa', emoji:'🥔', color:'#8e44ad', rend:12.0, costo:800, precio:200, ciclo:110, 
            img:'https://sqm.com/wp-content/uploads/2018/04/papa-992x550.jpg',
            campania:'Siembra: Ago-Sep / Cosecha: Dic-Ene', 
-           produccion:'<a href="https://www.iniaf.gob.bo/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en INIAF (Papa)</a>.',
+           produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Papa)</a>.',
            economia:'Base de la alimentación andina', empleo:'+500,000 empleos', 
            plagas:'Gorgojo de la papa, Tizón tardío', animales:'Zorros, Búhos', 
            datos:'La papa es originaria de Bolivia (Titicaca).', 
            herramientas:'Arados de mano, Mallas de sombra', 
            clima:'Frío altoandino (5-15°C). Soporta bien el frío de la noche y el sol moderado del día.',
            clima_explicacion:'Frío altoandino: 5-15°C. Soporta heladas nocturnas.',
-           campania_explicacion:'Siembra en Ago-Sep (invierno seco). Cosecha en Dic-Ene (verano, inicio de lluvias).'},
+           campania_explicacion:'Siembra en Ago-Sep (invierno seco). Cosecha en Dic-Ene (verano, inicio de lluvias).',
+           solucion: { insecticida: 3, fungicida: 1, adherente: 2 }},
   cacao:  {nombre:'Cacao', emoji:'🍫', color:'#6b4c3b', rend:1.2, costo:3000, precio:15000, ciclo:300, 
            img:'https://thumbs.dreamstime.com/b/granos-de-cacao-frescos-dentro-una-bolsa-con-vaina-sobre-mesa-madera-r%C3%BAstica-toma-estudio-muestra-crudo-reci%C3%A9n-derramados-desde-382131932.jpg?w=768',
            campania:'Siembra: Oct-Nov / Cosecha: Todo el año', 
-           produccion:'<a href="https://www.aprocafe.org/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en APROCAFE (Cacao)</a>.',
+           produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Cacao)</a>.',
            economia:'Exportación de alto valor', empleo:'+20,000 empleos', 
            plagas:'Moniliasis, Escoba de bruja', animales:'Abejas, Hormigas', 
            datos:'El cacao boliviano es reconocido por su fino aroma.', 
            herramientas:'Podadoras, Sombras', 
            clima:'Tropical húmedo (24-28°C). Un clima cálido y lluvioso es ideal para su crecimiento.',
            clima_explicacion:'Tropical húmedo: 24-28°C. Calor y lluvias constantes son ideales.',
-           campania_explicacion:'Siembra en Oct-Nov (lluvias). Cosecha durante todo el año (producción continua).'},
+           campania_explicacion:'Siembra en Oct-Nov (lluvias). Cosecha durante todo el año (producción continua).',
+           solucion: { insecticida: 1, fungicida: 4, adherente: 0 }},
   cafe:   {nombre:'Café', emoji:'☕', color:'#c0392b', rend:0.8, costo:2500, precio:8000, ciclo:200, 
            img:'https://images.ctfassets.net/9g6wdvusquq5/7wg7hwvVe4XEWMPkyxqCyT/78a155b44318c6668cd9512dfaf6dff4/Caf_.jpg?w=1531&h=1021&q=50&fm=webp',
            campania:'Siembra: Oct-Dic / Cosecha: Mar-May', 
-           produccion:'<a href="https://www.abc-bolivia.org/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en ABC (Café)</a>.',
+           produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Café)</a>.',
            economia:'Producción de café arábico', empleo:'+30,000 empleos', 
-           plagas:'Ojo de gallo, Broca del café', animales:'Aves polinizadoras, Ardillas', 
+           plagas:'Broca del café, Ojo de gallo', animales:'Aves polinizadoras, Ardillas', 
            datos:'Bolivia produce café orgánico de altura.', 
            herramientas:'Despulpadoras, Tostadoras', 
            clima:'Templado de Yungas (18-24°C). El café de altura necesita temperaturas estables y sin heladas.',
            clima_explicacion:'Templado de Yungas: 18-24°C. Estable y sin heladas, ideal para altura.',
-           campania_explicacion:'Siembra en Oct-Dic (lluvias). Cosecha en Mar-May (post-lluvias).'},
+           campania_explicacion:'Siembra en Oct-Dic (lluvias). Cosecha en Mar-May (post-lluvias).',
+           solucion: { insecticida: 2, fungicida: 2, adherente: 1 }},
   banano: {nombre:'Banano', emoji:'🍌', color:'#f1c40f', rend:40, costo:2000, precio:150, ciclo:180, 
            img:'https://static.nationalgeographicla.com/files/styles/image_3200/public/banana_from_maracaibo.webp?w=900&h=629',
            campania:'Siembra: Ene-Mar / Cosecha: Oct-Dic', 
-           produccion:'<a href="https://www.aproban.com.bo/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en APROBAN (Banano)</a>.',
+           produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Banano)</a>.',
            economia:'Exportación a Argentina y Perú', empleo:'+40,000 empleos', 
            plagas:'Mosca de la fruta, Nematodos', animales:'Aves frugívoras, Murciélagos', 
            datos:'El banano boliviano es de alta calidad.', 
            herramientas:'Mallas de sombra, Riego', 
            clima:'Cálido húmedo (26-30°C). El sol y la alta humedad son fundamentales.',
            clima_explicacion:'Cálido húmedo: 26-30°C. Sol y humedad altos son fundamentales.',
-           campania_explicacion:'Siembra en Ene-Mar (verano). Cosecha en Oct-Dic (primavera, más seco).'},
+           campania_explicacion:'Siembra en Ene-Mar (verano). Cosecha en Oct-Dic (primavera, más seco).',
+           solucion: { insecticida: 3, fungicida: 0, adherente: 2 }},
   quinua: {nombre:'Quinua', emoji:'🌾', color:'#e67e22', rend:1.0, costo:1500, precio:3000, ciclo:150, 
            img:'https://www.minsalud.gob.bo/images/Noticias18/codex_quinua_nota.jpg',
            campania:'Siembra: Ago-Sep / Cosecha: Mar-Abr', 
-           produccion:'<a href="https://www.cadex.org.bo/" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en CADEX (Quinua)</a>.',
+           produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Quinua)</a>.',
            economia:'Exportación a países de la UE y Estados Unidos', empleo:'+100,000 empleos', 
            plagas:'Pulgón, Gorgojo', animales:'Vicuñas, Llama', 
            datos:'La quinua fue un alimento sagrado para los Incas.', 
            herramientas:'Cosechadoras para altura, Mallas', 
            clima:'Frío y seco (10-20°C). Tolera bajas temperaturas, pero el granizo puede dañarla.',
            clima_explicacion:'Frío y seco: 10-20°C. Tolera frío pero no granizo fuerte.',
-           campania_explicacion:'Siembra en Ago-Sep (invierno seco). Cosecha en Mar-Abr (inicio de otoño).'}
+           campania_explicacion:'Siembra en Ago-Sep (invierno seco). Cosecha en Mar-Abr (inicio de otoño).',
+           solucion: { insecticida: 2, fungicida: 3, adherente: 1 }}
 };
 
 // ===== DATOS TIENDAS =====
 var TIENDAS = [
-  { nombre:'Agropecuaria La Cosecha', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHUtNh9N79I0cxmJpp7gV05BEMCtyf9d3_5RcqwnPCcHv0dk2ynlK-nAnLKLnyCFDqKsW3sC77C5jEuwcsS_fIqJx3erOy13jTa9K5G79M1-XnMoV-8M1JQozuK94VxSTkA1hw=w408-h544-k-no', celular:'+591 71002933', maps:'https://maps.app.goo.gl/83CWAG5FjvLgdf4S8', redes:'https://www.facebook.com/Agrop.LaCosecha/', reseña:'Venta de insumos agrícolas, semillas de soya, maíz y fertilizantes. Con más de 15 años apoyando al productor.' },
-  { nombre:'Agropecuaria SANTA CRUZ', img:'https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=h3QTaeVu6s_pDZFLC-_-vg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=13.404443&pitch=0&thumbfov=100', celular:'78545296', maps:'https://maps.app.goo.gl/sG85PZSSdYQsE7VC8', redes:'https://www.facebook.com/p/Agropecuaria-SANTA-CRUZ-100063785510666/', reseña:'Distribuidor de agroquímicos, fungicidas y herbicidas para cultivos extensivos.' },
-  { nombre:'CIAGRO S.A.', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHRC0572RQMTRDbLAHkMt2vPZUlNFyaXN0GurBfvaTmiRWWVKynpxkPmmcp5mRzUKL4YHwFP1WOOMkXfzzUrKlfMjtQ7lMZA55ZZZ-DSOrtSXb0Rw7wv8Ss9psQlzjy6bMZVzNtZg=w437-h240-k-no', celular:'71090050', maps:'https://maps.app.goo.gl/RwWbbeT5mfVwrMxi6', redes:'https://www.facebook.com/ciagrobolivia/?locale=es_LA', reseña:'Asistencia técnica, venta de maquinaria agrícola, implementos y análisis de suelos.' },
-  { nombre:'CIAT - Centro de Investigación Agrícola Tropical', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHymsOhLfZ6qTrj2BV_QgBfyGesyNon29XFoU7gkenu1YOGwIYIlDVhT5TINU_VZV2nbr3sx4Bj9c_wdS1lPaaItx7ZtVkUUdrME7HBNaLGROPNMcnm_tMUFmx2hu5qxZqPfp3DVA=w408-h725-k-no', celular:'71691261', maps:'https://maps.app.goo.gl/71NS1RtDDjQ8MbFP6', redes:'https://www.facebook.com/ciatbolivia/?locale=es_LA', reseña:'Centro de investigación que ofrece capacitación, semillas mejoradas y asesoría en manejo de cultivos.' },
-  { nombre:'Surtiagro', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAF4lcCrGr8CVsJXawO76vtRurAPyErPzUeLSHC5RZ2IuKAJg6o4xhtgh82hw3TJ85S5QuYAi7jVNWM5QPFgIJrGt7UwiyXB8fdlN8dBcMeKCXXwR4_q7UrlTA2J3qC08cyih7LS=w408-h545-k-no', celular:'76305866', maps:'https://maps.app.goo.gl/1Cgz8gZsZRjx48wH7', redes:'https://www.facebook.com/p/SurtiAgro-100064128281463/', reseña:'Venta de fertilizantes (urea, NPK) y productos para nutrición vegetal a granel.' },
-  { nombre:'ANAPO', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAF7HnKm9xsLBA0sGczGw-40yx0hRBHq19xbdLl5RhdSGqRSjqr86rk-SDbvXcBZ62Irzs0AWBcQHEbjQGolWj9fUvMMDBXggNTcpZm7IjRBVQMwV3awr3gFcoUSyi1DzMQkkN9IHM2-sL9x=w408-h960-k-no', celular:'33423030', maps:'https://maps.app.goo.gl/TAKw8xxVwYTN2Ehu6', redes:'https://www.facebook.com/anapobolivia/?locale=es_LA', reseña:'Asociación que agrupa productores de soya, trigo y girasol. Proporciona datos estadísticos, certificación y representación.' },
-  { nombre:'Agripac', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGv_4HMqBCrPje9kYVCFb3ptD8KlImAwAsbBO0oydefUQJHL28sFeSs9lPdMtCz3seGCxTacmtEDmQP8Rd_uhqcagjB8j879U_TC3bcXoo9KPiP-3XtKClg53iq_BCIzt1JCcFZ2g=w408-h306-k-no', celular:'3 3341012', maps:'https://maps.app.goo.gl/AY8wikkGkcANgjr16', redes:'https://www.facebook.com/p/Agripac-Boliviana-100063595525240/?locale=es_LA', reseña:'Distribuidor de semillas de alta calidad, maquinaria agrícola y sistemas de riego.' },
-  { nombre:'AGROINCO SRL', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHXkuYJRfrelAxgoxRQ4oV1uf9m9ZNAMGmPP3fud7Xl3qZRcnYhmnDBpwXg1u8UirgpgvKBHg1uIrl27IRRwKLh6FV1cQUWmjp_m4XaJpLbCbTJsHTacQ3LwWdNwcAXPpzF7t_r=w408-h544-k-no', celular:'68939311', maps:'https://maps.app.goo.gl/eQPkP9hpMDjfMpe67', redes:'https://www.facebook.com/Agroinco/?locale=es_LA', reseña:'Importación y venta de herramientas agrícolas, motocultivadores, bombas de fumigación y repuestos.' },
-  { nombre:'Mainter - Oficina Central', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFOOR3zPJsZEr0go74DUsZslE8j4ShXAEQQbOIKq1KeLPYO_9U9KPxHgipqoqM3UpqQh0zq9bTp55Nskif-ggV48hBi-xj_DD7-qlUOH6hAqS1CdhrcD7tL6fEIDKpGauv56Qnuqg=w408-h306-k-no', celular:'33178000', maps:'https://maps.app.goo.gl/WHo5fDELVK3aMWJx7', redes:'https://www.facebook.com/Mainteragro/', reseña:'Especialistas en maquinaria para cosecha, tractores y equipos de almacenamiento de granos.' }
+  { nombre:'Agropecuaria La Cosecha', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHUtNh9N79I0cxmJpp7gV05BEMCtyf9d3_5RcqwnPCcHv0dk2ynlK-nAnLKLnyCFDqKsW3sC77C5jEuwcsS_fIqJx3erOy13jTa9K5G79M1-XnMoV-8M1JQozuK94VxSTkA1hw=w408-h544-k-no', celular:'+591 71002933', maps:'https://maps.app.goo.gl/83CWAG5FjvLgdf4S8', redes:'https://www.facebook.com/Agrop.LaCosecha/', reseña:'Venta de insumos agrícolas, semillas de soya, maíz y fertilizantes. Con más de 15 años apoyando al productor.', servicio:'insumos agrícolas, semillas y fertilizantes' },
+  { nombre:'Agropecuaria SANTA CRUZ', img:'https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=h3QTaeVu6s_pDZFLC-_-vg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=13.404443&pitch=0&thumbfov=100', celular:'78545296', maps:'https://maps.app.goo.gl/sG85PZSSdYQsE7VC8', redes:'https://www.facebook.com/p/Agropecuaria-SANTA-CRUZ-100063785510666/', reseña:'Distribuidor de agroquímicos, fungicidas y herbicidas para cultivos extensivos.', servicio:'agroquímicos, fungicidas y herbicidas' },
+  { nombre:'CIAGRO S.A.', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHRC0572RQMTRDbLAHkMt2vPZUlNFyaXN0GurBfvaTmiRWWVKynpxkPmmcp5mRzUKL4YHwFP1WOOMkXfzzUrKlfMjtQ7lMZA55ZZZ-DSOrtSXb0Rw7wv8Ss9psQlzjy6bMZVzNtZg=w437-h240-k-no', celular:'71090050', maps:'https://maps.app.goo.gl/RwWbbeT5mfVwrMxi6', redes:'https://www.facebook.com/ciagrobolivia/?locale=es_LA', reseña:'Asistencia técnica, venta de maquinaria agrícola, implementos y análisis de suelos.', servicio:'maquinaria agrícola, implementos y análisis de suelos' },
+  { nombre:'CIAT - Centro de Investigación Agrícola Tropical', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHymsOhLfZ6qTrj2BV_QgBfyGesyNon29XFoU7gkenu1YOGwIYIlDVhT5TINU_VZV2nbr3sx4Bj9c_wdS1lPaaItx7ZtVkUUdrME7HBNaLGROPNMcnm_tMUFmx2hu5qxZqPfp3DVA=w408-h725-k-no', celular:'71691261', maps:'https://maps.app.goo.gl/71NS1RtDDjQ8MbFP6', redes:'https://www.facebook.com/ciatbolivia/?locale=es_LA', reseña:'Centro de investigación que ofrece capacitación, semillas mejoradas y asesoría en manejo de cultivos.', servicio:'capacitación, semillas mejoradas y asesoría técnica' },
+  { nombre:'Surtiagro', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAF4lcCrGr8CVsJXawO76vtRurAPyErPzUeLSHC5RZ2IuKAJg6o4xhtgh82hw3TJ85S5QuYAi7jVNWM5QPFgIJrGt7UwiyXB8fdlN8dBcMeKCXXwR4_q7UrlTA2J3qC08cyih7LS=w408-h545-k-no', celular:'76305866', maps:'https://maps.app.goo.gl/1Cgz8gZsZRjx48wH7', redes:'https://www.facebook.com/p/SurtiAgro-100064128281463/', reseña:'Venta de fertilizantes (urea, NPK) y productos para nutrición vegetal a granel.', servicio:'fertilizantes y productos para nutrición vegetal' },
+  { nombre:'ANAPO', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAF7HnKm9xsLBA0sGczGw-40yx0hRBHq19xbdLl5RhdSGqRSjqr86rk-SDbvXcBZ62Irzs0AWBcQHEbjQGolWj9fUvMMDBXggNTcpZm7IjRBVQMwV3awr3gFcoUSyi1DzMQkkN9IHM2-sL9x=w408-h960-k-no', celular:'33423030', maps:'https://maps.app.goo.gl/TAKw8xxVwYTN2Ehu6', redes:'https://www.facebook.com/anapobolivia/?locale=es_LA', reseña:'Asociación que agrupa productores de soya, trigo y girasol. Proporciona datos estadísticos, certificación y representación.', servicio:'asociación de productores, datos estadísticos y certificación' },
+  { nombre:'Agripac', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGv_4HMqBCrPje9kYVCFb3ptD8KlImAwAsbBO0oydefUQJHL28sFeSs9lPdMtCz3seGCxTacmtEDmQP8Rd_uhqcagjB8j879U_TC3bcXoo9KPiP-3XtKClg53iq_BCIzt1JCcFZ2g=w408-h306-k-no', celular:'3 3341012', maps:'https://maps.app.goo.gl/AY8wikkGkcANgjr16', redes:'https://www.facebook.com/p/Agripac-Boliviana-100063595525240/?locale=es_LA', reseña:'Distribuidor de semillas de alta calidad, maquinaria agrícola y sistemas de riego.', servicio:'semillas de alta calidad, maquinaria y sistemas de riego' },
+  { nombre:'AGROINCO SRL', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHXkuYJRfrelAxgoxRQ4oV1uf9m9ZNAMGmPP3fud7Xl3qZRcnYhmnDBpwXg1u8UirgpgvKBHg1uIrl27IRRwKLh6FV1cQUWmjp_m4XaJpLbCbTJsHTacQ3LwWdNwcAXPpzF7t_r=w408-h544-k-no', celular:'68939311', maps:'https://maps.app.goo.gl/eQPkP9hpMDjfMpe67', redes:'https://www.facebook.com/Agroinco/?locale=es_LA', reseña:'Importación y venta de herramientas agrícolas, motocultivadores, bombas de fumigación y repuestos.', servicio:'herramientas agrícolas, motocultivadores y bombas de fumigación' },
+  { nombre:'Mainter - Oficina Central', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFOOR3zPJsZEr0go74DUsZslE8j4ShXAEQQbOIKq1KeLPYO_9U9KPxHgipqoqM3UpqQh0zq9bTp55Nskif-ggV48hBi-xj_DD7-qlUOH6hAqS1CdhrcD7tL6fEIDKpGauv56Qnuqg=w408-h306-k-no', celular:'33178000', maps:'https://maps.app.goo.gl/WHo5fDELVK3aMWJx7', redes:'https://www.facebook.com/Mainteragro/', reseña:'Especialistas en maquinaria para cosecha, tractores y equipos de almacenamiento de granos.', servicio:'maquinaria para cosecha, tractores y almacenamiento de granos' }
 ];
 
 // ===== REGIONES DE BOLIVIA PARA EL MAPA =====
@@ -535,6 +1025,7 @@ var historial = [];
 var mapaObj = null;
 var mapaIniciado = false;
 var coloresProductos = {};
+var historialClima = [];
 
 function generarColores() {
   var coloresBase = ['#e74c3c', '#f1c40f', '#2ecc71', '#3498db', '#e67e22', '#9b59b6', '#1abc9c', '#d35400', '#aab7b8', '#f39c12'];
@@ -580,6 +1071,11 @@ function handleRegistro() {
   var zona = document.getElementById('regZona').value.trim();
   if (!nombre || !tel || !correo || !zona) {
     mostrarMsg('mensajeRegistro', 'Todos los campos son obligatorios.', 'error');
+    return;
+  }
+  // Validar que el teléfono tenga exactamente 8 dígitos
+  if (tel.length !== 8 || !/^\d{8}$/.test(tel)) {
+    mostrarMsg('mensajeRegistro', 'El teléfono debe tener exactamente 8 dígitos (ej: 77712345).', 'error');
     return;
   }
   var users = JSON.parse(localStorage.getItem('agro_users')) || [];
@@ -638,6 +1134,7 @@ function navegar(sec) {
   
   if (sec === 'resenas') renderResenas();
   if (sec === 'calc') { calcular(); actualizarComp(); }
+  if (sec === 'alquimista') { inicializarJuegoAlquimista(); }
   if (sec === 'mapa') setTimeout(iniciarMapa, 300);
   if (sec === 'tiendas') renderTiendas();
   if (sec === 'perfil-usuario') renderPerfil();
@@ -657,6 +1154,8 @@ function iniciarApp() {
   renderTiendas();
   calcular();
   actualizarComp();
+  // Inicializar el juego Alquimista al cargar la app (pero no activarlo)
+  inicializarJuegoAlquimista();
   toast('Bienvenido, ' + usuario.nombre.split(' ')[0] + '!');
 }
 
@@ -677,7 +1176,7 @@ function enviarAGoogleSheets(tipo, datos) {
   });
 }
 
-// ===== CONSULTAS (NUEVA LÓGICA) =====
+// ===== CONSULTAS =====
 function enviarConsulta(tipo) {
   var nombre, correo, detalle, titulo;
   if (tipo === 'Técnica') {
@@ -705,10 +1204,8 @@ function enviarConsulta(tipo) {
     estado: 'Pendiente'
   };
   
-  // Enviar a Google Sheets (Solicitudes)
   enviarAGoogleSheets('solicitud', solicitud);
   
-  // Notificar al usuario
   var mensaje = '✅ ¡Buenas ' + (new Date().getHours() < 12 ? 'días' : new Date().getHours() < 18 ? 'tardes' : 'noches') + ', ' + nombre + '!\n\n' +
                 'Gracias por contactarte con Agrocrecimiento. Tu solicitud de **' + tipo + '** ha sido registrada con éxito.\n\n' +
                 '📋 **Detalle de tu solicitud:**\n' + detalle + '\n\n' +
@@ -718,7 +1215,6 @@ function enviarConsulta(tipo) {
   toast('✅ Consulta enviada. Recibirás respuesta en 24h.');
   alert(mensaje);
   
-  // Limpiar formularios
   document.querySelectorAll('.form-consulta').forEach(function(f){f.classList.remove('activo');});
 }
 window.enviarConsulta = enviarConsulta;
@@ -782,26 +1278,50 @@ function guardarCalculo() {
   if (historial.length > 20) historial.pop();
   localStorage.setItem('agro_historial_' + usuario.correo, JSON.stringify(historial));
   toast('Simulación guardada.');
+  renderPerfil();
 }
+window.guardarCalculo = guardarCalculo;
 
 function enviarWhatsApp() {
+  if (!usuario || !usuario.telefono) {
+    toast('⚠️ Debes iniciar sesión para recibir el resultado por WhatsApp.');
+    return;
+  }
   var cult = document.getElementById('calcCultivo').value;
   var d = CULTIVOS[cult];
   var ha = document.getElementById('calcHa').value;
   var res = document.getElementById('calcResult').innerText;
-  var txt = '🌱 *Resultado de cálculo - Agrocrecimiento*\n\nCultivo: ' + d.nombre + '\nHectáreas: ' + ha + '\n\n' + res.substring(0, 400);
-  var url = 'https://api.whatsapp.com/send?phone=59177712345&text=' + encodeURIComponent(txt);
+  
+  var mensajeInicio = '¡Gracias por visitar AgroCrecimiento! 🌽✨ Nos alegra que estés aquí. Tu interés nos impulsa a seguir creciendo junto al campo. ¿Necesitas algo? Escríbenos por este chat.\n\n';
+  var mensajeFinal = 'Gracias por recorrer nuestro sitio hasta el final. 🙌 En Agrocrecimiento valoramos tu tiempo y confianza. Si quieres seguir en contacto o recibir asesoría, esta pagina web siempre está abierto para ti. ¡Que tu cosecha sea abundante! 🚜💚';
+  
+  var txt = mensajeInicio + 
+            '🌱 *Resultado de cálculo - Agrocrecimiento*\n\nCultivo: ' + d.nombre + '\nHectáreas: ' + ha + '\n\n' + res.substring(0, 400) + 
+            '\n\n' + mensajeFinal;
+            
+  var url = 'https://api.whatsapp.com/send?phone=591' + usuario.telefono + '&text=' + encodeURIComponent(txt);
   window.open(url, '_blank');
 }
 
 function enviarCorreo() {
+  if (!usuario || !usuario.correo) {
+    toast('⚠️ Debes iniciar sesión para recibir el resultado por correo.');
+    return;
+  }
   var cult = document.getElementById('calcCultivo').value;
   var d = CULTIVOS[cult];
   var ha = document.getElementById('calcHa').value;
   var res = document.getElementById('calcResult').innerText;
+  
+  var mensajeInicio = '¡Gracias por visitar AgroCrecimiento! 🌽✨ Nos alegra que estés aquí. Tu interés nos impulsa a seguir creciendo junto al campo. ¿Necesitas algo? Escríbenos por este chat.\n\n';
+  var mensajeFinal = 'Gracias por recorrer nuestro sitio hasta el final. 🙌 En Agrocrecimiento valoramos tu tiempo y confianza. Si quieres seguir en contacto o recibir asesoría, esta pagina web siempre está abierto para ti. ¡Que tu cosecha sea abundante! 🚜💚';
+  
+  var body = mensajeInicio + 
+             '🌱 Resultado de cálculo - Agrocrecimiento\n\nCultivo: ' + d.nombre + '\nHectáreas: ' + ha + '\n\n' + res.substring(0, 400) + 
+             '\n\n' + mensajeFinal;
+             
   var subject = 'Resultado de cálculo - Agrocrecimiento';
-  var body = 'Cultivo: ' + d.nombre + '\nHectáreas: ' + ha + '\n\n' + res;
-  window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  window.location.href = 'mailto:' + usuario.correo + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 }
 
 // ===== COMPARADOR =====
@@ -847,18 +1367,382 @@ function cargarHistorial() {
   }
 }
 
+// ===== JUEGO ALQUIMISTA =====
+var juegoAlquimistaInicializado = false;
+function inicializarJuegoAlquimista() {
+  if (juegoAlquimistaInicializado) return;
+  juegoAlquimistaInicializado = true;
+
+  var cultivoActual = 'soya';
+  var productoActual = 'insecticida';
+  var dosisPorProducto = { insecticida: 0, fungicida: 0, adherente: 0 };
+  var salud = 60;
+  var vidas = 3;
+  var juegoTerminado = false;
+  var juegoGanado = false;
+  var intentosFallidos = 0;
+  var puedeRendirse = false;
+  var racha = 0;
+  const MAX_INTENTOS_POR_PRODUCTO = 3;
+
+  // Elementos DOM
+  const healthFill = document.getElementById('healthFill');
+  const healthText = document.getElementById('healthText');
+  const infestacionText = document.getElementById('infestacionText');
+  const cropEmoji = document.getElementById('cropEmoji');
+  const cropNombre = document.getElementById('cropNombre');
+  const plagaNombre = document.getElementById('plagaNombre');
+  const mensajeEl = document.getElementById('mensaje');
+  const vidasRow = document.getElementById('vidasRow');
+  const rachaNumero = document.getElementById('rachaNumero');
+  const btnAplicar = document.getElementById('btnAplicar');
+  const btnReiniciar = document.getElementById('btnReiniciar');
+  const btnRendirse = document.getElementById('btnRendirse');
+  const btnMas = document.getElementById('btnMas');
+  const btnMenos = document.getElementById('btnMenos');
+  const dosisActualSpan = document.getElementById('dosisActual');
+  const tuboInsecticida = document.getElementById('tuboInsecticida');
+  const tuboFungicida = document.getElementById('tuboFungicida');
+  const tuboAdherente = document.getElementById('tuboAdherente');
+  const valInsecticida = document.getElementById('valInsecticida');
+  const valFungicida = document.getElementById('valFungicida');
+  const valAdherente = document.getElementById('valAdherente');
+  const productTabs = document.querySelectorAll('#productSelector .product-tab');
+  const cropBtns = document.querySelectorAll('#cropSelector .crop-btn');
+
+  function actualizarSalud(nuevoValor) {
+    salud = Math.max(0, Math.min(100, nuevoValor));
+    healthFill.style.width = salud + '%';
+    healthText.textContent = 'Salud: ' + salud + '%';
+    healthFill.classList.remove('danger', 'warning');
+    if (salud <= 25) healthFill.classList.add('danger');
+    else if (salud <= 55) healthFill.classList.add('warning');
+  }
+
+  function actualizarVidas() {
+    const spans = vidasRow.querySelectorAll('span');
+    spans.forEach((span, i) => {
+      if (i < vidas) span.classList.remove('perdida');
+      else span.classList.add('perdida');
+    });
+  }
+
+  function actualizarRacha() {
+    rachaNumero.textContent = racha;
+  }
+
+  function mostrarMensaje(texto, tipo) {
+    mensajeEl.className = 'mensaje';
+    mensajeEl.textContent = texto;
+    if (tipo) mensajeEl.classList.add(tipo);
+    mensajeEl.style.display = 'block';
+  }
+
+  function ocultarMensaje() {
+    mensajeEl.style.display = 'none';
+  }
+
+  function lanzarConfeti() {
+    const contenedor = document.createElement('div');
+    contenedor.className = 'confeti';
+    const colores = ['#f0c040', '#2ecc71', '#e74c3c', '#3498db', '#9b59b6', '#f39c12'];
+    for (let i = 0; i < 60; i++) {
+      const span = document.createElement('span');
+      span.style.left = Math.random() * 100 + '%';
+      span.style.background = colores[Math.floor(Math.random() * colores.length)];
+      span.style.width = (Math.random() * 6 + 4) + 'px';
+      span.style.height = (Math.random() * 6 + 4) + 'px';
+      span.style.animationDuration = (Math.random() * 1.8 + 0.8) + 's';
+      span.style.animationDelay = (Math.random() * 0.8) + 's';
+      contenedor.appendChild(span);
+    }
+    document.body.appendChild(contenedor);
+    setTimeout(() => contenedor.remove(), 3500);
+  }
+
+  function actualizarTubos() {
+    // Insecticida
+    const alturaI = Math.min(100, (dosisPorProducto.insecticida / 8) * 100);
+    tuboInsecticida.style.height = alturaI + '%';
+    valInsecticida.textContent = dosisPorProducto.insecticida + ' ml';
+    // Fungicida
+    const alturaF = Math.min(100, (dosisPorProducto.fungicida / 8) * 100);
+    tuboFungicida.style.height = alturaF + '%';
+    valFungicida.textContent = dosisPorProducto.fungicida + ' ml';
+    // Adherente
+    const alturaA = Math.min(100, (dosisPorProducto.adherente / 8) * 100);
+    tuboAdherente.style.height = alturaA + '%';
+    valAdherente.textContent = dosisPorProducto.adherente + ' ml';
+
+    dosisActualSpan.textContent = dosisPorProducto[productoActual];
+  }
+
+  function cambiarProducto(producto) {
+    if (juegoTerminado || juegoGanado) return;
+    productoActual = producto;
+    actualizarTubos();
+
+    productTabs.forEach(tab => {
+      tab.classList.toggle('active', tab.dataset.producto === producto);
+    });
+
+    puedeRendirse = (intentosFallidos > 0);
+    btnRendirse.disabled = !puedeRendirse;
+
+    ocultarMensaje();
+  }
+
+  function cambiarCultivo(cultivo) {
+    if (juegoTerminado || juegoGanado) {
+      reiniciarJuego();
+    }
+    cultivoActual = cultivo;
+    const datos = CULTIVOS[cultivo];
+    salud = datos.infestacion || 60;
+    actualizarSalud(salud);
+    cropEmoji.textContent = datos.emoji;
+    cropNombre.textContent = datos.nombre;
+    plagaNombre.textContent = '🐛 Plaga: ' + datos.plaga;
+    infestacionText.textContent = 'Infestación: ' + (datos.infestacion || 60) + '%';
+
+    dosisPorProducto = { insecticida: 0, fungicida: 0, adherente: 0 };
+    productoActual = 'insecticida';
+    intentosFallidos = 0;
+    puedeRendirse = false;
+    btnRendirse.disabled = true;
+    actualizarTubos();
+
+    productTabs.forEach(tab => {
+      tab.classList.toggle('active', tab.dataset.producto === 'insecticida');
+    });
+
+    cropBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.cultivo === cultivo);
+    });
+
+    ocultarMensaje();
+  }
+
+  function aplicarMezcla() {
+    if (juegoTerminado || juegoGanado) {
+      mostrarMensaje('El juego ya terminó. Reinicia para jugar de nuevo.', 'error');
+      return;
+    }
+
+    const datos = CULTIVOS[cultivoActual];
+    const correcta = datos.solucion[productoActual];
+    const nombreProducto = productoActual.charAt(0).toUpperCase() + productoActual.slice(1);
+    const dosisActual = dosisPorProducto[productoActual];
+
+    if (dosisActual === correcta) {
+      juegoGanado = true;
+      salud = 100;
+      actualizarSalud(100);
+      racha++;
+      actualizarRacha();
+      const bonus = racha >= 3 ? ' 🔥 ¡Racha de ' + racha + '!' : '';
+      mostrarMensaje(`🎉 ¡Has salvado tu cosecha! Mezcla correcta de ${nombreProducto}. Disfruta de tu abundante producción.${bonus}`, 'exito');
+      lanzarConfeti();
+      btnAplicar.disabled = true;
+      btnRendirse.disabled = true;
+      return;
+    }
+
+    intentosFallidos++;
+    const diferencia = Math.abs(dosisActual - correcta);
+    let dano = 0;
+    let mensajeError = '';
+    if (diferencia >= 3) {
+      dano = 50;
+      mensajeError = `¡Cuidado! Exceso o falta grave de ${nombreProducto}. Tu cultivo sufrió un gran daño.`;
+    } else if (diferencia >= 2) {
+      dano = 30;
+      mensajeError = `La dosis de ${nombreProducto} no es correcta. Tu cultivo está sufriendo.`;
+    } else {
+      dano = 15;
+      mensajeError = `La mezcla de ${nombreProducto} no es precisa. El cultivo se debilita.`;
+    }
+
+    const nuevaSalud = salud - dano;
+    actualizarSalud(nuevaSalud);
+    mostrarMensaje(mensajeError, 'error');
+
+    racha = 0;
+    actualizarRacha();
+
+    if (salud <= 0) {
+      vidas--;
+      actualizarVidas();
+      salud = 0;
+      actualizarSalud(0);
+      mostrarMensaje('💀 Tu cosecha ha muerto. La plaga ganó. Reinicia el intento.', 'muerte');
+      if (vidas <= 0) {
+        juegoTerminado = true;
+        btnAplicar.disabled = true;
+        btnRendirse.disabled = true;
+        mostrarMensaje('🌾 Has perdido todas tus vidas. La plaga arrasó tu cultivo. Reinicia para intentarlo de nuevo.', 'muerte');
+      }
+      return;
+    }
+
+    if (intentosFallidos >= MAX_INTENTOS_POR_PRODUCTO) {
+      vidas--;
+      actualizarVidas();
+      intentosFallidos = 0;
+      mostrarMensaje(`Has fallado ${MAX_INTENTOS_POR_PRODUCTO} veces con ${nombreProducto}. Pierdes una vida.`, 'error');
+      if (vidas <= 0) {
+        juegoTerminado = true;
+        btnAplicar.disabled = true;
+        btnRendirse.disabled = true;
+        mostrarMensaje('🌾 Has perdido todas tus vidas. La plaga arrasó tu cultivo. Reinicia para intentarlo de nuevo.', 'muerte');
+      }
+      puedeRendirse = true;
+      btnRendirse.disabled = false;
+    }
+
+    puedeRendirse = true;
+    btnRendirse.disabled = false;
+  }
+
+  function rendirse() {
+    if (juegoTerminado || juegoGanado || !puedeRendirse) return;
+
+    const datos = CULTIVOS[cultivoActual];
+    const correcta = datos.solucion[productoActual];
+    const nombreProducto = productoActual.charAt(0).toUpperCase() + productoActual.slice(1);
+
+    const nuevaSalud = salud - 50;
+    actualizarSalud(nuevaSalud);
+    vidas--;
+    actualizarVidas();
+    racha = 0;
+    actualizarRacha();
+
+    let mensajePenalizacion = `😔 Te rendiste. La respuesta correcta para ${nombreProducto} en ${CULTIVOS[cultivoActual].nombre} era: ${correcta} ml.\n`;
+    mensajePenalizacion += `Has perdido 50% de salud y una vida.`;
+
+    if (vidas <= 0) {
+      juegoTerminado = true;
+      btnAplicar.disabled = true;
+      btnRendirse.disabled = true;
+      mensajePenalizacion += ' 🌾 Has perdido todas tus vidas. La plaga arrasó tu cultivo.';
+      mostrarMensaje(mensajePenalizacion, 'penalizacion');
+      return;
+    }
+
+    mostrarMensaje(mensajePenalizacion, 'penalizacion');
+    btnRendirse.disabled = true;
+    puedeRendirse = false;
+
+    if (salud <= 0) {
+      vidas--;
+      actualizarVidas();
+      salud = 0;
+      actualizarSalud(0);
+      if (vidas <= 0) {
+        juegoTerminado = true;
+        btnAplicar.disabled = true;
+        btnRendirse.disabled = true;
+        mostrarMensaje('🌾 Has perdido todas tus vidas. La plaga arrasó tu cultivo. Reinicia para intentarlo de nuevo.', 'muerte');
+      }
+    }
+  }
+
+  function reiniciarJuego() {
+    const datos = CULTIVOS[cultivoActual];
+    salud = datos.infestacion || 60;
+    vidas = 3;
+    juegoTerminado = false;
+    juegoGanado = false;
+    intentosFallidos = 0;
+    puedeRendirse = false;
+    racha = 0;
+    dosisPorProducto = { insecticida: 0, fungicida: 0, adherente: 0 };
+    productoActual = 'insecticida';
+
+    actualizarSalud(salud);
+    actualizarVidas();
+    actualizarRacha();
+    ocultarMensaje();
+    actualizarTubos();
+
+    btnAplicar.disabled = false;
+    btnRendirse.disabled = true;
+
+    productTabs.forEach(tab => {
+      tab.classList.toggle('active', tab.dataset.producto === 'insecticida');
+    });
+
+    document.querySelectorAll('.confeti').forEach(el => el.remove());
+  }
+
+  // Eventos
+  cropBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const cultivo = this.dataset.cultivo;
+      if (cultivo !== cultivoActual) {
+        cambiarCultivo(cultivo);
+      }
+    });
+  });
+
+  productTabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      const producto = this.dataset.producto;
+      if (producto !== productoActual) {
+        cambiarProducto(producto);
+      }
+    });
+  });
+
+  btnMas.addEventListener('click', () => {
+    if (juegoTerminado || juegoGanado) return;
+    const clave = productoActual;
+    if (dosisPorProducto[clave] < 8) {
+      dosisPorProducto[clave]++;
+      actualizarTubos();
+      ocultarMensaje();
+    }
+  });
+  btnMenos.addEventListener('click', () => {
+    if (juegoTerminado || juegoGanado) return;
+    const clave = productoActual;
+    if (dosisPorProducto[clave] > 0) {
+      dosisPorProducto[clave]--;
+      actualizarTubos();
+      ocultarMensaje();
+    }
+  });
+
+  btnAplicar.addEventListener('click', aplicarMezcla);
+  btnRendirse.addEventListener('click', rendirse);
+  btnReiniciar.addEventListener('click', reiniciarJuego);
+
+  // Inicializar estado del juego
+  const datosIniciales = CULTIVOS.soya;
+  actualizarSalud(datosIniciales.infestacion || 60);
+  actualizarVidas();
+  actualizarRacha();
+  actualizarTubos();
+  ocultarMensaje();
+  btnRendirse.disabled = true;
+}
+
 // ===== TIENDAS =====
 function renderTiendas() {
   var el = document.getElementById('tiendaList');
   if (!el) return;
   var html = '';
   TIENDAS.forEach(function(t) {
+    var mensajeSaludo = 'Hola, me interesaría consultar sobre los servicios que ofrecen. Vi su tienda en Agrocrecimiento y quiero saber más acerca de: ' + t.servicio;
+    var whatsappUrl = 'https://api.whatsapp.com/send?phone=591' + t.celular.replace(/\s/g,'') + '&text=' + encodeURIComponent(mensajeSaludo);
     html += '<div class="tienda-card">' +
             '<img src="' + t.img + '" alt="' + t.nombre + '">' +
             '<h4>' + t.nombre + '</h4>' +
             '<div class="reseña">' + t.reseña + '</div>' +
             '<div class="contacto">' +
             '<a href="tel:' + t.celular + '" title="Llamar"><i class="fas fa-phone"></i></a>' +
+            '<a href="' + whatsappUrl + '" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>' +
             '<a href="' + t.maps + '" target="_blank" title="Ver en Maps"><i class="fas fa-map-marker-alt"></i></a>' +
             '<a href="' + t.redes + '" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>' +
             '</div>' +
@@ -926,7 +1810,6 @@ function iniciarMapa() {
       });
       html += '</div>';
       html += '<div style="margin-top:8px;font-size:.8rem;">';
-      // Mostrar TODOS los productos de la región con explicación educativa
       cultivosRegion.forEach(function(d) {
         html += '<div style="padding:6px 0;border-bottom:1px solid var(--v2);">';
         html += '<strong>' + d.emoji + ' ' + d.nombre + ':</strong><br>';
@@ -953,6 +1836,24 @@ function renderPerfil() {
   document.getElementById('pZona').textContent = '📍 ' + usuario.zona;
   document.getElementById('pCorreo').textContent = usuario.correo;
   document.getElementById('pTel').textContent = '📞 ' + usuario.telefono;
+  
+  // Renderizar historial en el perfil
+  var elHistorial = document.getElementById('perfilHistorial');
+  if (!elHistorial) return;
+  if (!historial || historial.length === 0) {
+    elHistorial.innerHTML = '<p style="color:var(--text-tertiary);text-align:center;">Aún no has guardado ningún cálculo.</p>';
+    return;
+  }
+  var html = '';
+  historial.slice(0, 10).forEach(function(r) {
+    var col = r.ganancia >= 0 ? 'var(--gold)' : '#e74c3c';
+    html += '<div class="historial-item">' +
+            '<span class="fecha">' + r.fecha + '</span>' +
+            '<span class="cultivo">' + r.cultivo + ' (' + r.ha + ' ha)</span>' +
+            '<span class="ganancia" style="color:' + col + ';">Bs ' + r.ganancia.toLocaleString('es-BO') + '</span>' +
+            '</div>';
+  });
+  elHistorial.innerHTML = html;
 }
 
 // ===== AUTO-LOGIN =====
