@@ -68,7 +68,8 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
   font-family:var(--font);letter-spacing:.3px;
 }
 .btn-gold-full:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(233,183,65,0.5);}
-.msg{font-size:0.8rem;padding:8px 12px;border-radius:8px;display:none;font-weight:500;}
+.msg{font-size:0.8rem;padding:8px 12px;border-radius:8px;display:none;font-weight:500;margin-top:8px;}
+.validation-error{font-size:0.7rem;color:#e74c3c;margin-top:4px;display:block;}
 
 /* ----- APP PRINCIPAL ----- */
 #app{display:none;}#app.visible{display:block;}
@@ -552,16 +553,36 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
     </div>
     <!-- REGISTRO -->
     <div class="auth-panel activo" id="panelRegistro">
-      <div><span class="fl">Nombre completo</span><input type="text" id="regNombre" class="input-dark" placeholder="Juan Mamani"></div>
-      <div><span class="fl">Teléfono / WhatsApp</span><input type="text" id="regTelefono" class="input-dark" placeholder="77712345" maxlength="8" pattern="[0-9]{8}" oninput="this.value=this.value.replace(/[^0-9]/g,'')"></div>
-      <div><span class="fl">Correo electrónico</span><input type="email" id="regCorreo" class="input-dark" placeholder="juan@email.com"></div>
-      <div><span class="fl">Zona / Departamento</span><input type="text" id="regZona" class="input-dark" placeholder="Santa Cruz, Montero..."></div>
+      <div>
+        <span class="fl">Nombre completo</span>
+        <input type="text" id="regNombre" class="input-dark" placeholder="Juan Mamani">
+        <div id="errorNombre" class="validation-error"></div>
+      </div>
+      <div>
+        <span class="fl">Teléfono / WhatsApp</span>
+        <input type="text" id="regTelefono" class="input-dark" placeholder="77712345" maxlength="8" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+        <div id="errorTelefono" class="validation-error"></div>
+      </div>
+      <div>
+        <span class="fl">Correo electrónico</span>
+        <input type="email" id="regCorreo" class="input-dark" placeholder="juan@email.com">
+        <div id="errorCorreo" class="validation-error"></div>
+      </div>
+      <div>
+        <span class="fl">Zona / Departamento</span>
+        <input type="text" id="regZona" class="input-dark" placeholder="Santa Cruz, Montero...">
+        <div id="errorZona" class="validation-error"></div>
+      </div>
       <button class="btn-gold-full" id="btnRegistro" onclick="handleRegistro()">Registrarme <i class="fas fa-arrow-right"></i></button>
       <div id="mensajeRegistro" class="msg"></div>
     </div>
     <!-- LOGIN -->
     <div class="auth-panel" id="panelLogin">
-      <div><span class="fl">Correo electrónico</span><input type="email" id="loginCorreo" class="input-dark" placeholder="tu@correo.com"></div>
+      <div>
+        <span class="fl">Correo electrónico</span>
+        <input type="email" id="loginCorreo" class="input-dark" placeholder="tu@correo.com">
+        <div id="errorLoginCorreo" class="validation-error"></div>
+      </div>
       <button class="btn-gold-full" id="btnLogin" onclick="handleLogin()">Iniciar sesión</button>
       <div id="mensajeLogin" class="msg"></div>
       <p style="text-align:center;font-size:0.8rem;color:var(--text-tertiary);margin-top:8px;">¿Sin cuenta? <a onclick="cambiarPanelAuth('registro')" style="color:var(--gold);cursor:pointer;">Crea una aquí</a></p>
@@ -580,8 +601,7 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
   </div>
 
   <div class="content">
-
-    <!-- ===== INICIO ===== -->
+    <!-- INICIO -->
     <div class="section activo" id="s-inicio">
       <div class="dash-hero">
         <h2 id="saludo">¡Muy buenos días, productor!</h2>
@@ -590,21 +610,9 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
       <div class="card">
         <div class="card-title"><i class="fas fa-bullseye"></i> Objetivo, Misión y Visión</div>
         <div class="mvv-grid">
-          <div class="mvv-item">
-            <i class="fas fa-bullseye"></i>
-            <h4>Objetivo</h4>
-            <p>Empoderar a los productores bolivianos con herramientas digitales, datos agrícolas y acceso a servicios que optimicen su producción y rentabilidad.</p>
-          </div>
-          <div class="mvv-item">
-            <i class="fas fa-flag"></i>
-            <h4>Misión</h4>
-            <p>Proveer información agrícola confiable, calcular inversiones, conectar con proveedores y facilitar la toma de decisiones basadas en datos reales.</p>
-          </div>
-          <div class="mvv-item">
-            <i class="fas fa-eye"></i>
-            <h4>Visión</h4>
-            <p>Ser la plataforma agrícola líder de Bolivia, transformando el campo con tecnología y conocimiento al alcance de todos.</p>
-          </div>
+          <div class="mvv-item"><i class="fas fa-bullseye"></i><h4>Objetivo</h4><p>Empoderar a los productores bolivianos con herramientas digitales, datos agrícolas y acceso a servicios que optimicen su producción y rentabilidad.</p></div>
+          <div class="mvv-item"><i class="fas fa-flag"></i><h4>Misión</h4><p>Proveer información agrícola confiable, calcular inversiones, conectar con proveedores y facilitar la toma de decisiones basadas en datos reales.</p></div>
+          <div class="mvv-item"><i class="fas fa-eye"></i><h4>Visión</h4><p>Ser la plataforma agrícola líder de Bolivia, transformando el campo con tecnología y conocimiento al alcance de todos.</p></div>
         </div>
       </div>
       <div class="card">
@@ -619,15 +627,10 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
       </div>
     </div>
 
-    <!-- ===== RESEÑAS HISTÓRICAS ===== -->
-    <div class="section" id="s-resenas">
-      <div class="card">
-        <div class="card-title"><i class="fas fa-book-open"></i> Reseña histórica de cultivos de Bolivia</div>
-        <div id="resenaList"></div>
-      </div>
-    </div>
+    <!-- RESEÑAS -->
+    <div class="section" id="s-resenas"><div class="card"><div class="card-title"><i class="fas fa-book-open"></i> Reseña histórica de cultivos de Bolivia</div><div id="resenaList"></div></div></div>
 
-    <!-- ===== CALCULADORA ===== -->
+    <!-- CALCULADORA -->
     <div class="section" id="s-calc">
       <div class="card">
         <div class="card-title"><i class="fas fa-calculator"></i> Calculadora de inversión</div>
@@ -640,12 +643,8 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
         <div class="calc-campo"><label>Hectáreas (1 ha = 10,000 m²)</label><input type="number" id="calcHa" class="input-app" value="1" min="0.1" step="0.5" oninput="calcular()"></div>
         <div class="calc-campo"><label>Capital disponible (Bs)</label><input type="number" id="calcCap" class="input-app" value="5000" min="0" oninput="calcular()"></div>
         <div id="calcResult" class="resultado">Selecciona un cultivo para ver el análisis detallado.</div>
-        <div class="btn-group">
-          <button class="btn-whatsapp" onclick="enviarWhatsApp()"><i class="fab fa-whatsapp"></i> Enviar a WhatsApp</button>
-          <button class="btn-correo" onclick="enviarCorreo()"><i class="fas fa-envelope"></i> Enviar a Correo</button>
-        </div>
+        <div class="btn-group"><button class="btn-whatsapp" onclick="enviarWhatsApp()"><i class="fab fa-whatsapp"></i> Enviar a WhatsApp</button><button class="btn-correo" onclick="enviarCorreo()"><i class="fas fa-envelope"></i> Enviar a Correo</button></div>
         <button class="btn-main" onclick="guardarCalculo()" style="margin-top:10px;"><i class="fas fa-save"></i> Guardar en historial</button>
-        
         <div class="glosario">
           <h4>📘 Glosario educativo</h4>
           <div class="term"><strong>Hectárea:</strong> Unidad de superficie agrícola. 1 hectárea equivale a 10,000 metros cuadrados (aprox. un campo de fútbol).</div>
@@ -656,203 +655,55 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
           <div class="term"><strong>ROI (%):</strong> Retorno sobre la inversión. Indica qué porcentaje de ganancia generó cada boliviano invertido. Ej: 50% significa que por cada 100 Bs invertidos, ganaste 50 Bs.</div>
         </div>
       </div>
-      <!-- Comparador -->
       <div class="card">
         <div class="card-title"><i class="fas fa-balance-scale"></i> Comparar dos cultivos</div>
-        <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <select id="compA" class="input-app" style="flex:1;" onchange="actualizarComp()">
-            <option value="soya">Soya</option><option value="maiz">Maíz</option><option value="arroz">Arroz</option><option value="trigo">Trigo</option><option value="cana">Caña</option><option value="papa">Papa</option>
-            <option value="cacao">Cacao</option><option value="cafe">Café</option><option value="banano">Banano</option><option value="quinua">Quinua</option>
-          </select>
-          <span style="align-self:center;font-weight:700;color:var(--gold)">vs</span>
-          <select id="compB" class="input-app" style="flex:1;" onchange="actualizarComp()">
-            <option value="maiz">Maíz</option><option value="soya">Soya</option><option value="arroz">Arroz</option><option value="trigo">Trigo</option><option value="cana">Caña</option><option value="papa">Papa</option>
-            <option value="cacao">Cacao</option><option value="cafe">Café</option><option value="banano">Banano</option><option value="quinua">Quinua</option>
-          </select>
-        </div>
+        <div style="display:flex;gap:8px;margin-bottom:10px;"><select id="compA" class="input-app" style="flex:1;" onchange="actualizarComp()"><option value="soya">Soya</option><option value="maiz">Maíz</option><option value="arroz">Arroz</option><option value="trigo">Trigo</option><option value="cana">Caña</option><option value="papa">Papa</option><option value="cacao">Cacao</option><option value="cafe">Café</option><option value="banano">Banano</option><option value="quinua">Quinua</option></select><span style="align-self:center;font-weight:700;color:var(--gold)">vs</span><select id="compB" class="input-app" style="flex:1;" onchange="actualizarComp()"><option value="maiz">Maíz</option><option value="soya">Soya</option><option value="arroz">Arroz</option><option value="trigo">Trigo</option><option value="cana">Caña</option><option value="papa">Papa</option><option value="cacao">Cacao</option><option value="cafe">Café</option><option value="banano">Banano</option><option value="quinua">Quinua</option></select></div>
         <div class="comp-grid" id="compGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"></div>
         <button class="btn-main" onclick="guardarComparacion()" style="margin-top:10px;"><i class="fas fa-save"></i> Guardar comparación en historial</button>
       </div>
     </div>
 
-    <!-- ===== CONSULTAS ===== -->
+    <!-- CONSULTAS -->
     <div class="section" id="s-consulta">
       <div class="card">
         <div class="card-title"><i class="fas fa-headset"></i> Consulta técnica o asesoría</div>
-        <div class="consulta-grid">
-          <div class="consulta-card" onclick="mostrarFormulario('tecnica')">
-            <i class="fas fa-microscope" style="font-size:2rem;color:var(--gold);"></i><h4>Consulta Técnica</h4>
-          </div>
-          <div class="consulta-card" onclick="mostrarFormulario('inversion')">
-            <i class="fas fa-chart-pie" style="font-size:2rem;color:var(--gold);"></i><h4>Asesoría de Inversión</h4>
-          </div>
-        </div>
-        <div id="form-tecnica" class="form-consulta">
-          <span class="fl">Título de la consulta</span><input type="text" id="tecTitulo" class="input-app" placeholder="Ej. Control de plagas en soya">
-          <span class="fl">Detalle</span><textarea id="tecDetalle" class="input-app" rows="3" placeholder="Describe tu problema o duda técnica..."></textarea>
-          <span class="fl">Tu nombre</span><input type="text" id="tecNombre" class="input-app" placeholder="Tu nombre">
-          <span class="fl">Correo de contacto</span><input type="email" id="tecCorreo" class="input-app" placeholder="tu@correo.com">
-          <button class="btn-responder" onclick="enviarConsulta('Técnica')"><i class="fas fa-paper-plane"></i> Enviar consulta</button>
-        </div>
-        <div id="form-inversion" class="form-consulta">
-          <span class="fl">Monto a invertir (Bs)</span><input type="number" id="invMonto" class="input-app" placeholder="Ej. 50000">
-          <span class="fl">Objetivo de inversión</span><select id="invObjetivo" class="input-app"><option>Expansión de cultivos</option><option>Mejora de infraestructura</option><option>Compra de maquinaria</option></select>
-          <span class="fl">Detalle adicional</span><textarea id="invDetalle" class="input-app" rows="3" placeholder="Cuéntanos tu plan..."></textarea>
-          <span class="fl">Tu nombre</span><input type="text" id="invNombre" class="input-app" placeholder="Tu nombre">
-          <span class="fl">Correo de contacto</span><input type="email" id="invCorreo" class="input-app" placeholder="tu@correo.com">
-          <button class="btn-responder" onclick="enviarConsulta('Inversión')"><i class="fas fa-paper-plane"></i> Enviar consulta</button>
-        </div>
+        <div class="consulta-grid"><div class="consulta-card" onclick="mostrarFormulario('tecnica')"><i class="fas fa-microscope" style="font-size:2rem;color:var(--gold);"></i><h4>Consulta Técnica</h4></div><div class="consulta-card" onclick="mostrarFormulario('inversion')"><i class="fas fa-chart-pie" style="font-size:2rem;color:var(--gold);"></i><h4>Asesoría de Inversión</h4></div></div>
+        <div id="form-tecnica" class="form-consulta"><span class="fl">Título de la consulta</span><input type="text" id="tecTitulo" class="input-app" placeholder="Ej. Control de plagas en soya"><span class="fl">Detalle</span><textarea id="tecDetalle" class="input-app" rows="3" placeholder="Describe tu problema o duda técnica..."></textarea><span class="fl">Tu nombre</span><input type="text" id="tecNombre" class="input-app" placeholder="Tu nombre"><span class="fl">Correo de contacto</span><input type="email" id="tecCorreo" class="input-app" placeholder="tu@correo.com"><button class="btn-responder" onclick="enviarConsulta('Técnica')"><i class="fas fa-paper-plane"></i> Enviar consulta</button></div>
+        <div id="form-inversion" class="form-consulta"><span class="fl">Monto a invertir (Bs)</span><input type="number" id="invMonto" class="input-app" placeholder="Ej. 50000"><span class="fl">Objetivo de inversión</span><select id="invObjetivo" class="input-app"><option>Expansión de cultivos</option><option>Mejora de infraestructura</option><option>Compra de maquinaria</option></select><span class="fl">Detalle adicional</span><textarea id="invDetalle" class="input-app" rows="3" placeholder="Cuéntanos tu plan..."></textarea><span class="fl">Tu nombre</span><input type="text" id="invNombre" class="input-app" placeholder="Tu nombre"><span class="fl">Correo de contacto</span><input type="email" id="invCorreo" class="input-app" placeholder="tu@correo.com"><button class="btn-responder" onclick="enviarConsulta('Inversión')"><i class="fas fa-paper-plane"></i> Enviar consulta</button></div>
       </div>
     </div>
 
-    <!-- ===== MAPA DE BOLIVIA ===== -->
-    <div class="section" id="s-mapa">
-      <div class="card">
-        <div class="card-title"><i class="fas fa-map-marked-alt"></i> Mapa interactivo de productos de Bolivia</div>
-        <div id="mapa"></div>
-        <div id="infoMapa" class="info-mapa">
-          <div class="info-mapa-body" style="text-align:center;color:var(--text-secondary);">
-            <i class="fas fa-search" style="font-size:2rem;margin-bottom:8px;"></i><br>Haz clic en cualquier punto del mapa para explorar los cultivos y las condiciones de la región.
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- MAPA -->
+    <div class="section" id="s-mapa"><div class="card"><div class="card-title"><i class="fas fa-map-marked-alt"></i> Mapa interactivo de productos de Bolivia</div><div id="mapa"></div><div id="infoMapa" class="info-mapa"><div class="info-mapa-body" style="text-align:center;color:var(--text-secondary);"><i class="fas fa-search" style="font-size:2rem;margin-bottom:8px;"></i><br>Haz clic en cualquier punto del mapa para explorar los cultivos y las condiciones de la región.</div></div></div></div>
 
-    <!-- ===== TIENDAS ===== -->
-    <div class="section" id="s-tiendas">
-      <div class="card">
-        <div class="card-title"><i class="fas fa-store"></i> Tiendas y proveedores agrícolas</div>
-        <div id="tiendaList" class="tienda-grid"></div>
-      </div>
-    </div>
+    <!-- TIENDAS -->
+    <div class="section" id="s-tiendas"><div class="card"><div class="card-title"><i class="fas fa-store"></i> Tiendas y proveedores agrícolas</div><div id="tiendaList" class="tienda-grid"></div></div></div>
 
-    <!-- ===== EL ALQUIMISTA DEL CAMPO (NUEVA PESTAÑA) ===== -->
+    <!-- ALQUIMISTA -->
     <div class="section" id="s-alquimista">
       <div class="card">
         <div class="card-title"><i class="fas fa-flask"></i> El Alquimista del Campo 🧪</div>
         <div class="alquimista-container" id="alquimistaContainer">
           <div class="subtitle" style="text-align:center;color:#8a8aa8;font-size:0.85rem;margin-bottom:16px;">Elige tu cultivo, mezcla la dosis exacta y salva tu cosecha</div>
-          
-          <!-- SELECTOR DE CULTIVO -->
-          <div class="crop-selector" id="cropSelector">
-            <button class="crop-btn active" data-cultivo="soya">🌿 Soya</button>
-            <button class="crop-btn" data-cultivo="maiz">🌽 Maíz</button>
-            <button class="crop-btn" data-cultivo="arroz">🍚 Arroz</button>
-            <button class="crop-btn" data-cultivo="trigo">🌾 Trigo</button>
-            <button class="crop-btn" data-cultivo="cana">🪵 Caña</button>
-            <button class="crop-btn" data-cultivo="papa">🥔 Papa</button>
-            <button class="crop-btn" data-cultivo="cacao">🍫 Cacao</button>
-            <button class="crop-btn" data-cultivo="cafe">☕ Café</button>
-            <button class="crop-btn" data-cultivo="banano">🍌 Banano</button>
-            <button class="crop-btn" data-cultivo="quinua">🌾 Quinua</button>
-          </div>
-
-          <!-- CULTIVO CARD -->
-          <div class="crop-card">
-            <div class="crop-img" id="cropEmoji">🌿</div>
-            <div class="crop-info">
-              <h3 id="cropNombre">Soya</h3>
-              <div class="plaga-nombre" id="plagaNombre">🐛 Plaga: Oruga militar</div>
-              <div class="health-bar">
-                <div class="health-fill" id="healthFill" style="width:60%;"></div>
-              </div>
-              <div class="stats">
-                <span id="infestacionText">Infestación: 60%</span>
-                <span id="healthText">Salud: 60%</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- SELECTOR DE PRODUCTO -->
-          <div class="product-selector" id="productSelector">
-            <button class="product-tab active" data-producto="insecticida">🔴 Insecticida</button>
-            <button class="product-tab" data-producto="fungicida">🔵 Fungicida</button>
-            <button class="product-tab" data-producto="adherente">🟡 Adherente</button>
-          </div>
-
-          <!-- TUBOS DE ENSAYO -->
-          <div class="tubos-container" id="tubosContainer">
-            <div class="tubo-wrapper">
-              <label>Insecticida</label>
-              <div class="tubo">
-                <div class="tubo-liquido rojo" id="tuboInsecticida" style="height:0%;">
-                  <div class="brillo"></div>
-                </div>
-              </div>
-              <div class="tubo-valor" id="valInsecticida">0 ml</div>
-            </div>
-            <div class="tubo-wrapper">
-              <label>Fungicida</label>
-              <div class="tubo">
-                <div class="tubo-liquido azul" id="tuboFungicida" style="height:0%;">
-                  <div class="brillo"></div>
-                </div>
-              </div>
-              <div class="tubo-valor" id="valFungicida">0 ml</div>
-            </div>
-            <div class="tubo-wrapper">
-              <label>Adherente</label>
-              <div class="tubo">
-                <div class="tubo-liquido amarillo" id="tuboAdherente" style="height:0%;">
-                  <div class="brillo"></div>
-                </div>
-              </div>
-              <div class="tubo-valor" id="valAdherente">0 ml</div>
-            </div>
-          </div>
-
-          <!-- CONTROL DE DOSIS -->
-          <div class="dosis-control">
-            <button id="btnMenos">−</button>
-            <span class="dosis-numero" id="dosisActual">0</span>
-            <button id="btnMas">+</button>
-            <span style="color:#8a8aa8;font-size:0.8rem;margin-left:6px;">ml</span>
-          </div>
-
-          <!-- BOTONES ACCIÓN -->
-          <div class="action-row">
-            <button class="btn btn-primary" id="btnAplicar">🧪 Aplicar mezcla</button>
-            <button class="btn btn-danger" id="btnRendirse" disabled>😔 Me rindo, dame la respuesta</button>
-            <button class="btn btn-secondary" id="btnReiniciar">🔄 Reiniciar</button>
-          </div>
-
-          <!-- VIDAS Y RACHA -->
-          <div class="vidas-row" id="vidasRow">
-            <span>🌱</span><span>🌱</span><span>🌱</span>
-          </div>
-          <div class="racha-row">🔥 Racha de aciertos: <span class="numero" id="rachaNumero">0</span></div>
-
-          <!-- MENSAJE -->
-          <div class="mensaje" id="mensaje"></div>
-          <div class="nota-secreta">* La respuesta correcta es diferente para cada cultivo y producto. ¡Descúbrela!</div>
+          <div class="crop-selector" id="cropSelector"><button class="crop-btn active" data-cultivo="soya">🌿 Soya</button><button class="crop-btn" data-cultivo="maiz">🌽 Maíz</button><button class="crop-btn" data-cultivo="arroz">🍚 Arroz</button><button class="crop-btn" data-cultivo="trigo">🌾 Trigo</button><button class="crop-btn" data-cultivo="cana">🪵 Caña</button><button class="crop-btn" data-cultivo="papa">🥔 Papa</button><button class="crop-btn" data-cultivo="cacao">🍫 Cacao</button><button class="crop-btn" data-cultivo="cafe">☕ Café</button><button class="crop-btn" data-cultivo="banano">🍌 Banano</button><button class="crop-btn" data-cultivo="quinua">🌾 Quinua</button></div>
+          <div class="crop-card"><div class="crop-img" id="cropEmoji">🌿</div><div class="crop-info"><h3 id="cropNombre">Soya</h3><div class="plaga-nombre" id="plagaNombre">🐛 Plaga: Oruga militar</div><div class="health-bar"><div class="health-fill" id="healthFill" style="width:60%;"></div></div><div class="stats"><span id="infestacionText">Infestación: 60%</span><span id="healthText">Salud: 60%</span></div></div></div>
+          <div class="product-selector" id="productSelector"><button class="product-tab active" data-producto="insecticida">🔴 Insecticida</button><button class="product-tab" data-producto="fungicida">🔵 Fungicida</button><button class="product-tab" data-producto="adherente">🟡 Adherente</button></div>
+          <div class="tubos-container" id="tubosContainer"><div class="tubo-wrapper"><label>Insecticida</label><div class="tubo"><div class="tubo-liquido rojo" id="tuboInsecticida" style="height:0%;"><div class="brillo"></div></div></div><div class="tubo-valor" id="valInsecticida">0 ml</div></div><div class="tubo-wrapper"><label>Fungicida</label><div class="tubo"><div class="tubo-liquido azul" id="tuboFungicida" style="height:0%;"><div class="brillo"></div></div></div><div class="tubo-valor" id="valFungicida">0 ml</div></div><div class="tubo-wrapper"><label>Adherente</label><div class="tubo"><div class="tubo-liquido amarillo" id="tuboAdherente" style="height:0%;"><div class="brillo"></div></div></div><div class="tubo-valor" id="valAdherente">0 ml</div></div></div>
+          <div class="dosis-control"><button id="btnMenos">−</button><span class="dosis-numero" id="dosisActual">0</span><button id="btnMas">+</button><span style="color:#8a8aa8;font-size:0.8rem;margin-left:6px;">ml</span></div>
+          <div class="action-row"><button class="btn btn-primary" id="btnAplicar">🧪 Aplicar mezcla</button><button class="btn btn-danger" id="btnRendirse" disabled>😔 Me rindo, dame la respuesta</button><button class="btn btn-secondary" id="btnReiniciar">🔄 Reiniciar</button></div>
+          <div class="vidas-row" id="vidasRow"><span>🌱</span><span>🌱</span><span>🌱</span></div><div class="racha-row">🔥 Racha de aciertos: <span class="numero" id="rachaNumero">0</span></div>
+          <div class="mensaje" id="mensaje"></div><div class="nota-secreta">* La respuesta correcta es diferente para cada cultivo y producto. ¡Descúbrela!</div>
         </div>
       </div>
     </div>
 
-    <!-- ===== PERFIL USUARIO ===== -->
+    <!-- PERFIL -->
     <div class="section" id="s-perfil-usuario">
-      <div class="card">
-        <div class="card-title"><i class="fas fa-user-circle"></i> Mi perfil</div>
-        <div class="perfil-avatar">🧑‍🌾</div>
-        <div class="perfil-info">
-          <h3 id="pNombre">—</h3>
-          <p id="pZona">📍 —</p>
-        </div>
-        <div class="perfil-row"><i class="fas fa-envelope"></i><span id="pCorreo">—</span></div>
-        <div class="perfil-row"><i class="fas fa-phone"></i><span id="pTel">—</span></div>
-      </div>
-
-      <!-- HISTORIAL DE CÁLCULOS EN EL PERFIL -->
-      <div class="card">
-        <div class="card-title"><i class="fas fa-history"></i> Mi historial de cálculos</div>
-        <div id="perfilHistorial" class="historial-lista">
-          <p style="color:var(--text-tertiary);text-align:center;">Aún no has guardado ningún cálculo.</p>
-        </div>
-      </div>
+      <div class="card"><div class="card-title"><i class="fas fa-user-circle"></i> Mi perfil</div><div class="perfil-avatar">🧑‍🌾</div><div class="perfil-info"><h3 id="pNombre">—</h3><p id="pZona">📍 —</p></div><div class="perfil-row"><i class="fas fa-envelope"></i><span id="pCorreo">—</span></div><div class="perfil-row"><i class="fas fa-phone"></i><span id="pTel">—</span></div></div>
+      <div class="card"><div class="card-title"><i class="fas fa-history"></i> Mi historial de cálculos</div><div id="perfilHistorial" class="historial-lista"><p style="color:var(--text-tertiary);text-align:center;">Aún no has guardado ningún cálculo.</p></div></div>
     </div>
   </div>
 
-  <!-- NAV BOTTOM -->
   <nav class="nav-bottom">
     <div class="nav-item activo" id="nav-inicio" onclick="navegar('inicio')"><i class="fas fa-home"></i><span>Inicio</span></div>
     <div class="nav-item" id="nav-resenas" onclick="navegar('resenas')"><i class="fas fa-book"></i><span>Reseñas</span></div>
@@ -866,12 +717,12 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
 </div>
 
 <script>
-// ===== CONFIGURACIÓN DE GOOGLE APPS SCRIPT =====
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxCayzJLOppqNMTQK7PbqgCoL4xMoG3KINQLWgJ-RcqW5ShA-ULoHt4kMfkYIGY3Yvs/exec';
+// ===== CONFIGURACIÓN =====
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbykzZblvlTuIFqHL0P6pJvIOSNp1RctEdltOKyW8GJx_6DJOdX6a2Lk_FNcFYKREg/exec';
 
 // ===== DATOS COMPLETOS DE CULTIVOS =====
 var CULTIVOS = {
-  soya:   {nombre:'Soya', emoji:'🌿', color:'#f1c40f', rend:2.7, costo:1300, precio:450, ciclo:130, 
+  soya:   {nombre:'Soya', emoji:'🌿', color:'#f1c40f', rend:2.7, costo:1300, precio:450, ciclo:130, plaga:'Oruga militar',
            img:'https://nexusavicultura.com/wp-content/uploads/sites/3/2024/12/soja-10.png',
            campania:'Siembra: Nov-Dic / Cosecha: Mar-Abr', 
            produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Soya)</a>.',
@@ -882,8 +733,8 @@ var CULTIVOS = {
            clima:'Tropical húmedo (26-30°C y humedad alta). Requiere lluvias regulares y temperaturas altas para un buen crecimiento. El estrés hídrico reduce el rendimiento.',
            clima_explicacion:'Tropical húmedo: 26-30°C con alta humedad. Requiere lluvias regulares. Estrés hídrico reduce el rendimiento.',
            campania_explicacion:'Siembra en Nov-Dic (aprovechando las primeras lluvias). Cosecha en Mar-Abr (final del verano, cuando la planta está seca).',
-           solucion: { insecticida: 4, fungicida: 1, adherente: 0 }},
-  maiz:   {nombre:'Maíz', emoji:'🌽', color:'#e67e22', rend:4.2, costo:850, precio:250, ciclo:110, 
+           infestacion:60, solucion: { insecticida: 4, fungicida: 1, adherente: 0 }},
+  maiz:   {nombre:'Maíz', emoji:'🌽', color:'#e67e22', rend:4.2, costo:850, precio:250, ciclo:110, plaga:'Gusano cogollero',
            img:'https://humanidades.com/wp-content/uploads/2018/10/maiz-2-1-e1581908276964.jpg',
            campania:'Siembra: Oct-Nov / Cosecha: Feb-Mar', 
            produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Maíz)</a>.',
@@ -894,8 +745,8 @@ var CULTIVOS = {
            clima:'Templado a cálido (20-28°C). Es sensible a heladas; temperaturas extremas afectan la floración.',
            clima_explicacion:'Templado a cálido: 20-28°C. Sensible a heladas. Extremos térmicos afectan la floración.',
            campania_explicacion:'Siembra en Oct-Nov (inicio de lluvias). Cosecha en Feb-Mar (verano, con suficiente madurez).',
-           solucion: { insecticida: 3, fungicida: 2, adherente: 1 }},
-  arroz:  {nombre:'Arroz', emoji:'🍚', color:'#d35400', rend:3.5, costo:1800, precio:380, ciclo:135, 
+           infestacion:60, solucion: { insecticida: 3, fungicida: 2, adherente: 1 }},
+  arroz:  {nombre:'Arroz', emoji:'🍚', color:'#d35400', rend:3.5, costo:1800, precio:380, ciclo:135, plaga:'Barrenador del tallo',
            img:'https://www.molineraamazonas.com/wp-content/uploads/2018/11/arroz-de-calidad.jpg',
            campania:'Siembra: Dic-Ene / Cosecha: May-Jun', 
            produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Arroz)</a>.',
@@ -906,8 +757,8 @@ var CULTIVOS = {
            clima:'Tropical muy húmedo (28-32°C). Necesita campos inundados la mayor parte del tiempo.',
            clima_explicacion:'Tropical muy húmedo: 28-32°C. Requiere campos inundados casi todo el ciclo.',
            campania_explicacion:'Siembra en Dic-Ene (época de lluvias intensas). Cosecha en May-Jun (después de las lluvias).',
-           solucion: { insecticida: 5, fungicida: 0, adherente: 1 }},
-  trigo:  {nombre:'Trigo', emoji:'🌾', color:'#aab7b8', rend:2.0, costo:1100, precio:300, ciclo:100, 
+           infestacion:60, solucion: { insecticida: 5, fungicida: 0, adherente: 1 }},
+  trigo:  {nombre:'Trigo', emoji:'🌾', color:'#aab7b8', rend:2.0, costo:1100, precio:300, ciclo:100, plaga:'Pulgón del trigo',
            img:'https://www.naturitas.es/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fidphpoec%2Fproduction%2F7822869dc0f9913dc987ea179e900c8c09a40d73-1280x853.jpg%3Ffit%3Dmax%26auto%3Dformat&w=960&q=75',
            campania:'Siembra: May-Jun / Cosecha: Sep-Oct', 
            produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Trigo)</a>.',
@@ -918,8 +769,8 @@ var CULTIVOS = {
            clima:'Templado (15-22°C). Prefiere temperaturas más frescas, lejos del calor extremo.',
            clima_explicacion:'Templado: 15-22°C. Prefiere frescura y evita calor extremo.',
            campania_explicacion:'Siembra en May-Jun (invierno, menos lluvias). Cosecha en Sep-Oct (primavera, con madurez óptima).',
-           solucion: { insecticida: 2, fungicida: 3, adherente: 0 }},
-  cana:   {nombre:'Caña', emoji:'🪵', color:'#2ecc71', rend:80, costo:5000, precio:120, ciclo:400, 
+           infestacion:60, solucion: { insecticida: 2, fungicida: 3, adherente: 0 }},
+  cana:   {nombre:'Caña', emoji:'🪵', color:'#2ecc71', rend:80, costo:5000, precio:120, ciclo:400, plaga:'Taladro de la caña',
            img:'https://www.herbazest.com/imgs/4/b/2/871191/cana-de-azucar.jpg',
            campania:'Siembra: Mar-May / Cosecha: Jun-Ago (del año siguiente)', 
            produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Caña)</a>.',
@@ -930,8 +781,8 @@ var CULTIVOS = {
            clima:'Cálido (25-30°C). Mucho sol y agua abundante son sus aliados.',
            clima_explicacion:'Cálido: 25-30°C. Necesita mucho sol y agua abundante.',
            campania_explicacion:'Siembra en Mar-May (otoño/invierno). Cosecha en Jun-Ago del año siguiente (18 meses después).',
-           solucion: { insecticida: 4, fungicida: 2, adherente: 1 }},
-  papa:   {nombre:'Papa', emoji:'🥔', color:'#8e44ad', rend:12.0, costo:800, precio:200, ciclo:110, 
+           infestacion:60, solucion: { insecticida: 4, fungicida: 2, adherente: 1 }},
+  papa:   {nombre:'Papa', emoji:'🥔', color:'#8e44ad', rend:12.0, costo:800, precio:200, ciclo:110, plaga:'Gorgojo de la papa',
            img:'https://sqm.com/wp-content/uploads/2018/04/papa-992x550.jpg',
            campania:'Siembra: Ago-Sep / Cosecha: Dic-Ene', 
            produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Papa)</a>.',
@@ -942,8 +793,8 @@ var CULTIVOS = {
            clima:'Frío altoandino (5-15°C). Soporta bien el frío de la noche y el sol moderado del día.',
            clima_explicacion:'Frío altoandino: 5-15°C. Soporta heladas nocturnas.',
            campania_explicacion:'Siembra en Ago-Sep (invierno seco). Cosecha en Dic-Ene (verano, inicio de lluvias).',
-           solucion: { insecticida: 3, fungicida: 1, adherente: 2 }},
-  cacao:  {nombre:'Cacao', emoji:'🍫', color:'#6b4c3b', rend:1.2, costo:3000, precio:15000, ciclo:300, 
+           infestacion:60, solucion: { insecticida: 3, fungicida: 1, adherente: 2 }},
+  cacao:  {nombre:'Cacao', emoji:'🍫', color:'#6b4c3b', rend:1.2, costo:3000, precio:15000, ciclo:300, plaga:'Moniliasis',
            img:'https://thumbs.dreamstime.com/b/granos-de-cacao-frescos-dentro-una-bolsa-con-vaina-sobre-mesa-madera-r%C3%BAstica-toma-estudio-muestra-crudo-reci%C3%A9n-derramados-desde-382131932.jpg?w=768',
            campania:'Siembra: Oct-Nov / Cosecha: Todo el año', 
            produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Cacao)</a>.',
@@ -954,8 +805,8 @@ var CULTIVOS = {
            clima:'Tropical húmedo (24-28°C). Un clima cálido y lluvioso es ideal para su crecimiento.',
            clima_explicacion:'Tropical húmedo: 24-28°C. Calor y lluvias constantes son ideales.',
            campania_explicacion:'Siembra en Oct-Nov (lluvias). Cosecha durante todo el año (producción continua).',
-           solucion: { insecticida: 1, fungicida: 4, adherente: 0 }},
-  cafe:   {nombre:'Café', emoji:'☕', color:'#c0392b', rend:0.8, costo:2500, precio:8000, ciclo:200, 
+           infestacion:60, solucion: { insecticida: 1, fungicida: 4, adherente: 0 }},
+  cafe:   {nombre:'Café', emoji:'☕', color:'#c0392b', rend:0.8, costo:2500, precio:8000, ciclo:200, plaga:'Broca del café',
            img:'https://images.ctfassets.net/9g6wdvusquq5/7wg7hwvVe4XEWMPkyxqCyT/78a155b44318c6668cd9512dfaf6dff4/Caf_.jpg?w=1531&h=1021&q=50&fm=webp',
            campania:'Siembra: Oct-Dic / Cosecha: Mar-May', 
            produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Café)</a>.',
@@ -966,8 +817,8 @@ var CULTIVOS = {
            clima:'Templado de Yungas (18-24°C). El café de altura necesita temperaturas estables y sin heladas.',
            clima_explicacion:'Templado de Yungas: 18-24°C. Estable y sin heladas, ideal para altura.',
            campania_explicacion:'Siembra en Oct-Dic (lluvias). Cosecha en Mar-May (post-lluvias).',
-           solucion: { insecticida: 2, fungicida: 2, adherente: 1 }},
-  banano: {nombre:'Banano', emoji:'🍌', color:'#f1c40f', rend:40, costo:2000, precio:150, ciclo:180, 
+           infestacion:60, solucion: { insecticida: 2, fungicida: 2, adherente: 1 }},
+  banano: {nombre:'Banano', emoji:'🍌', color:'#f1c40f', rend:40, costo:2000, precio:150, ciclo:180, plaga:'Mosca de la fruta',
            img:'https://static.nationalgeographicla.com/files/styles/image_3200/public/banana_from_maracaibo.webp?w=900&h=629',
            campania:'Siembra: Ene-Mar / Cosecha: Oct-Dic', 
            produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Banano)</a>.',
@@ -978,8 +829,8 @@ var CULTIVOS = {
            clima:'Cálido húmedo (26-30°C). El sol y la alta humedad son fundamentales.',
            clima_explicacion:'Cálido húmedo: 26-30°C. Sol y humedad altos son fundamentales.',
            campania_explicacion:'Siembra en Ene-Mar (verano). Cosecha en Oct-Dic (primavera, más seco).',
-           solucion: { insecticida: 3, fungicida: 0, adherente: 2 }},
-  quinua: {nombre:'Quinua', emoji:'🌾', color:'#e67e22', rend:1.0, costo:1500, precio:3000, ciclo:150, 
+           infestacion:60, solucion: { insecticida: 3, fungicida: 0, adherente: 2 }},
+  quinua: {nombre:'Quinua', emoji:'🌾', color:'#e67e22', rend:1.0, costo:1500, precio:3000, ciclo:150, plaga:'Pulgón',
            img:'https://www.minsalud.gob.bo/images/Noticias18/codex_quinua_nota.jpg',
            campania:'Siembra: Ago-Sep / Cosecha: Mar-Abr', 
            produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">Consulta datos actualizados en FAO (Quinua)</a>.',
@@ -990,7 +841,7 @@ var CULTIVOS = {
            clima:'Frío y seco (10-20°C). Tolera bajas temperaturas, pero el granizo puede dañarla.',
            clima_explicacion:'Frío y seco: 10-20°C. Tolera frío pero no granizo fuerte.',
            campania_explicacion:'Siembra en Ago-Sep (invierno seco). Cosecha en Mar-Abr (inicio de otoño).',
-           solucion: { insecticida: 2, fungicida: 3, adherente: 1 }}
+           infestacion:60, solucion: { insecticida: 2, fungicida: 3, adherente: 1 }}
 };
 
 // ===== DATOS TIENDAS =====
@@ -1025,14 +876,11 @@ var historial = [];
 var mapaObj = null;
 var mapaIniciado = false;
 var coloresProductos = {};
-var historialClima = [];
 
 function generarColores() {
   var coloresBase = ['#e74c3c', '#f1c40f', '#2ecc71', '#3498db', '#e67e22', '#9b59b6', '#1abc9c', '#d35400', '#aab7b8', '#f39c12'];
   var keys = Object.keys(CULTIVOS);
-  keys.forEach(function(k, i) {
-    coloresProductos[k] = CULTIVOS[k].color || coloresBase[i % coloresBase.length];
-  });
+  keys.forEach(function(k, i) { coloresProductos[k] = CULTIVOS[k].color || coloresBase[i % coloresBase.length]; });
 }
 generarColores();
 
@@ -1047,6 +895,19 @@ function mostrarMsg(id, msg, tipo) {
   el.style.color = '#fff'; setTimeout(function(){el.style.display = 'none';}, 4000);
 }
 function generarId() { return Date.now(); }
+
+// ===== VALIDACIONES =====
+function validarNombre(n) { let p = n.trim().split(/\s+/); return p.length<2?'Nombre y apellido requerido':n.length<5?'Demasiado corto':''; }
+function validarTelefono(t) { return /^\d{8}$/.test(t)?'':'Debe tener 8 dígitos'; }
+function validarCorreo(c) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c)?'':'Correo inválido'; }
+function validarZona(z) { return z.trim().length<3?'Indica una zona válida':''; }
+
+// Eventos de validación
+document.getElementById('regNombre')?.addEventListener('input',function(){document.getElementById('errorNombre').innerText=validarNombre(this.value);});
+document.getElementById('regTelefono')?.addEventListener('input',function(){document.getElementById('errorTelefono').innerText=validarTelefono(this.value);});
+document.getElementById('regCorreo')?.addEventListener('input',function(){document.getElementById('errorCorreo').innerText=validarCorreo(this.value);});
+document.getElementById('regZona')?.addEventListener('input',function(){document.getElementById('errorZona').innerText=validarZona(this.value);});
+document.getElementById('loginCorreo')?.addEventListener('input',function(){document.getElementById('errorLoginCorreo').innerText=validarCorreo(this.value);});
 
 // ===== AUTH =====
 function cambiarPanelAuth(pestana) {
@@ -1064,59 +925,78 @@ function cambiarPanelAuth(pestana) {
 }
 window.cambiarPanelAuth = cambiarPanelAuth;
 
-function handleRegistro() {
-  var nombre = document.getElementById('regNombre').value.trim();
-  var tel = document.getElementById('regTelefono').value.trim();
-  var correo = document.getElementById('regCorreo').value.trim().toLowerCase();
-  var zona = document.getElementById('regZona').value.trim();
-  if (!nombre || !tel || !correo || !zona) {
-    mostrarMsg('mensajeRegistro', 'Todos los campos son obligatorios.', 'error');
-    return;
+async function handleRegistro() {
+  const nombre = document.getElementById('regNombre').value.trim();
+  const telefono = document.getElementById('regTelefono').value.trim();
+  const correo = document.getElementById('regCorreo').value.trim().toLowerCase();
+  const zona = document.getElementById('regZona').value.trim();
+  let ok = true;
+  if(validarNombre(nombre)){ document.getElementById('errorNombre').innerText=validarNombre(nombre); ok=false; }
+  if(validarTelefono(telefono)){ document.getElementById('errorTelefono').innerText=validarTelefono(telefono); ok=false; }
+  if(validarCorreo(correo)){ document.getElementById('errorCorreo').innerText=validarCorreo(correo); ok=false; }
+  if(validarZona(zona)){ document.getElementById('errorZona').innerText=validarZona(zona); ok=false; }
+  if(!ok) return;
+  const btn = document.getElementById('btnRegistro');
+  btn.disabled=true; btn.innerHTML='Registrando...';
+  try {
+    const res = await fetch(GOOGLE_SCRIPT_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ tipo:'registro', datos:{ nombre, telefono, correo, zona } })
+    });
+    const data = await res.json();
+    if(data.status==='success'){
+      usuario = { nombre, telefono, correo, zona };
+      sessionStorage.setItem('usuario', JSON.stringify(usuario));
+      document.getElementById('splash').classList.add('oculta');
+      setTimeout(()=>{
+        document.getElementById('splash').style.display='none';
+        document.getElementById('app').classList.add('visible');
+        iniciarApp();
+      },400);
+    } else {
+      mostrarMsg('mensajeRegistro', data.message||'Error en registro','error');
+    }
+  } catch(e){
+    mostrarMsg('mensajeRegistro','Error de conexión','error');
+  } finally {
+    btn.disabled=false; btn.innerHTML='Registrarme <i class="fas fa-arrow-right"></i>';
   }
-  // Validar que el teléfono tenga exactamente 8 dígitos
-  if (tel.length !== 8 || !/^\d{8}$/.test(tel)) {
-    mostrarMsg('mensajeRegistro', 'El teléfono debe tener exactamente 8 dígitos (ej: 77712345).', 'error');
-    return;
-  }
-  var users = JSON.parse(localStorage.getItem('agro_users')) || [];
-  if (users.find(function(u){ return u.correo === correo; })) {
-    mostrarMsg('mensajeRegistro', 'Ese correo ya existe. Inicia sesión.', 'error');
-    return;
-  }
-  var nuevo = { nombre: nombre, telefono: tel, correo: correo, zona: zona };
-  users.push(nuevo);
-  localStorage.setItem('agro_users', JSON.stringify(users));
-  
-  // Enviar a Google Sheets (Usuarios)
-  enviarAGoogleSheets('registro', nuevo);
-  
-  iniciarSesion(nuevo);
 }
 window.handleRegistro = handleRegistro;
 
-function handleLogin() {
-  var correo = document.getElementById('loginCorreo').value.trim().toLowerCase();
-  if (!correo) { mostrarMsg('mensajeLogin', 'Ingresa tu correo.', 'error'); return; }
-  var users = JSON.parse(localStorage.getItem('agro_users')) || [];
-  var encontrado = users.find(function(u){ return u.correo === correo; });
-  if (encontrado) { iniciarSesion(encontrado); } 
-  else { mostrarMsg('mensajeLogin', 'Correo no encontrado. Regístrate.', 'error'); }
+async function handleLogin() {
+  const correo = document.getElementById('loginCorreo').value.trim().toLowerCase();
+  if(validarCorreo(correo)){ document.getElementById('errorLoginCorreo').innerText=validarCorreo(correo); return; }
+  const btn = document.getElementById('btnLogin');
+  btn.disabled=true; btn.innerHTML='Verificando...';
+  try {
+    const url = `${GOOGLE_SCRIPT_URL}?accion=verificarUsuario&correo=${encodeURIComponent(correo)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if(data.status==='success' && data.data){
+      usuario = data.data;
+      sessionStorage.setItem('usuario', JSON.stringify(usuario));
+      document.getElementById('splash').classList.add('oculta');
+      setTimeout(()=>{
+        document.getElementById('splash').style.display='none';
+        document.getElementById('app').classList.add('visible');
+        iniciarApp();
+      },400);
+    } else {
+      mostrarMsg('mensajeLogin', data.message||'Correo no registrado','error');
+    }
+  } catch(e){
+    mostrarMsg('mensajeLogin','Error de conexión','error');
+  } finally {
+    btn.disabled=false; btn.innerHTML='Iniciar sesión';
+  }
 }
 window.handleLogin = handleLogin;
 
-function iniciarSesion(user) {
-  usuario = user;
-  sessionStorage.setItem('usuario', JSON.stringify(user));
-  document.getElementById('splash').classList.add('oculta');
-  setTimeout(function(){ 
-    document.getElementById('splash').style.display = 'none';
-    document.getElementById('app').classList.add('visible');
-    iniciarApp();
-  }, 400);
-}
-
 function cerrarSesion() {
   sessionStorage.removeItem('usuario');
+  usuario = null;
   document.getElementById('app').classList.remove('visible');
   var s = document.getElementById('splash'); s.style.display = 'flex'; s.classList.remove('oculta');
   document.getElementById('loginCorreo').value = '';
@@ -1126,19 +1006,18 @@ window.cerrarSesion = cerrarSesion;
 
 // ===== NAVEGACIÓN =====
 function navegar(sec) {
-  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('activo');});
-  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('activo');});
-  document.getElementById('s-' + sec).classList.add('activo');
-  document.getElementById('nav-' + sec).classList.add('activo');
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('activo'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('activo'));
+  document.getElementById('s-'+sec).classList.add('activo');
+  document.getElementById('nav-'+sec).classList.add('activo');
   window.scrollTo(0,0);
-  
   if (sec === 'resenas') renderResenas();
   if (sec === 'calc') { calcular(); actualizarComp(); }
   if (sec === 'alquimista') { inicializarJuegoAlquimista(); }
   if (sec === 'mapa') setTimeout(iniciarMapa, 300);
   if (sec === 'tiendas') renderTiendas();
   if (sec === 'perfil-usuario') renderPerfil();
-  if (sec === 'consulta') { document.querySelectorAll('.form-consulta').forEach(function(f){f.classList.remove('activo');}); }
+  if (sec === 'consulta') { document.querySelectorAll('.form-consulta').forEach(f=>f.classList.remove('activo')); }
 }
 window.navegar = navegar;
 
@@ -1148,81 +1027,20 @@ function iniciarApp() {
   var sal = h < 12 ? '¡Muy buenos días, productor!' : h < 18 ? '¡Muy buenas tardes, productor!' : '¡Muy buenas noches, productor!';
   document.getElementById('saludo').textContent = sal;
   document.getElementById('hdrUser').textContent = usuario.nombre.split(' ')[0];
-  cargarHistorial();
+  var saved = localStorage.getItem('agro_historial_' + usuario.correo);
+  if (saved) historial = JSON.parse(saved);
   renderResenas();
   renderPerfil();
   renderTiendas();
   calcular();
   actualizarComp();
-  // Inicializar el juego Alquimista al cargar la app (pero no activarlo)
   inicializarJuegoAlquimista();
   toast('Bienvenido, ' + usuario.nombre.split(' ')[0] + '!');
 }
 
-// ===== GOOGLE SHEETS INTEGRACIÓN =====
-function enviarAGoogleSheets(tipo, datos) {
-  fetch(GOOGLE_SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ tipo: tipo, datos: datos })
-  })
-  .then(res => res.text())
-  .then(text => {
-    console.log('Enviado a Sheets:', text);
-  })
-  .catch(error => {
-    console.error('Error al enviar a Sheets:', error);
-  });
-}
-
-// ===== CONSULTAS =====
-function enviarConsulta(tipo) {
-  var nombre, correo, detalle, titulo;
-  if (tipo === 'Técnica') {
-    nombre = document.getElementById('tecNombre').value.trim();
-    correo = document.getElementById('tecCorreo').value.trim();
-    detalle = document.getElementById('tecDetalle').value.trim() || 'Sin detalle';
-    titulo = document.getElementById('tecTitulo').value.trim() || 'Consulta técnica general';
-  } else {
-    nombre = document.getElementById('invNombre').value.trim();
-    correo = document.getElementById('invCorreo').value.trim();
-    detalle = document.getElementById('invDetalle').value.trim() || 'Sin detalle';
-    titulo = 'Inversión: ' + document.getElementById('invObjetivo').value;
-  }
-  
-  if (!nombre || !correo) { toast('Por favor completa tu nombre y correo.'); return; }
-  
-  var solicitud = {
-    id: 'SOL-' + Date.now(),
-    fecha: new Date().toLocaleString('es-BO'),
-    nombre: nombre,
-    correo: correo,
-    tipoSolicitud: tipo,
-    detalle: detalle,
-    titulo: titulo,
-    estado: 'Pendiente'
-  };
-  
-  enviarAGoogleSheets('solicitud', solicitud);
-  
-  var mensaje = '✅ ¡Buenas ' + (new Date().getHours() < 12 ? 'días' : new Date().getHours() < 18 ? 'tardes' : 'noches') + ', ' + nombre + '!\n\n' +
-                'Gracias por contactarte con Agrocrecimiento. Tu solicitud de **' + tipo + '** ha sido registrada con éxito.\n\n' +
-                '📋 **Detalle de tu solicitud:**\n' + detalle + '\n\n' +
-                '⏳ Estado: **Pendiente**. Nos comunicaremos contigo dentro de las **24 horas** hábiles.\n\n' +
-                '🌱 Obtenemos los mejores cálculos para tu producción.';
-  
-  toast('✅ Consulta enviada. Recibirás respuesta en 24h.');
-  alert(mensaje);
-  
-  document.querySelectorAll('.form-consulta').forEach(function(f){f.classList.remove('activo');});
-}
-window.enviarConsulta = enviarConsulta;
-
-// ===== RESEÑAS COMPLETAS =====
+// ===== RESEÑAS =====
 function renderResenas() {
-  var el = document.getElementById('resenaList');
-  if (!el) return;
+  var el = document.getElementById('resenaList'); if(!el) return;
   var html = '';
   Object.keys(CULTIVOS).forEach(function(k) {
     var d = CULTIVOS[k];
@@ -1283,48 +1101,33 @@ function guardarCalculo() {
 window.guardarCalculo = guardarCalculo;
 
 function enviarWhatsApp() {
-  if (!usuario || !usuario.telefono) {
-    toast('⚠️ Debes iniciar sesión para recibir el resultado por WhatsApp.');
-    return;
-  }
+  if (!usuario || !usuario.telefono) { toast('⚠️ Debes iniciar sesión para recibir el resultado por WhatsApp.'); return; }
   var cult = document.getElementById('calcCultivo').value;
   var d = CULTIVOS[cult];
   var ha = document.getElementById('calcHa').value;
   var res = document.getElementById('calcResult').innerText;
-  
   var mensajeInicio = '¡Gracias por visitar AgroCrecimiento! 🌽✨ Nos alegra que estés aquí. Tu interés nos impulsa a seguir creciendo junto al campo. no dudes en contactarnos estamos para servirte\n\n';
   var mensajeFinal = 'Gracias por recorrer nuestro sitio hasta el final. 🙌 En Agrocrecimiento valoramos tu tiempo y confianza. Si quieres seguir en contacto o recibir asesoría, esta pagina web siempre está abierto para ti. ¡Que tu cosecha sea abundante! 🚜💚';
-  
-  var txt = mensajeInicio + 
-            '🌱 *Resultado de cálculo - Agrocrecimiento*\n\nCultivo: ' + d.nombre + '\nHectáreas: ' + ha + '\n\n' + res.substring(0, 400) + 
-            '\n\n' + mensajeFinal;
-            
+  var txt = mensajeInicio + '🌱 *Resultado de cálculo - Agrocrecimiento*\n\nCultivo: ' + d.nombre + '\nHectáreas: ' + ha + '\n\n' + res.substring(0, 400) + '\n\n' + mensajeFinal;
   var url = 'https://api.whatsapp.com/send?phone=591' + usuario.telefono + '&text=' + encodeURIComponent(txt);
   window.open(url, '_blank');
 }
+window.enviarWhatsApp = enviarWhatsApp;
 
 function enviarCorreo() {
-  if (!usuario || !usuario.correo) {
-    toast('⚠️ Debes iniciar sesión para recibir el resultado por correo.');
-    return;
-  }
+  if (!usuario || !usuario.correo) { toast('⚠️ Debes iniciar sesión para recibir el resultado por correo.'); return; }
   var cult = document.getElementById('calcCultivo').value;
   var d = CULTIVOS[cult];
   var ha = document.getElementById('calcHa').value;
   var res = document.getElementById('calcResult').innerText;
-  
   var mensajeInicio = '¡Gracias por visitar AgroCrecimiento! 🌽✨ Nos alegra que estés aquí. Tu interés nos impulsa a seguir creciendo junto al campo. no dudes en contactarnos estamos para servirte\n\n';
   var mensajeFinal = 'Gracias por recorrer nuestro sitio hasta el final. 🙌 En Agrocrecimiento valoramos tu tiempo y confianza. Si quieres seguir en contacto o recibir asesoría, esta pagina web siempre está abierto para ti. ¡Que tu cosecha sea abundante! 🚜💚';
-  
-  var body = mensajeInicio + 
-             '🌱 Resultado de cálculo - Agrocrecimiento\n\nCultivo: ' + d.nombre + '\nHectáreas: ' + ha + '\n\n' + res.substring(0, 400) + 
-             '\n\n' + mensajeFinal;
-             
+  var body = mensajeInicio + '🌱 Resultado de cálculo - Agrocrecimiento\n\nCultivo: ' + d.nombre + '\nHectáreas: ' + ha + '\n\n' + res.substring(0, 400) + '\n\n' + mensajeFinal;
   var subject = 'Resultado de cálculo - Agrocrecimiento';
   window.location.href = 'mailto:' + usuario.correo + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 }
+window.enviarCorreo = enviarCorreo;
 
-// ===== COMPARADOR =====
 function actualizarComp() {
   var ca = document.getElementById('compA').value;
   var cb = document.getElementById('compB').value;
@@ -1351,387 +1154,62 @@ function guardarComparacion() {
   localStorage.setItem('agro_historial_' + usuario.correo, JSON.stringify(historial));
   toast('Comparación guardada.');
 }
+window.guardarComparacion = guardarComparacion;
 
-// ===== CONSULTAS (Formulario) =====
 function mostrarFormulario(tipo) {
-  document.querySelectorAll('.form-consulta').forEach(function(f){f.classList.remove('activo');});
-  document.getElementById('form-' + tipo).classList.add('activo');
+  document.querySelectorAll('.form-consulta').forEach(f=>f.classList.remove('activo'));
+  document.getElementById('form-'+tipo).classList.add('activo');
 }
 window.mostrarFormulario = mostrarFormulario;
 
-// ===== HISTORIAL =====
-function cargarHistorial() {
-  if (usuario) {
-    var h = localStorage.getItem('agro_historial_' + usuario.correo);
-    if (h) historial = JSON.parse(h);
+async function enviarConsulta(tipo) {
+  var nombre, correo, detalle, titulo;
+  if (tipo === 'Técnica') {
+    nombre = document.getElementById('tecNombre').value.trim();
+    correo = document.getElementById('tecCorreo').value.trim();
+    detalle = document.getElementById('tecDetalle').value.trim() || 'Sin detalle';
+    titulo = document.getElementById('tecTitulo').value.trim() || 'Consulta técnica general';
+  } else {
+    nombre = document.getElementById('invNombre').value.trim();
+    correo = document.getElementById('invCorreo').value.trim();
+    detalle = document.getElementById('invDetalle').value.trim() || 'Sin detalle';
+    titulo = 'Inversión: ' + document.getElementById('invObjetivo').value;
   }
-}
-
-// ===== JUEGO ALQUIMISTA =====
-var juegoAlquimistaInicializado = false;
-function inicializarJuegoAlquimista() {
-  if (juegoAlquimistaInicializado) return;
-  juegoAlquimistaInicializado = true;
-
-  var cultivoActual = 'soya';
-  var productoActual = 'insecticida';
-  var dosisPorProducto = { insecticida: 0, fungicida: 0, adherente: 0 };
-  var salud = 60;
-  var vidas = 3;
-  var juegoTerminado = false;
-  var juegoGanado = false;
-  var intentosFallidos = 0;
-  var puedeRendirse = false;
-  var racha = 0;
-  const MAX_INTENTOS_POR_PRODUCTO = 3;
-
-  // Elementos DOM
-  const healthFill = document.getElementById('healthFill');
-  const healthText = document.getElementById('healthText');
-  const infestacionText = document.getElementById('infestacionText');
-  const cropEmoji = document.getElementById('cropEmoji');
-  const cropNombre = document.getElementById('cropNombre');
-  const plagaNombre = document.getElementById('plagaNombre');
-  const mensajeEl = document.getElementById('mensaje');
-  const vidasRow = document.getElementById('vidasRow');
-  const rachaNumero = document.getElementById('rachaNumero');
-  const btnAplicar = document.getElementById('btnAplicar');
-  const btnReiniciar = document.getElementById('btnReiniciar');
-  const btnRendirse = document.getElementById('btnRendirse');
-  const btnMas = document.getElementById('btnMas');
-  const btnMenos = document.getElementById('btnMenos');
-  const dosisActualSpan = document.getElementById('dosisActual');
-  const tuboInsecticida = document.getElementById('tuboInsecticida');
-  const tuboFungicida = document.getElementById('tuboFungicida');
-  const tuboAdherente = document.getElementById('tuboAdherente');
-  const valInsecticida = document.getElementById('valInsecticida');
-  const valFungicida = document.getElementById('valFungicida');
-  const valAdherente = document.getElementById('valAdherente');
-  const productTabs = document.querySelectorAll('#productSelector .product-tab');
-  const cropBtns = document.querySelectorAll('#cropSelector .crop-btn');
-
-  function actualizarSalud(nuevoValor) {
-    salud = Math.max(0, Math.min(100, nuevoValor));
-    healthFill.style.width = salud + '%';
-    healthText.textContent = 'Salud: ' + salud + '%';
-    healthFill.classList.remove('danger', 'warning');
-    if (salud <= 25) healthFill.classList.add('danger');
-    else if (salud <= 55) healthFill.classList.add('warning');
-  }
-
-  function actualizarVidas() {
-    const spans = vidasRow.querySelectorAll('span');
-    spans.forEach((span, i) => {
-      if (i < vidas) span.classList.remove('perdida');
-      else span.classList.add('perdida');
+  if (!nombre || !correo) { toast('Por favor completa tu nombre y correo.'); return; }
+  var solicitud = {
+    id: 'SOL-' + Date.now(),
+    fecha: new Date().toLocaleString('es-BO'),
+    nombre: nombre,
+    correo: correo,
+    tipoSolicitud: tipo,
+    detalle: detalle,
+    titulo: titulo,
+    estado: 'Pendiente'
+  };
+  try {
+    const res = await fetch(GOOGLE_SCRIPT_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ tipo:'solicitud', datos:solicitud })
     });
-  }
-
-  function actualizarRacha() {
-    rachaNumero.textContent = racha;
-  }
-
-  function mostrarMensaje(texto, tipo) {
-    mensajeEl.className = 'mensaje';
-    mensajeEl.textContent = texto;
-    if (tipo) mensajeEl.classList.add(tipo);
-    mensajeEl.style.display = 'block';
-  }
-
-  function ocultarMensaje() {
-    mensajeEl.style.display = 'none';
-  }
-
-  function lanzarConfeti() {
-    const contenedor = document.createElement('div');
-    contenedor.className = 'confeti';
-    const colores = ['#f0c040', '#2ecc71', '#e74c3c', '#3498db', '#9b59b6', '#f39c12'];
-    for (let i = 0; i < 60; i++) {
-      const span = document.createElement('span');
-      span.style.left = Math.random() * 100 + '%';
-      span.style.background = colores[Math.floor(Math.random() * colores.length)];
-      span.style.width = (Math.random() * 6 + 4) + 'px';
-      span.style.height = (Math.random() * 6 + 4) + 'px';
-      span.style.animationDuration = (Math.random() * 1.8 + 0.8) + 's';
-      span.style.animationDelay = (Math.random() * 0.8) + 's';
-      contenedor.appendChild(span);
-    }
-    document.body.appendChild(contenedor);
-    setTimeout(() => contenedor.remove(), 3500);
-  }
-
-  function actualizarTubos() {
-    // Insecticida
-    const alturaI = Math.min(100, (dosisPorProducto.insecticida / 8) * 100);
-    tuboInsecticida.style.height = alturaI + '%';
-    valInsecticida.textContent = dosisPorProducto.insecticida + ' ml';
-    // Fungicida
-    const alturaF = Math.min(100, (dosisPorProducto.fungicida / 8) * 100);
-    tuboFungicida.style.height = alturaF + '%';
-    valFungicida.textContent = dosisPorProducto.fungicida + ' ml';
-    // Adherente
-    const alturaA = Math.min(100, (dosisPorProducto.adherente / 8) * 100);
-    tuboAdherente.style.height = alturaA + '%';
-    valAdherente.textContent = dosisPorProducto.adherente + ' ml';
-
-    dosisActualSpan.textContent = dosisPorProducto[productoActual];
-  }
-
-  function cambiarProducto(producto) {
-    if (juegoTerminado || juegoGanado) return;
-    productoActual = producto;
-    actualizarTubos();
-
-    productTabs.forEach(tab => {
-      tab.classList.toggle('active', tab.dataset.producto === producto);
-    });
-
-    puedeRendirse = (intentosFallidos > 0);
-    btnRendirse.disabled = !puedeRendirse;
-
-    ocultarMensaje();
-  }
-
-  function cambiarCultivo(cultivo) {
-    if (juegoTerminado || juegoGanado) {
-      reiniciarJuego();
-    }
-    cultivoActual = cultivo;
-    const datos = CULTIVOS[cultivo];
-    salud = datos.infestacion || 60;
-    actualizarSalud(salud);
-    cropEmoji.textContent = datos.emoji;
-    cropNombre.textContent = datos.nombre;
-    plagaNombre.textContent = '🐛 Plaga: ' + datos.plaga;
-    infestacionText.textContent = 'Infestación: ' + (datos.infestacion || 60) + '%';
-
-    dosisPorProducto = { insecticida: 0, fungicida: 0, adherente: 0 };
-    productoActual = 'insecticida';
-    intentosFallidos = 0;
-    puedeRendirse = false;
-    btnRendirse.disabled = true;
-    actualizarTubos();
-
-    productTabs.forEach(tab => {
-      tab.classList.toggle('active', tab.dataset.producto === 'insecticida');
-    });
-
-    cropBtns.forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.cultivo === cultivo);
-    });
-
-    ocultarMensaje();
-  }
-
-  function aplicarMezcla() {
-    if (juegoTerminado || juegoGanado) {
-      mostrarMensaje('El juego ya terminó. Reinicia para jugar de nuevo.', 'error');
-      return;
-    }
-
-    const datos = CULTIVOS[cultivoActual];
-    const correcta = datos.solucion[productoActual];
-    const nombreProducto = productoActual.charAt(0).toUpperCase() + productoActual.slice(1);
-    const dosisActual = dosisPorProducto[productoActual];
-
-    if (dosisActual === correcta) {
-      juegoGanado = true;
-      salud = 100;
-      actualizarSalud(100);
-      racha++;
-      actualizarRacha();
-      const bonus = racha >= 3 ? ' 🔥 ¡Racha de ' + racha + '!' : '';
-      mostrarMensaje(`🎉 ¡Has salvado tu cosecha! Mezcla correcta de ${nombreProducto}. Disfruta de tu abundante producción.${bonus}`, 'exito');
-      lanzarConfeti();
-      btnAplicar.disabled = true;
-      btnRendirse.disabled = true;
-      return;
-    }
-
-    intentosFallidos++;
-    const diferencia = Math.abs(dosisActual - correcta);
-    let dano = 0;
-    let mensajeError = '';
-    if (diferencia >= 3) {
-      dano = 50;
-      mensajeError = `¡Cuidado! Exceso o falta grave de ${nombreProducto}. Tu cultivo sufrió un gran daño.`;
-    } else if (diferencia >= 2) {
-      dano = 30;
-      mensajeError = `La dosis de ${nombreProducto} no es correcta. Tu cultivo está sufriendo.`;
+    const data = await res.json();
+    if(data.status==='success') {
+      toast('✅ Consulta enviada. Recibirás respuesta en 24h.');
+      var mensaje = '✅ ¡Buenas ' + (new Date().getHours() < 12 ? 'días' : new Date().getHours() < 18 ? 'tardes' : 'noches') + ', ' + nombre + '!\n\nGracias por contactarte con Agrocrecimiento. Tu solicitud de **' + tipo + '** ha sido registrada con éxito.\n\n📋 **Detalle de tu solicitud:**\n' + detalle + '\n\n⏳ Estado: **Pendiente**. Nos comunicaremos contigo dentro de las **24 horas** hábiles.\n\n🌱 Obtenemos los mejores cálculos para tu producción.';
+      alert(mensaje);
+      document.querySelectorAll('.form-consulta').forEach(f=>f.classList.remove('activo'));
     } else {
-      dano = 15;
-      mensajeError = `La mezcla de ${nombreProducto} no es precisa. El cultivo se debilita.`;
+      toast('❌ Error al enviar la consulta');
     }
-
-    const nuevaSalud = salud - dano;
-    actualizarSalud(nuevaSalud);
-    mostrarMensaje(mensajeError, 'error');
-
-    racha = 0;
-    actualizarRacha();
-
-    if (salud <= 0) {
-      vidas--;
-      actualizarVidas();
-      salud = 0;
-      actualizarSalud(0);
-      mostrarMensaje('💀 Tu cosecha ha muerto. La plaga ganó. Reinicia el intento.', 'muerte');
-      if (vidas <= 0) {
-        juegoTerminado = true;
-        btnAplicar.disabled = true;
-        btnRendirse.disabled = true;
-        mostrarMensaje('🌾 Has perdido todas tus vidas. La plaga arrasó tu cultivo. Reinicia para intentarlo de nuevo.', 'muerte');
-      }
-      return;
-    }
-
-    if (intentosFallidos >= MAX_INTENTOS_POR_PRODUCTO) {
-      vidas--;
-      actualizarVidas();
-      intentosFallidos = 0;
-      mostrarMensaje(`Has fallado ${MAX_INTENTOS_POR_PRODUCTO} veces con ${nombreProducto}. Pierdes una vida.`, 'error');
-      if (vidas <= 0) {
-        juegoTerminado = true;
-        btnAplicar.disabled = true;
-        btnRendirse.disabled = true;
-        mostrarMensaje('🌾 Has perdido todas tus vidas. La plaga arrasó tu cultivo. Reinicia para intentarlo de nuevo.', 'muerte');
-      }
-      puedeRendirse = true;
-      btnRendirse.disabled = false;
-    }
-
-    puedeRendirse = true;
-    btnRendirse.disabled = false;
+  } catch(e) {
+    toast('Error de conexión');
   }
-
-  function rendirse() {
-    if (juegoTerminado || juegoGanado || !puedeRendirse) return;
-
-    const datos = CULTIVOS[cultivoActual];
-    const correcta = datos.solucion[productoActual];
-    const nombreProducto = productoActual.charAt(0).toUpperCase() + productoActual.slice(1);
-
-    const nuevaSalud = salud - 50;
-    actualizarSalud(nuevaSalud);
-    vidas--;
-    actualizarVidas();
-    racha = 0;
-    actualizarRacha();
-
-    let mensajePenalizacion = `😔 Te rendiste. La respuesta correcta para ${nombreProducto} en ${CULTIVOS[cultivoActual].nombre} era: ${correcta} ml.\n`;
-    mensajePenalizacion += `Has perdido 50% de salud y una vida.`;
-
-    if (vidas <= 0) {
-      juegoTerminado = true;
-      btnAplicar.disabled = true;
-      btnRendirse.disabled = true;
-      mensajePenalizacion += ' 🌾 Has perdido todas tus vidas. La plaga arrasó tu cultivo.';
-      mostrarMensaje(mensajePenalizacion, 'penalizacion');
-      return;
-    }
-
-    mostrarMensaje(mensajePenalizacion, 'penalizacion');
-    btnRendirse.disabled = true;
-    puedeRendirse = false;
-
-    if (salud <= 0) {
-      vidas--;
-      actualizarVidas();
-      salud = 0;
-      actualizarSalud(0);
-      if (vidas <= 0) {
-        juegoTerminado = true;
-        btnAplicar.disabled = true;
-        btnRendirse.disabled = true;
-        mostrarMensaje('🌾 Has perdido todas tus vidas. La plaga arrasó tu cultivo. Reinicia para intentarlo de nuevo.', 'muerte');
-      }
-    }
-  }
-
-  function reiniciarJuego() {
-    const datos = CULTIVOS[cultivoActual];
-    salud = datos.infestacion || 60;
-    vidas = 3;
-    juegoTerminado = false;
-    juegoGanado = false;
-    intentosFallidos = 0;
-    puedeRendirse = false;
-    racha = 0;
-    dosisPorProducto = { insecticida: 0, fungicida: 0, adherente: 0 };
-    productoActual = 'insecticida';
-
-    actualizarSalud(salud);
-    actualizarVidas();
-    actualizarRacha();
-    ocultarMensaje();
-    actualizarTubos();
-
-    btnAplicar.disabled = false;
-    btnRendirse.disabled = true;
-
-    productTabs.forEach(tab => {
-      tab.classList.toggle('active', tab.dataset.producto === 'insecticida');
-    });
-
-    document.querySelectorAll('.confeti').forEach(el => el.remove());
-  }
-
-  // Eventos
-  cropBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
-      const cultivo = this.dataset.cultivo;
-      if (cultivo !== cultivoActual) {
-        cambiarCultivo(cultivo);
-      }
-    });
-  });
-
-  productTabs.forEach(tab => {
-    tab.addEventListener('click', function() {
-      const producto = this.dataset.producto;
-      if (producto !== productoActual) {
-        cambiarProducto(producto);
-      }
-    });
-  });
-
-  btnMas.addEventListener('click', () => {
-    if (juegoTerminado || juegoGanado) return;
-    const clave = productoActual;
-    if (dosisPorProducto[clave] < 8) {
-      dosisPorProducto[clave]++;
-      actualizarTubos();
-      ocultarMensaje();
-    }
-  });
-  btnMenos.addEventListener('click', () => {
-    if (juegoTerminado || juegoGanado) return;
-    const clave = productoActual;
-    if (dosisPorProducto[clave] > 0) {
-      dosisPorProducto[clave]--;
-      actualizarTubos();
-      ocultarMensaje();
-    }
-  });
-
-  btnAplicar.addEventListener('click', aplicarMezcla);
-  btnRendirse.addEventListener('click', rendirse);
-  btnReiniciar.addEventListener('click', reiniciarJuego);
-
-  // Inicializar estado del juego
-  const datosIniciales = CULTIVOS.soya;
-  actualizarSalud(datosIniciales.infestacion || 60);
-  actualizarVidas();
-  actualizarRacha();
-  actualizarTubos();
-  ocultarMensaje();
-  btnRendirse.disabled = true;
 }
+window.enviarConsulta = enviarConsulta;
 
 // ===== TIENDAS =====
 function renderTiendas() {
-  var el = document.getElementById('tiendaList');
-  if (!el) return;
+  var el = document.getElementById('tiendaList'); if(!el) return;
   var html = '';
   TIENDAS.forEach(function(t) {
     var mensajeSaludo = 'Hola, me interesaría consultar sobre los servicios que ofrecen. Vi su tienda en Agrocrecimiento y quiero saber más acerca de: ' + t.servicio;
@@ -1751,14 +1229,14 @@ function renderTiendas() {
   });
   el.innerHTML = html;
 }
+window.renderTiendas = renderTiendas;
 
-// ===== MAPA DE BOLIVIA =====
+// ===== MAPA =====
 function iniciarMapa() {
   if (mapaIniciado) return;
   mapaIniciado = true;
   mapaObj = L.map('mapa', { maxBounds: [[-22.9, -69.6], [-9.7, -57.5]] }).setView([-16.5, -64.5], 6);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '© OpenStreetMap' }).addTo(mapaObj);
-  
   REGIONES_BOLIVIA.forEach(function(region) {
     var lat = region.coords[0];
     var lng = region.coords[1];
@@ -1773,9 +1251,7 @@ function iniciarMapa() {
       var d = CULTIVOS[p];
       var marcador = L.circleMarker([latP, lngP], { radius: 6, color: color, fillColor: color, fillOpacity: 0.8 });
       marcador.addTo(mapaObj);
-      marcador.bindPopup('<div style="color:#222;max-width:200px;"><b style="color:var(--gold);">' + d.emoji + ' ' + d.nombre + '</b><br>' + 
-                         '<img src="' + d.img + '" style="width:100%;border-radius:8px;margin:4px 0;"><br>' +
-                         '<small style="color:#444;">' + d.datos.substring(0, 80) + '...</small></div>');
+      marcador.bindPopup('<div style="color:#222;max-width:200px;"><b style="color:var(--gold);">' + d.emoji + ' ' + d.nombre + '</b><br><img src="' + d.img + '" style="width:100%;border-radius:8px;margin:4px 0;"><br><small style="color:#444;">' + d.datos.substring(0, 80) + '...</small></div>');
     });
     circulo.on('click', function() {
       var html = '<div style="padding:0;">';
@@ -1802,23 +1278,20 @@ function iniciarMapa() {
       });
       html += '</div></div></div>';
       document.getElementById('infoMapa').innerHTML = html;
-      if (!document.getElementById('s-mapa').classList.contains('activo')) {
-        navegar('mapa');
-      }
+      if (!document.getElementById('s-mapa').classList.contains('activo')) { navegar('mapa'); }
     });
   });
   setTimeout(function(){ mapaObj.invalidateSize(); }, 500);
 }
+window.iniciarMapa = iniciarMapa;
 
-// ===== PERFIL USUARIO =====
+// ===== PERFIL =====
 function renderPerfil() {
   if (!usuario) return;
   document.getElementById('pNombre').textContent = usuario.nombre;
   document.getElementById('pZona').textContent = '📍 ' + usuario.zona;
   document.getElementById('pCorreo').textContent = usuario.correo;
   document.getElementById('pTel').textContent = '📞 ' + usuario.telefono;
-  
-  // Renderizar historial en el perfil
   var elHistorial = document.getElementById('perfilHistorial');
   if (!elHistorial) return;
   if (!historial || historial.length === 0) {
@@ -1836,6 +1309,253 @@ function renderPerfil() {
   });
   elHistorial.innerHTML = html;
 }
+window.renderPerfil = renderPerfil;
+
+// ===== JUEGO ALQUIMISTA =====
+var juegoAlquimistaInicializado = false;
+function inicializarJuegoAlquimista() {
+  if (juegoAlquimistaInicializado) return;
+  juegoAlquimistaInicializado = true;
+  var cultivoActual = 'soya';
+  var productoActual = 'insecticida';
+  var dosisPorProducto = { insecticida: 0, fungicida: 0, adherente: 0 };
+  var salud = 60;
+  var vidas = 3;
+  var juegoTerminado = false;
+  var juegoGanado = false;
+  var intentosFallidos = 0;
+  var puedeRendirse = false;
+  var racha = 0;
+  const MAX_INTENTOS_POR_PRODUCTO = 3;
+  const healthFill = document.getElementById('healthFill');
+  const healthText = document.getElementById('healthText');
+  const infestacionText = document.getElementById('infestacionText');
+  const cropEmoji = document.getElementById('cropEmoji');
+  const cropNombre = document.getElementById('cropNombre');
+  const plagaNombre = document.getElementById('plagaNombre');
+  const mensajeEl = document.getElementById('mensaje');
+  const vidasRow = document.getElementById('vidasRow');
+  const rachaNumero = document.getElementById('rachaNumero');
+  const btnAplicar = document.getElementById('btnAplicar');
+  const btnReiniciar = document.getElementById('btnReiniciar');
+  const btnRendirse = document.getElementById('btnRendirse');
+  const btnMas = document.getElementById('btnMas');
+  const btnMenos = document.getElementById('btnMenos');
+  const dosisActualSpan = document.getElementById('dosisActual');
+  const tuboInsecticida = document.getElementById('tuboInsecticida');
+  const tuboFungicida = document.getElementById('tuboFungicida');
+  const tuboAdherente = document.getElementById('tuboAdherente');
+  const valInsecticida = document.getElementById('valInsecticida');
+  const valFungicida = document.getElementById('valFungicida');
+  const valAdherente = document.getElementById('valAdherente');
+  const productTabs = document.querySelectorAll('#productSelector .product-tab');
+  const cropBtns = document.querySelectorAll('#cropSelector .crop-btn');
+  function actualizarSalud(nuevoValor) {
+    salud = Math.max(0, Math.min(100, nuevoValor));
+    healthFill.style.width = salud + '%';
+    healthText.textContent = 'Salud: ' + salud + '%';
+    healthFill.classList.remove('danger', 'warning');
+    if (salud <= 25) healthFill.classList.add('danger');
+    else if (salud <= 55) healthFill.classList.add('warning');
+  }
+  function actualizarVidas() {
+    const spans = vidasRow.querySelectorAll('span');
+    spans.forEach((span, i) => { if (i < vidas) span.classList.remove('perdida'); else span.classList.add('perdida'); });
+  }
+  function actualizarRacha() { rachaNumero.textContent = racha; }
+  function mostrarMensaje(texto, tipo) { mensajeEl.className = 'mensaje ' + (tipo||''); mensajeEl.textContent = texto; mensajeEl.style.display = 'block'; }
+  function ocultarMensaje() { mensajeEl.style.display = 'none'; }
+  function lanzarConfeti() {
+    const contenedor = document.createElement('div'); contenedor.className = 'confeti';
+    const colores = ['#f0c040', '#2ecc71', '#e74c3c', '#3498db', '#9b59b6', '#f39c12'];
+    for (let i = 0; i < 60; i++) {
+      const span = document.createElement('span');
+      span.style.left = Math.random() * 100 + '%';
+      span.style.background = colores[Math.floor(Math.random() * colores.length)];
+      span.style.width = (Math.random() * 6 + 4) + 'px';
+      span.style.height = (Math.random() * 6 + 4) + 'px';
+      span.style.animationDuration = (Math.random() * 1.8 + 0.8) + 's';
+      span.style.animationDelay = (Math.random() * 0.8) + 's';
+      contenedor.appendChild(span);
+    }
+    document.body.appendChild(contenedor);
+    setTimeout(() => contenedor.remove(), 3500);
+  }
+  function actualizarTubos() {
+    const alturaI = Math.min(100, (dosisPorProducto.insecticida / 8) * 100);
+    tuboInsecticida.style.height = alturaI + '%';
+    valInsecticida.textContent = dosisPorProducto.insecticida + ' ml';
+    const alturaF = Math.min(100, (dosisPorProducto.fungicida / 8) * 100);
+    tuboFungicida.style.height = alturaF + '%';
+    valFungicida.textContent = dosisPorProducto.fungicida + ' ml';
+    const alturaA = Math.min(100, (dosisPorProducto.adherente / 8) * 100);
+    tuboAdherente.style.height = alturaA + '%';
+    valAdherente.textContent = dosisPorProducto.adherente + ' ml';
+    dosisActualSpan.textContent = dosisPorProducto[productoActual];
+  }
+  function cambiarProducto(producto) {
+    if (juegoTerminado || juegoGanado) return;
+    productoActual = producto;
+    actualizarTubos();
+    productTabs.forEach(tab => { tab.classList.toggle('active', tab.dataset.producto === producto); });
+    puedeRendirse = (intentosFallidos > 0);
+    btnRendirse.disabled = !puedeRendirse;
+    ocultarMensaje();
+  }
+  function cambiarCultivo(cultivo) {
+    if (juegoTerminado || juegoGanado) { reiniciarJuego(); }
+    cultivoActual = cultivo;
+    const datos = CULTIVOS[cultivo];
+    salud = datos.infestacion || 60;
+    actualizarSalud(salud);
+    cropEmoji.textContent = datos.emoji;
+    cropNombre.textContent = datos.nombre;
+    plagaNombre.textContent = '🐛 Plaga: ' + datos.plaga;
+    infestacionText.textContent = 'Infestación: ' + (datos.infestacion || 60) + '%';
+    dosisPorProducto = { insecticida: 0, fungicida: 0, adherente: 0 };
+    productoActual = 'insecticida';
+    intentosFallidos = 0;
+    puedeRendirse = false;
+    btnRendirse.disabled = true;
+    actualizarTubos();
+    productTabs.forEach(tab => { tab.classList.toggle('active', tab.dataset.producto === 'insecticida'); });
+    cropBtns.forEach(btn => { btn.classList.toggle('active', btn.dataset.cultivo === cultivo); });
+    ocultarMensaje();
+  }
+  function aplicarMezcla() {
+    if (juegoTerminado || juegoGanado) { mostrarMensaje('El juego ya terminó. Reinicia para jugar de nuevo.', 'error'); return; }
+    const datos = CULTIVOS[cultivoActual];
+    const correcta = datos.solucion[productoActual];
+    const nombreProducto = productoActual.charAt(0).toUpperCase() + productoActual.slice(1);
+    const dosisActual = dosisPorProducto[productoActual];
+    if (dosisActual === correcta) {
+      juegoGanado = true;
+      salud = 100;
+      actualizarSalud(100);
+      racha++;
+      actualizarRacha();
+      const bonus = racha >= 3 ? ' 🔥 ¡Racha de ' + racha + '!' : '';
+      mostrarMensaje(`🎉 ¡Has salvado tu cosecha! Mezcla correcta de ${nombreProducto}. Disfruta de tu abundante producción.${bonus}`, 'exito');
+      lanzarConfeti();
+      btnAplicar.disabled = true;
+      btnRendirse.disabled = true;
+      return;
+    }
+    intentosFallidos++;
+    const diferencia = Math.abs(dosisActual - correcta);
+    let dano = 0;
+    let mensajeError = '';
+    if (diferencia >= 3) { dano = 50; mensajeError = `¡Cuidado! Exceso o falta grave de ${nombreProducto}. Tu cultivo sufrió un gran daño.`; }
+    else if (diferencia >= 2) { dano = 30; mensajeError = `La dosis de ${nombreProducto} no es correcta. Tu cultivo está sufriendo.`; }
+    else { dano = 15; mensajeError = `La mezcla de ${nombreProducto} no es precisa. El cultivo se debilita.`; }
+    const nuevaSalud = salud - dano;
+    actualizarSalud(nuevaSalud);
+    mostrarMensaje(mensajeError, 'error');
+    racha = 0;
+    actualizarRacha();
+    if (salud <= 0) {
+      vidas--;
+      actualizarVidas();
+      salud = 0;
+      actualizarSalud(0);
+      mostrarMensaje('💀 Tu cosecha ha muerto. La plaga ganó. Reinicia el intento.', 'muerte');
+      if (vidas <= 0) {
+        juegoTerminado = true;
+        btnAplicar.disabled = true;
+        btnRendirse.disabled = true;
+        mostrarMensaje('🌾 Has perdido todas tus vidas. La plaga arrasó tu cultivo. Reinicia para intentarlo de nuevo.', 'muerte');
+      }
+      return;
+    }
+    if (intentosFallidos >= MAX_INTENTOS_POR_PRODUCTO) {
+      vidas--;
+      actualizarVidas();
+      intentosFallidos = 0;
+      mostrarMensaje(`Has fallado ${MAX_INTENTOS_POR_PRODUCTO} veces con ${nombreProducto}. Pierdes una vida.`, 'error');
+      if (vidas <= 0) {
+        juegoTerminado = true;
+        btnAplicar.disabled = true;
+        btnRendirse.disabled = true;
+        mostrarMensaje('🌾 Has perdido todas tus vidas. La plaga arrasó tu cultivo. Reinicia para intentarlo de nuevo.', 'muerte');
+      }
+      puedeRendirse = true;
+      btnRendirse.disabled = false;
+    }
+    puedeRendirse = true;
+    btnRendirse.disabled = false;
+  }
+  function rendirse() {
+    if (juegoTerminado || juegoGanado || !puedeRendirse) return;
+    const datos = CULTIVOS[cultivoActual];
+    const correcta = datos.solucion[productoActual];
+    const nombreProducto = productoActual.charAt(0).toUpperCase() + productoActual.slice(1);
+    const nuevaSalud = salud - 50;
+    actualizarSalud(nuevaSalud);
+    vidas--;
+    actualizarVidas();
+    racha = 0;
+    actualizarRacha();
+    let mensajePenalizacion = `😔 Te rendiste. La respuesta correcta para ${nombreProducto} en ${CULTIVOS[cultivoActual].nombre} era: ${correcta} ml.\nHas perdido 50% de salud y una vida.`;
+    if (vidas <= 0) {
+      juegoTerminado = true;
+      btnAplicar.disabled = true;
+      btnRendirse.disabled = true;
+      mensajePenalizacion += ' 🌾 Has perdido todas tus vidas. La plaga arrasó tu cultivo.';
+      mostrarMensaje(mensajePenalizacion, 'penalizacion');
+      return;
+    }
+    mostrarMensaje(mensajePenalizacion, 'penalizacion');
+    btnRendirse.disabled = true;
+    puedeRendirse = false;
+    if (salud <= 0) {
+      vidas--;
+      actualizarVidas();
+      salud = 0;
+      actualizarSalud(0);
+      if (vidas <= 0) {
+        juegoTerminado = true;
+        btnAplicar.disabled = true;
+        btnRendirse.disabled = true;
+        mostrarMensaje('🌾 Has perdido todas tus vidas. La plaga arrasó tu cultivo. Reinicia para intentarlo de nuevo.', 'muerte');
+      }
+    }
+  }
+  function reiniciarJuego() {
+    const datos = CULTIVOS[cultivoActual];
+    salud = datos.infestacion || 60;
+    vidas = 3;
+    juegoTerminado = false;
+    juegoGanado = false;
+    intentosFallidos = 0;
+    puedeRendirse = false;
+    racha = 0;
+    dosisPorProducto = { insecticida: 0, fungicida: 0, adherente: 0 };
+    productoActual = 'insecticida';
+    actualizarSalud(salud);
+    actualizarVidas();
+    actualizarRacha();
+    ocultarMensaje();
+    actualizarTubos();
+    btnAplicar.disabled = false;
+    btnRendirse.disabled = true;
+    productTabs.forEach(tab => { tab.classList.toggle('active', tab.dataset.producto === 'insecticida'); });
+    document.querySelectorAll('.confeti').forEach(el => el.remove());
+  }
+  cropBtns.forEach(btn => { btn.addEventListener('click', function() { if (this.dataset.cultivo !== cultivoActual) cambiarCultivo(this.dataset.cultivo); }); });
+  productTabs.forEach(tab => { tab.addEventListener('click', function() { if (this.dataset.producto !== productoActual) cambiarProducto(this.dataset.producto); }); });
+  btnMas.addEventListener('click', () => { if (!juegoTerminado && !juegoGanado) { if (dosisPorProducto[productoActual] < 8) { dosisPorProducto[productoActual]++; actualizarTubos(); ocultarMensaje(); } } });
+  btnMenos.addEventListener('click', () => { if (!juegoTerminado && !juegoGanado) { if (dosisPorProducto[productoActual] > 0) { dosisPorProducto[productoActual]--; actualizarTubos(); ocultarMensaje(); } } });
+  btnAplicar.addEventListener('click', aplicarMezcla);
+  btnRendirse.addEventListener('click', rendirse);
+  btnReiniciar.addEventListener('click', reiniciarJuego);
+  actualizarSalud(60);
+  actualizarVidas();
+  actualizarRacha();
+  actualizarTubos();
+  ocultarMensaje();
+  btnRendirse.disabled = true;
+}
+window.inicializarJuegoAlquimista = inicializarJuegoAlquimista;
 
 // ===== AUTO-LOGIN =====
 var saved = sessionStorage.getItem('usuario');
