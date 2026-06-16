@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ========== TODOS LOS ESTILOS (iguales a los originales) ========== */
+/* ========== ESTILOS (completos) ========== */
 :root {
   --v1: #0a2217; --v2: #1a3327; --v3: #275e44; --v4: #3b8a67; 
   --gold: #e9b741; --gold-light: #fad47a;
@@ -144,372 +144,72 @@ body{font-family:var(--font);background:var(--bg-main);color:var(--text-primary)
 .historial-item .ganancia{color:var(--gold);}
 
 /* ----- ESTILOS DEL JUEGO ALQUIMISTA ----- */
-.alquimista-container {
-  max-width: 100%;
-  background: rgba(20, 30, 50, 0.85);
-  backdrop-filter: blur(12px);
-  border-radius: 32px;
-  padding: 24px 20px 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(240,192,64,0.05);
-  border: 1px solid rgba(255,255,255,0.05);
-  margin-top: 8px;
-}
-.alquimista-container .crop-selector {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-  justify-content: center;
-}
-.alquimista-container .crop-btn {
-  padding: 4px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.04);
-  color: #8a8aa8;
-  font-size: 0.7rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-  font-family: inherit;
-}
-.alquimista-container .crop-btn:hover { background: rgba(255,255,255,0.08); }
-.alquimista-container .crop-btn.active {
-  background: rgba(240,192,64,0.12);
-  border-color: #f0c040;
-  color: #f0c040;
-  box-shadow: 0 0 12px rgba(240,192,64,0.05);
-}
-.alquimista-container .crop-card {
-  background: rgba(30, 40, 65, 0.7);
-  border-radius: 20px;
-  padding: 16px 18px;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  border: 1px solid rgba(255,255,255,0.06);
-  margin-bottom: 20px;
-}
-.alquimista-container .crop-img {
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #2a3a5a, #1a2a3a);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.8rem;
-  flex-shrink: 0;
-  border: 1px solid rgba(240,192,64,0.15);
-}
-.alquimista-container .crop-info {
-  flex: 1;
-}
-.alquimista-container .crop-info h3 {
-  font-size: 1.1rem;
-  margin-bottom: 2px;
-}
-.alquimista-container .plaga-nombre {
-  font-size: 0.8rem;
-  color: #a0a0c0;
-  margin-bottom: 6px;
-}
-.alquimista-container .health-bar {
-  width: 100%;
-  height: 10px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 8px;
-  overflow: hidden;
-}
-.alquimista-container .health-fill {
-  height: 100%;
-  width: 60%;
-  border-radius: 8px;
-  background: #2ecc71;
-  transition: width 0.5s ease;
-  box-shadow: 0 0 12px rgba(46,204,113,0.3);
-}
-.alquimista-container .health-fill.danger { background: #e74c3c; box-shadow: 0 0 12px rgba(231,76,60,0.4); }
-.alquimista-container .health-fill.warning { background: #f1c40f; box-shadow: 0 0 12px rgba(241,196,15,0.3); }
-.alquimista-container .stats {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: #8a8aa8;
-  margin-top: 4px;
-}
-.alquimista-container .product-selector {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-.alquimista-container .product-tab {
-  flex: 1;
-  padding: 8px 0;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
-  text-align: center;
-  font-weight: 600;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: 0.2s;
-  color: #8a8aa8;
-  font-family: inherit;
-  min-width: 60px;
-}
-.alquimista-container .product-tab:hover { background: rgba(255,255,255,0.08); }
-.alquimista-container .product-tab.active {
-  background: rgba(240,192,64,0.12);
-  border-color: #f0c040;
-  color: #f0c040;
-  box-shadow: 0 0 20px rgba(240,192,64,0.05);
-}
-.alquimista-container .product-tab .badge {
-  font-size: 0.65rem;
-  background: rgba(255,255,255,0.03);
-  padding: 0 6px;
-  border-radius: 4px;
-  margin-left: 4px;
-}
-.alquimista-container .tubos-container {
-  display: flex;
-  gap: 24px;
-  justify-content: center;
-  margin-bottom: 16px;
-  padding: 16px 0;
-  background: rgba(0,0,0,0.2);
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.03);
-  position: relative;
-}
-.alquimista-container .tubo-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  width: 80px;
-}
-.alquimista-container .tubo-wrapper label {
-  font-size: 0.6rem;
-  color: #8a8aa8;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.alquimista-container .tubo {
-  width: 50px;
-  height: 140px;
-  background: rgba(255,255,255,0.02);
-  border-radius: 0 0 30px 30px;
-  border: 2px solid rgba(255,255,255,0.1);
-  border-top: none;
-  position: relative;
-  overflow: hidden;
-  box-shadow: inset 0 0 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,255,255,0.02);
-  transition: border-color 0.3s;
-}
-.alquimista-container .tubo::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  height: 24px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 24px 24px 0 0;
-  border: 2px solid rgba(255,255,255,0.1);
-  border-bottom: none;
-  z-index: 2;
-}
-.alquimista-container .tubo::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.2) 100%);
-  pointer-events: none;
-  z-index: 1;
-}
-.alquimista-container .tubo-liquido {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 0%;
-  border-radius: 0 0 28px 28px;
-  transition: height 0.4s ease, background 0.3s;
-  z-index: 0;
-}
-.alquimista-container .tubo-liquido.rojo { background: linear-gradient(to top, #8e1a1a, #e74c3c, #ff6b6b); box-shadow: 0 0 20px rgba(231,76,60,0.3); }
-.alquimista-container .tubo-liquido.azul { background: linear-gradient(to top, #1a4a7a, #3498db, #5dade2); box-shadow: 0 0 20px rgba(52,152,219,0.3); }
-.alquimista-container .tubo-liquido.amarillo { background: linear-gradient(to top, #a67c00, #f1c40f, #f7dc6f); box-shadow: 0 0 20px rgba(241,196,15,0.3); }
-.alquimista-container .tubo-liquido .brillo {
-  position: absolute;
-  top: 10%;
-  left: 20%;
-  width: 20%;
-  height: 30%;
-  background: rgba(255,255,255,0.15);
-  border-radius: 50%;
-  filter: blur(8px);
-  animation: brilloPulso 2s ease-in-out infinite alternate;
-}
-@keyframes brilloPulso {
-  0% { opacity: 0.2; transform: scale(0.9); }
-  100% { opacity: 0.6; transform: scale(1.1); }
-}
-.alquimista-container .tubo-valor {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #f0c040;
-  margin-top: 2px;
-  min-height: 20px;
-}
-.alquimista-container .dosis-control {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  justify-content: center;
-  margin: 4px 0 12px;
-}
-.alquimista-container .dosis-control button {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  font-weight: 700;
-  font-size: 1.4rem;
-  background: rgba(255,255,255,0.06);
-  color: #eae9e3;
-  cursor: pointer;
-  transition: 0.15s;
-  font-family: inherit;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255,255,255,0.05);
-}
-.alquimista-container .dosis-control button:hover {
-  background: rgba(240,192,64,0.15);
-  color: #f0c040;
-  border-color: rgba(240,192,64,0.3);
-  transform: scale(1.05);
-}
-.alquimista-container .dosis-control button:active {
-  transform: scale(0.95);
-}
-.alquimista-container .dosis-control .dosis-numero {
-  font-size: 1.4rem;
-  font-weight: 700;
-  min-width: 40px;
-  text-align: center;
-  color: #f0c040;
-}
-.alquimista-container .action-row {
-  display: flex;
-  gap: 10px;
-  margin-top: 8px;
-  flex-wrap: wrap;
-}
-.alquimista-container .btn {
-  flex: 1;
-  padding: 12px 10px;
-  border: none;
-  border-radius: 14px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: 0.2s;
-  font-family: inherit;
-  text-align: center;
-  min-width: 100px;
-}
-.alquimista-container .btn-primary {
-  background: linear-gradient(135deg, #f0c040, #e6a800);
-  color: #0a0a1a;
-  box-shadow: 0 4px 16px rgba(240,192,64,0.2);
-}
-.alquimista-container .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(240,192,64,0.35); }
-.alquimista-container .btn-primary:disabled { opacity: 0.4; transform: none; cursor: not-allowed; }
-.alquimista-container .btn-secondary {
-  background: rgba(255,255,255,0.06);
-  color: #eae9e3;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-.alquimista-container .btn-secondary:hover { background: rgba(255,255,255,0.12); }
-.alquimista-container .btn-danger {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(231,76,60,0.2);
-}
-.alquimista-container .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(231,76,60,0.35); }
-.alquimista-container .btn-danger:disabled { opacity: 0.4; transform: none; cursor: not-allowed; }
-.alquimista-container .vidas-row {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin: 12px 0 4px;
-  font-size: 1.4rem;
-}
-.alquimista-container .vidas-row span {
-  transition: 0.3s;
-}
-.alquimista-container .vidas-row .perdida {
-  opacity: 0.15;
-  transform: scale(0.7);
-  filter: grayscale(1);
-}
-.alquimista-container .racha-row {
-  text-align: center;
-  font-size: 0.8rem;
-  color: #8a8aa8;
-  margin-bottom: 4px;
-}
-.alquimista-container .racha-row .numero {
-  color: #f0c040;
-  font-weight: 700;
-}
-.alquimista-container .mensaje {
-  margin-top: 12px;
-  padding: 14px 16px;
-  border-radius: 14px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  display: none;
-  text-align: center;
-  line-height: 1.5;
-}
-.alquimista-container .mensaje.ok { display: block; background: rgba(46,204,113,0.12); border: 1px solid #2ecc71; color: #2ecc71; }
-.alquimista-container .mensaje.error { display: block; background: rgba(231,76,60,0.12); border: 1px solid #e74c3c; color: #e74c3c; }
-.alquimista-container .mensaje.muerte { display: block; background: rgba(231,76,60,0.25); border: 2px solid #e74c3c; color: #ff6b6b; }
-.alquimista-container .mensaje.exito { display: block; background: rgba(240,192,64,0.12); border: 2px solid #f0c040; color: #f0c040; }
-.alquimista-container .mensaje.penalizacion { display: block; background: rgba(231,76,60,0.18); border: 2px solid #f39c12; color: #f39c12; }
-.alquimista-container .mensaje.solucion { display: block; background: rgba(46,204,113,0.1); border: 2px solid #2ecc71; color: #2ecc71; }
-.alquimista-container .nota-secreta {
-  font-size: 0.7rem;
-  color: #6a6a88;
-  margin-top: 4px;
-  font-style: italic;
-}
+.alquimista-container { max-width:100%; background:rgba(20,30,50,0.85); backdrop-filter:blur(12px); border-radius:32px; padding:24px 20px 20px; box-shadow:0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(240,192,64,0.05); border:1px solid rgba(255,255,255,0.05); margin-top:8px; }
+.alquimista-container .crop-selector { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; justify-content:center; }
+.alquimista-container .crop-btn { padding:4px 12px; border-radius:20px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:#8a8aa8; font-size:0.7rem; font-weight:600; cursor:pointer; transition:0.2s; font-family:inherit; }
+.alquimista-container .crop-btn:hover { background:rgba(255,255,255,0.08); }
+.alquimista-container .crop-btn.active { background:rgba(240,192,64,0.12); border-color:#f0c040; color:#f0c040; box-shadow:0 0 12px rgba(240,192,64,0.05); }
+.alquimista-container .crop-card { background:rgba(30,40,65,0.7); border-radius:20px; padding:16px 18px; display:flex; gap:16px; align-items:center; border:1px solid rgba(255,255,255,0.06); margin-bottom:20px; }
+.alquimista-container .crop-img { width:72px; height:72px; border-radius:16px; background:linear-gradient(135deg,#2a3a5a,#1a2a3a); display:flex; align-items:center; justify-content:center; font-size:2.8rem; flex-shrink:0; border:1px solid rgba(240,192,64,0.15); }
+.alquimista-container .crop-info { flex:1; }
+.alquimista-container .crop-info h3 { font-size:1.1rem; margin-bottom:2px; }
+.alquimista-container .plaga-nombre { font-size:0.8rem; color:#a0a0c0; margin-bottom:6px; }
+.alquimista-container .health-bar { width:100%; height:10px; background:rgba(255,255,255,0.1); border-radius:8px; overflow:hidden; }
+.alquimista-container .health-fill { height:100%; width:60%; border-radius:8px; background:#2ecc71; transition:width 0.5s ease; box-shadow:0 0 12px rgba(46,204,113,0.3); }
+.alquimista-container .health-fill.danger { background:#e74c3c; box-shadow:0 0 12px rgba(231,76,60,0.4); }
+.alquimista-container .health-fill.warning { background:#f1c40f; box-shadow:0 0 12px rgba(241,196,15,0.3); }
+.alquimista-container .stats { display:flex; justify-content:space-between; font-size:0.75rem; color:#8a8aa8; margin-top:4px; }
+.alquimista-container .product-selector { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.alquimista-container .product-tab { flex:1; padding:8px 0; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:12px; text-align:center; font-weight:600; font-size:0.85rem; cursor:pointer; transition:0.2s; color:#8a8aa8; font-family:inherit; min-width:60px; }
+.alquimista-container .product-tab:hover { background:rgba(255,255,255,0.08); }
+.alquimista-container .product-tab.active { background:rgba(240,192,64,0.12); border-color:#f0c040; color:#f0c040; box-shadow:0 0 20px rgba(240,192,64,0.05); }
+.alquimista-container .product-tab .badge { font-size:0.65rem; background:rgba(255,255,255,0.03); padding:0 6px; border-radius:4px; margin-left:4px; }
+.alquimista-container .tubos-container { display:flex; gap:24px; justify-content:center; margin-bottom:16px; padding:16px 0; background:rgba(0,0,0,0.2); border-radius:16px; border:1px solid rgba(255,255,255,0.03); position:relative; }
+.alquimista-container .tubo-wrapper { display:flex; flex-direction:column; align-items:center; gap:4px; width:80px; }
+.alquimista-container .tubo-wrapper label { font-size:0.6rem; color:#8a8aa8; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
+.alquimista-container .tubo { width:50px; height:140px; background:rgba(255,255,255,0.02); border-radius:0 0 30px 30px; border:2px solid rgba(255,255,255,0.1); border-top:none; position:relative; overflow:hidden; box-shadow:inset 0 0 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,255,255,0.02); transition:border-color 0.3s; }
+.alquimista-container .tubo::before { content:''; position:absolute; top:-2px; left:-2px; right:-2px; height:24px; background:rgba(255,255,255,0.05); border-radius:24px 24px 0 0; border:2px solid rgba(255,255,255,0.1); border-bottom:none; z-index:2; }
+.alquimista-container .tubo::after { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background:linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.2) 100%); pointer-events:none; z-index:1; }
+.alquimista-container .tubo-liquido { position:absolute; bottom:0; left:0; right:0; height:0%; border-radius:0 0 28px 28px; transition:height 0.4s ease, background 0.3s; z-index:0; }
+.alquimista-container .tubo-liquido.rojo { background:linear-gradient(to top, #8e1a1a, #e74c3c, #ff6b6b); box-shadow:0 0 20px rgba(231,76,60,0.3); }
+.alquimista-container .tubo-liquido.azul { background:linear-gradient(to top, #1a4a7a, #3498db, #5dade2); box-shadow:0 0 20px rgba(52,152,219,0.3); }
+.alquimista-container .tubo-liquido.amarillo { background:linear-gradient(to top, #a67c00, #f1c40f, #f7dc6f); box-shadow:0 0 20px rgba(241,196,15,0.3); }
+.alquimista-container .tubo-liquido .brillo { position:absolute; top:10%; left:20%; width:20%; height:30%; background:rgba(255,255,255,0.15); border-radius:50%; filter:blur(8px); animation:brilloPulso 2s ease-in-out infinite alternate; }
+@keyframes brilloPulso { 0%{opacity:0.2;transform:scale(0.9);} 100%{opacity:0.6;transform:scale(1.1);} }
+.alquimista-container .tubo-valor { font-size:0.8rem; font-weight:700; color:#f0c040; margin-top:2px; min-height:20px; }
+.alquimista-container .dosis-control { display:flex; align-items:center; gap:16px; justify-content:center; margin:4px 0 12px; }
+.alquimista-container .dosis-control button { width:40px; height:40px; border-radius:50%; border:none; font-weight:700; font-size:1.4rem; background:rgba(255,255,255,0.06); color:#eae9e3; cursor:pointer; transition:0.15s; font-family:inherit; display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,0.05); }
+.alquimista-container .dosis-control button:hover { background:rgba(240,192,64,0.15); color:#f0c040; border-color:rgba(240,192,64,0.3); transform:scale(1.05); }
+.alquimista-container .dosis-control button:active { transform:scale(0.95); }
+.alquimista-container .dosis-control .dosis-numero { font-size:1.4rem; font-weight:700; min-width:40px; text-align:center; color:#f0c040; }
+.alquimista-container .action-row { display:flex; gap:10px; margin-top:8px; flex-wrap:wrap; }
+.alquimista-container .btn { flex:1; padding:12px 10px; border:none; border-radius:14px; font-weight:700; font-size:0.9rem; cursor:pointer; transition:0.2s; font-family:inherit; text-align:center; min-width:100px; }
+.alquimista-container .btn-primary { background:linear-gradient(135deg,#f0c040,#e6a800); color:#0a0a1a; box-shadow:0 4px 16px rgba(240,192,64,0.2); }
+.alquimista-container .btn-primary:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(240,192,64,0.35); }
+.alquimista-container .btn-primary:disabled { opacity:0.4; transform:none; cursor:not-allowed; }
+.alquimista-container .btn-secondary { background:rgba(255,255,255,0.06); color:#eae9e3; border:1px solid rgba(255,255,255,0.08); }
+.alquimista-container .btn-secondary:hover { background:rgba(255,255,255,0.12); }
+.alquimista-container .btn-danger { background:linear-gradient(135deg,#e74c3c,#c0392b); color:#fff; box-shadow:0 4px 16px rgba(231,76,60,0.2); }
+.alquimista-container .btn-danger:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(231,76,60,0.35); }
+.alquimista-container .btn-danger:disabled { opacity:0.4; transform:none; cursor:not-allowed; }
+.alquimista-container .vidas-row { display:flex; justify-content:center; gap:6px; margin:12px 0 4px; font-size:1.4rem; }
+.alquimista-container .vidas-row span { transition:0.3s; }
+.alquimista-container .vidas-row .perdida { opacity:0.15; transform:scale(0.7); filter:grayscale(1); }
+.alquimista-container .racha-row { text-align:center; font-size:0.8rem; color:#8a8aa8; margin-bottom:4px; }
+.alquimista-container .racha-row .numero { color:#f0c040; font-weight:700; }
+.alquimista-container .mensaje { margin-top:12px; padding:14px 16px; border-radius:14px; font-size:0.9rem; font-weight:500; display:none; text-align:center; line-height:1.5; }
+.alquimista-container .mensaje.ok { display:block; background:rgba(46,204,113,0.12); border:1px solid #2ecc71; color:#2ecc71; }
+.alquimista-container .mensaje.error { display:block; background:rgba(231,76,60,0.12); border:1px solid #e74c3c; color:#e74c3c; }
+.alquimista-container .mensaje.muerte { display:block; background:rgba(231,76,60,0.25); border:2px solid #e74c3c; color:#ff6b6b; }
+.alquimista-container .mensaje.exito { display:block; background:rgba(240,192,64,0.12); border:2px solid #f0c040; color:#f0c040; }
+.alquimista-container .mensaje.penalizacion { display:block; background:rgba(231,76,60,0.18); border:2px solid #f39c12; color:#f39c12; }
+.alquimista-container .mensaje.solucion { display:block; background:rgba(46,204,113,0.1); border:2px solid #2ecc71; color:#2ecc71; }
+.alquimista-container .nota-secreta { font-size:0.7rem; color:#6a6a88; margin-top:4px; font-style:italic; }
 
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--v1);padding:12px 24px;border-radius:30px;z-index:9999;font-weight:700;font-size:.9rem;box-shadow:0 4px 20px rgba(233,183,65,0.4);animation:ta 4.2s forwards;}
 @keyframes ta{0%{opacity:0;transform:translateX(-50%) translateY(20px)}10%{opacity:1;transform:translateX(-50%) translateY(0)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-10px)}}
 @media(min-width:500px){.content{padding:20px 20px 100px;}}
-@media (max-width: 600px) {
-  .tienda-grid { grid-template-columns: 1fr; }
-  .mvv-grid { grid-template-columns: 1fr; }
-  .alquimista-container .tubos-container { gap: 12px; flex-wrap: wrap; }
-  .alquimista-container .tubo { width: 40px; height: 100px; }
-  .alquimista-container .action-row .btn { font-size: 0.75rem; padding: 8px 6px; min-width: 60px; }
-  .alquimista-container .crop-btn { font-size: 0.6rem; padding: 2px 8px; }
-  .alquimista-container .product-tab { font-size: 0.7rem; padding: 4px 0; min-width: 40px; }
-  .alquimista-container .dosis-control button { width: 30px; height: 30px; font-size: 1.0rem; }
-  .alquimista-container .dosis-control .dosis-numero { font-size: 1.0rem; min-width: 30px; }
-}
+@media (max-width:600px){ .tienda-grid{grid-template-columns:1fr;} .mvv-grid{grid-template-columns:1fr;} .alquimista-container .tubos-container{gap:12px;flex-wrap:wrap;} .alquimista-container .tubo{width:40px;height:100px;} .alquimista-container .action-row .btn{font-size:0.75rem;padding:8px 6px;min-width:60px;} .alquimista-container .crop-btn{font-size:0.6rem;padding:2px 8px;} .alquimista-container .product-tab{font-size:0.7rem;padding:4px 0;min-width:40px;} .alquimista-container .dosis-control button{width:30px;height:30px;font-size:1.0rem;} .alquimista-container .dosis-control .dosis-numero{font-size:1.0rem;min-width:30px;} }
 </style>
 </head>
 <body>
@@ -899,7 +599,7 @@ function cambiarPanelAuth(pestana) {
 }
 window.cambiarPanelAuth = cambiarPanelAuth;
 
-// REGISTRO CON GET (evita CORS)
+// REGISTRO CON GET (sin CORS)
 async function handleRegistro() {
   const nombre = document.getElementById('regNombre').value.trim();
   const telefono = document.getElementById('regTelefono').value.trim();
@@ -1137,6 +837,7 @@ function mostrarFormulario(tipo) {
 }
 window.mostrarFormulario = mostrarFormulario;
 
+// ===== CONSULTA CON GET (sin CORS) =====
 async function enviarConsulta(tipo) {
   var nombre, correo, detalle, titulo;
   if (tipo === 'Técnica') {
@@ -1151,7 +852,8 @@ async function enviarConsulta(tipo) {
     titulo = 'Inversión: ' + document.getElementById('invObjetivo').value;
   }
   if (!nombre || !correo) { toast('Por favor completa tu nombre y correo.'); return; }
-  var solicitud = {
+
+  const solicitud = {
     id: 'SOL-' + Date.now(),
     fecha: new Date().toLocaleString('es-BO'),
     nombre: nombre,
@@ -1161,22 +863,31 @@ async function enviarConsulta(tipo) {
     titulo: titulo,
     estado: 'Pendiente'
   };
+
+  const params = new URLSearchParams({
+    accion: 'solicitud',
+    id: solicitud.id,
+    fecha: solicitud.fecha,
+    nombre: solicitud.nombre,
+    correo: solicitud.correo,
+    tipoSolicitud: solicitud.tipoSolicitud,
+    detalle: solicitud.detalle,
+    titulo: solicitud.titulo,
+    estado: solicitud.estado
+  });
+
   try {
-    const res = await fetch(GOOGLE_SCRIPT_URL, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ tipo:'solicitud', datos:solicitud })
-    });
+    const res = await fetch(`${GOOGLE_SCRIPT_URL}?${params}`);
     const data = await res.json();
-    if(data.status==='success') {
+    if (data.status === 'success') {
       toast('✅ Consulta enviada. Recibirás respuesta en 24h.');
       var mensaje = '✅ ¡Buenas ' + (new Date().getHours() < 12 ? 'días' : new Date().getHours() < 18 ? 'tardes' : 'noches') + ', ' + nombre + '!\n\nGracias por contactarte con Agrocrecimiento. Tu solicitud de **' + tipo + '** ha sido registrada con éxito.\n\n📋 **Detalle de tu solicitud:**\n' + detalle + '\n\n⏳ Estado: **Pendiente**. Nos comunicaremos contigo dentro de las **24 horas** hábiles.\n\n🌱 Obtenemos los mejores cálculos para tu producción.';
       alert(mensaje);
-      document.querySelectorAll('.form-consulta').forEach(f=>f.classList.remove('activo'));
+      document.querySelectorAll('.form-consulta').forEach(f => f.classList.remove('activo'));
     } else {
-      toast('❌ Error al enviar la consulta');
+      toast('❌ Error al enviar la consulta: ' + data.message);
     }
-  } catch(e) {
+  } catch (e) {
     toast('Error de conexión');
   }
 }
@@ -1286,7 +997,7 @@ function renderPerfil() {
 }
 window.renderPerfil = renderPerfil;
 
-// ===== JUEGO ALQUIMISTA =====
+// ===== JUEGO ALQUIMISTA (sin cambios) =====
 var juegoAlquimistaInicializado = false;
 function inicializarJuegoAlquimista() {
   if (juegoAlquimistaInicializado) return;
