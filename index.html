@@ -116,7 +116,6 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
 .nav-item.activo[data-section="inicio"] { color: #f1c40f; }
 .nav-item.activo[data-section="resenas"] { color: #2ecc71; }
 .nav-item.activo[data-section="planificador"] { color: #3498db; }
-.nav-item.activo[data-section="inversion"] { color: #f39c12; }
 .nav-item.activo[data-section="consulta"] { color: #9b59b6; }
 .nav-item.activo[data-section="mapa"] { color: #e74c3c; }
 .nav-item.activo[data-section="tiendas"] { color: #fd79a8; }
@@ -150,14 +149,21 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
 .section.activo { display: flex; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+/* ====== TARJETAS MEJORADAS ====== */
 .card {
-  background: var(--bg-card);
+  background: rgba(26, 51, 39, 0.85);
+  backdrop-filter: blur(4px);
   border-radius: var(--radius-lg);
   padding: 20px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
   margin-bottom: 16px;
-  border: 1px solid var(--v2);
+  border: 1px solid rgba(255,255,255,0.06);
   flex: 1;
+  transition: 0.3s;
+}
+.card:hover {
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  border-color: rgba(233,183,65,0.15);
 }
 .card-title {
   font-size: 1.2rem;
@@ -167,6 +173,45 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/* ====== INPUTS PROFESIONALES ====== */
+.input-app, .input-dark {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(15, 45, 30, 0.6);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 1rem;
+  transition: 0.3s;
+  backdrop-filter: blur(2px);
+}
+.input-app:focus, .input-dark:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(233,183,65,0.2), inset 0 1px 2px rgba(255,255,255,0.05);
+  background: rgba(15, 45, 30, 0.8);
+}
+.input-app:hover, .input-dark:hover {
+  border-color: rgba(233,183,65,0.3);
+}
+.validation-error {
+  font-size: 0.8rem;
+  color: #e74c3c;
+  margin-top: 6px;
+  display: block;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* ====== AUTH CARD ====== */
+.auth-card {
+  background: rgba(26, 51, 39, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
 }
 
 /* ====== INICIO ====== */
@@ -188,15 +233,16 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   margin-top: 12px;
 }
 .feature-card {
-  background: var(--bg-input);
+  background: rgba(15, 45, 30, 0.6);
   padding: 20px 16px;
   border-radius: var(--radius);
   text-align: center;
-  border: 1px solid var(--v2);
+  border: 1px solid rgba(255,255,255,0.06);
   transition: 0.3s;
   cursor: default;
+  backdrop-filter: blur(2px);
 }
-.feature-card:hover { transform: translateY(-4px); border-color: var(--gold); }
+.feature-card:hover { transform: translateY(-4px); border-color: var(--gold); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
 .feature-card i { font-size: 2rem; color: var(--gold); margin-bottom: 8px; }
 .feature-card h4 { font-size: 1rem; color: var(--gold); }
 .feature-card p { font-size: 0.9rem; color: var(--text-secondary); margin-top: 6px; }
@@ -209,12 +255,13 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   flex: 1;
 }
 .resena-item {
-  background: var(--bg-card);
+  background: rgba(26, 51, 39, 0.7);
   border-radius: var(--radius);
   padding: 16px;
   border-left: 4px solid var(--gold);
   display: flex;
   flex-direction: column;
+  backdrop-filter: blur(4px);
 }
 .resena-item h3 { font-size: 1.2rem; color: var(--gold); margin-bottom: 4px; }
 .resena-item .meta { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; }
@@ -228,7 +275,7 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   background: var(--bg-input);
 }
 
-/* ====== PLANIFICADOR / CALCULADORA ====== */
+/* ====== PLANIFICADOR ====== */
 .calc-row {
   display: flex;
   flex-wrap: wrap;
@@ -240,23 +287,14 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   min-width: 180px;
 }
 .calc-campo label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-.input-app {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid var(--v2);
-  background: var(--bg-input);
-  color: var(--text-primary);
-  font-size: 1rem;
-}
-.input-app:focus { outline: none; border-color: var(--gold); }
 .resultado {
-  background: var(--bg-input);
+  background: rgba(15, 45, 30, 0.6);
   padding: 16px;
   border-radius: 14px;
   font-size: 1rem;
   border-left: 4px solid var(--gold);
   margin: 12px 0;
+  backdrop-filter: blur(2px);
 }
 .btn-group { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0; }
 .btn-whatsapp, .btn-correo, .btn-main, .btn-tierras {
@@ -278,23 +316,25 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
 .btn-tierras:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(41,128,185,0.4); }
 
 .glosario {
-  background: var(--bg-input);
+  background: rgba(15, 45, 30, 0.5);
   border-radius: var(--radius);
   padding: 16px;
   margin-top: 12px;
-  border: 1px solid var(--v2);
+  border: 1px solid rgba(255,255,255,0.06);
   font-size: 0.9rem;
+  backdrop-filter: blur(2px);
 }
 .glosario .term { display: flex; gap: 8px; margin-bottom: 6px; }
 .glosario .term strong { color: var(--gold); min-width: 90px; }
 
 .tierras-list {
   margin-top: 12px;
-  background: var(--bg-input);
+  background: rgba(15, 45, 30, 0.5);
   border-radius: var(--radius);
   padding: 16px;
-  border: 1px solid var(--v2);
+  border: 1px solid rgba(255,255,255,0.06);
   display: none;
+  backdrop-filter: blur(2px);
 }
 .tierras-list.visible { display: block; }
 .tierra-item {
@@ -302,7 +342,7 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 1px solid var(--v2);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   flex-wrap: wrap;
   gap: 8px;
 }
@@ -322,16 +362,6 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   font-style: italic;
 }
 
-/* ====== INVERSIÓN ====== */
-.inversion-result {
-  background: var(--bg-input);
-  padding: 16px;
-  border-radius: 14px;
-  margin: 12px 0;
-  border-left: 4px solid var(--gold);
-}
-.inversion-result h4 { color: var(--gold); margin-bottom: 8px; }
-
 /* ====== MAPA ====== */
 .mapa-buscador {
   display: flex;
@@ -343,8 +373,8 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   flex: 1;
   padding: 12px 16px;
   border-radius: 30px;
-  border: 1px solid var(--v2);
-  background: var(--bg-input);
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(15, 45, 30, 0.6);
   color: var(--text-primary);
   font-size: 1rem;
 }
@@ -357,8 +387,8 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   font-weight: 700;
   cursor: pointer;
 }
-#mapa { flex: 1; min-height: 400px; border-radius: 16px; border: 1px solid var(--v2); }
-.info-mapa { background: var(--bg-card); border-radius: 12px; padding: 16px; margin-top: 12px; border: 1px solid var(--v2); }
+#mapa { flex: 1; min-height: 400px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); }
+.info-mapa { background: rgba(26, 51, 39, 0.7); border-radius: 12px; padding: 16px; margin-top: 12px; border: 1px solid rgba(255,255,255,0.06); }
 .info-mapa h4 { color: var(--gold); }
 .info-mapa .resultado-busqueda { margin-top: 8px; }
 
@@ -370,11 +400,12 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   flex: 1;
 }
 .tienda-card {
-  background: var(--bg-input);
+  background: rgba(15, 45, 30, 0.6);
   border-radius: var(--radius);
   padding: 16px;
-  border: 1px solid var(--v2);
+  border: 1px solid rgba(255,255,255,0.06);
   text-align: center;
+  backdrop-filter: blur(2px);
 }
 .tienda-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; }
 .tienda-card h4 { font-size: 1.1rem; color: var(--gold); }
@@ -402,15 +433,15 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   margin-bottom: 16px;
 }
 .consulta-card {
-  background: var(--bg-input);
+  background: rgba(15, 45, 30, 0.6);
   border-radius: var(--radius);
   padding: 20px;
   text-align: center;
   cursor: pointer;
-  border: 1px solid transparent;
+  border: 1px solid rgba(255,255,255,0.06);
   transition: 0.2s;
 }
-.consulta-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+.consulta-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
 .consulta-card i { font-size: 2.5rem; color: var(--gold); }
 .consulta-card h4 { font-size: 1.1rem; color: var(--gold); margin-top: 8px; }
 .form-consulta {
@@ -436,7 +467,7 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: var(--bg-input);
+  background: rgba(15, 45, 30, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -452,7 +483,7 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   align-items: center;
   gap: 16px;
   padding: 12px 0;
-  border-bottom: 1px solid var(--v2);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   font-size: 1rem;
 }
 .perfil-row:last-child { border-bottom: none; }
@@ -466,7 +497,7 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   display: flex;
   justify-content: space-between;
   padding: 6px 0;
-  border-bottom: 1px solid var(--v2);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   font-size: 0.9rem;
 }
 .historial-item .fecha { color: var(--text-tertiary); }
@@ -486,13 +517,14 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
 }
 .modal-overlay.visible { display: flex; }
 .modal-card {
-  background: var(--bg-card);
+  background: rgba(26, 51, 39, 0.95);
   border-radius: var(--radius-lg);
   padding: 30px;
   max-width: 440px;
   width: 90%;
-  box-shadow: var(--shadow);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
   position: relative;
+  border: 1px solid rgba(255,255,255,0.06);
 }
 .modal-card .close-modal {
   position: absolute;
@@ -508,7 +540,7 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
 .modal-card .auth-brand { text-align: center; margin-bottom: 16px; }
 .modal-card .auth-tabs {
   display: flex;
-  background: var(--bg-input);
+  background: rgba(15, 45, 30, 0.6);
   border-radius: 30px;
   padding: 4px;
   margin-bottom: 16px;
@@ -586,16 +618,16 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
     </div>
     <!-- REGISTRO -->
     <div class="auth-panel activo" id="panelRegistroModal">
-      <div><span class="fl" style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);">Nombre completo</span><input type="text" id="regNombre" class="input-dark" placeholder="Juan Mamani"><div id="errorNombre" class="validation-error" style="color:#e74c3c;font-size:0.7rem;margin-top:4px;"></div></div>
-      <div><span class="fl" style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);">Teléfono / WhatsApp</span><input type="text" id="regTelefono" class="input-dark" placeholder="77712345" maxlength="8" oninput="this.value=this.value.replace(/[^0-9]/g,'')"><div id="errorTelefono" class="validation-error" style="color:#e74c3c;font-size:0.7rem;margin-top:4px;"></div></div>
-      <div><span class="fl" style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);">Correo electrónico</span><input type="email" id="regCorreo" class="input-dark" placeholder="juan@email.com"><div id="errorCorreo" class="validation-error" style="color:#e74c3c;font-size:0.7rem;margin-top:4px;"></div></div>
-      <div><span class="fl" style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);">Zona / Departamento</span><input type="text" id="regZona" class="input-dark" placeholder="Santa Cruz, Montero..."><div id="errorZona" class="validation-error" style="color:#e74c3c;font-size:0.7rem;margin-top:4px;"></div></div>
+      <div><span class="fl" style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);">Nombre completo</span><input type="text" id="regNombre" class="input-dark" placeholder="Juan Mamani"><div id="errorNombre" class="validation-error"></div></div>
+      <div><span class="fl" style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);">Teléfono / WhatsApp</span><input type="text" id="regTelefono" class="input-dark" placeholder="77712345" maxlength="8" oninput="this.value=this.value.replace(/[^0-9]/g,'')"><div id="errorTelefono" class="validation-error"></div></div>
+      <div><span class="fl" style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);">Correo electrónico</span><input type="email" id="regCorreo" class="input-dark" placeholder="juan@email.com"><div id="errorCorreo" class="validation-error"></div></div>
+      <div><span class="fl" style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);">Zona / Departamento</span><input type="text" id="regZona" class="input-dark" placeholder="Santa Cruz, Montero..."><div id="errorZona" class="validation-error"></div></div>
       <button class="btn-gold-full" id="btnRegistro" onclick="handleRegistro()" style="width:100%;padding:14px;background:var(--gold);color:var(--v1);border:none;border-radius:30px;font-weight:800;font-size:1rem;cursor:pointer;">Registrarme <i class="fas fa-arrow-right"></i></button>
       <div id="mensajeRegistro" class="msg" style="font-size:0.8rem;padding:8px;border-radius:8px;display:none;font-weight:500;margin-top:8px;"></div>
     </div>
     <!-- LOGIN -->
     <div class="auth-panel" id="panelLoginModal">
-      <div><span class="fl" style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);">Correo electrónico</span><input type="email" id="loginCorreo" class="input-dark" placeholder="tu@correo.com"><div id="errorLoginCorreo" class="validation-error" style="color:#e74c3c;font-size:0.7rem;margin-top:4px;"></div></div>
+      <div><span class="fl" style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);">Correo electrónico</span><input type="email" id="loginCorreo" class="input-dark" placeholder="tu@correo.com"><div id="errorLoginCorreo" class="validation-error"></div></div>
       <button class="btn-gold-full" id="btnLogin" onclick="handleLogin()" style="width:100%;padding:14px;background:var(--gold);color:var(--v1);border:none;border-radius:30px;font-weight:800;font-size:1rem;cursor:pointer;">Iniciar sesión</button>
       <div id="mensajeLogin" class="msg" style="font-size:0.8rem;padding:8px;border-radius:8px;display:none;font-weight:500;margin-top:8px;"></div>
       <p style="text-align:center;font-size:0.85rem;color:var(--text-tertiary);margin-top:8px;">¿Sin cuenta? <a onclick="cambiarPanelAuthModal('registro')" style="color:var(--gold);cursor:pointer;">Crea una aquí</a></p>
@@ -634,7 +666,6 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:1rem;color:var(--text-secondary);">
           <div>📖 <strong>Explorar reseñas de cultivos</strong><br><small>Conoce la historia y datos de cada producto</small></div>
           <div>🧮 <strong>Planifica tu inversión</strong><br><small>Calcula costos, rendimiento y tierras</small></div>
-          <div>💰 <strong>Asesor de capital</strong><br><small>Descubre qué sembrar según tu presupuesto</small></div>
           <div>🗺️ <strong>Buscar tierras en el mapa</strong><br><small>Encuentra terrenos disponibles</small></div>
           <div>🏪 <strong>Conocer proveedores y tiendas</strong><br><small>Insumos y servicios cerca de ti</small></div>
         </div>
@@ -649,7 +680,7 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
       </div>
     </div>
 
-    <!-- PLANIFICADOR (fusión de Calcular + Planificador) -->
+    <!-- PLANIFICADOR -->
     <div class="section" id="s-planificador">
       <div class="card" style="flex:1;display:flex;flex-direction:column;overflow-y:auto;">
         <div class="card-title"><i class="fas fa-calculator"></i> Calculadora y Planificador de Cultivos</div>
@@ -695,28 +726,6 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
         </div>
         <div class="comp-grid" id="compGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"></div>
         <button class="btn-main" onclick="guardarComparacion()" style="margin-top:10px;"><i class="fas fa-save"></i> Guardar comparación en historial</button>
-      </div>
-    </div>
-
-    <!-- NUEVA PESTAÑA: INVERSIÓN (Capital) -->
-    <div class="section" id="s-inversion">
-      <div class="card" style="flex:1;display:flex;flex-direction:column;overflow-y:auto;">
-        <div class="card-title"><i class="fas fa-coins"></i> Asesor de Inversión Agrícola</div>
-        <p style="color:var(--text-secondary);margin-bottom:12px;">Ingresa tu capital disponible y te recomendaremos el cultivo más rentable, las hectáreas que puedes sembrar y las tierras disponibles.</p>
-        <div class="calc-row">
-          <div class="calc-campo"><label>Capital disponible (Bs)</label><input type="number" id="invCapital" class="input-app" value="50000" min="1000" step="1000" oninput="recomendarInversion()"></div>
-          <div class="calc-campo"><label>Moneda</label><select id="invMoneda" class="input-app" onchange="recomendarInversion()"><option value="BOB">Bolivianos (Bs)</option><option value="USD">Dólares ($)</option></select></div>
-        </div>
-        <button class="btn-main" onclick="recomendarInversion()" style="margin:8px 0;"><i class="fas fa-wand-magic-sparkles"></i> Recomendar cultivo</button>
-        <div id="inversionResultado" class="inversion-result">Ingresa un capital y presiona "Recomendar cultivo".</div>
-        <div id="inversionTierras" class="tierras-list" style="display:block;margin-top:8px;"></div>
-        <div class="btn-group">
-          <button class="btn-whatsapp" onclick="enviarInversionWhatsApp()"><i class="fab fa-whatsapp"></i> Enviar recomendación a WhatsApp</button>
-          <button class="btn-correo" onclick="enviarInversionCorreo()"><i class="fas fa-envelope"></i> Enviar recomendación a Correo</button>
-        </div>
-        <div class="glosario">
-          <p style="color:var(--text-secondary);font-size:0.9rem;"><i class="fas fa-lightbulb"></i> El asesor calcula el ROI y el costo por hectárea para recomendarte la mejor opción según tu presupuesto.</p>
-        </div>
       </div>
     </div>
 
@@ -792,7 +801,6 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
     <div class="nav-item activo" id="nav-inicio" data-section="inicio" onclick="navegar('inicio')"><i class="fas fa-home"></i><span>Inicio</span></div>
     <div class="nav-item" id="nav-resenas" data-section="resenas" onclick="navegar('resenas')"><i class="fas fa-book"></i><span>Reseñas</span></div>
     <div class="nav-item" id="nav-planificador" data-section="planificador" onclick="navegar('planificador')"><i class="fas fa-calculator"></i><span>Planificar</span></div>
-    <div class="nav-item" id="nav-inversion" data-section="inversion" onclick="navegar('inversion')"><i class="fas fa-coins"></i><span>Inversión</span></div>
     <div class="nav-item" id="nav-consulta" data-section="consulta" onclick="navegar('consulta')"><i class="fas fa-headset"></i><span>Consultas</span></div>
     <div class="nav-item" id="nav-mapa" data-section="mapa" onclick="navegar('mapa')"><i class="fas fa-map"></i><span>Mapa</span></div>
     <div class="nav-item" id="nav-tiendas" data-section="tiendas" onclick="navegar('tiendas')"><i class="fas fa-store"></i><span>Tiendas</span></div>
@@ -804,7 +812,7 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
 // ===== CONFIGURACIÓN =====
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby_FCKAoKpf-F__l8V9mHoR7rtpjxYt3HV3YkkVRtFithrQ2-rhANBQCm_DyopChL4J/exec';
 
-// ===== CULTIVOS (AHORA CON ARROZ EN LUGAR DE TRIGO) =====
+// ===== CULTIVOS =====
 var CULTIVOS = {
   cana: {
     nombre:'Caña', emoji:'🪵', color:'#2ecc71', rend:80, costo:5000, precio:120, ciclo:400,
@@ -872,7 +880,7 @@ var CULTIVOS = {
   }
 };
 
-// ===== TIERRAS (con arroz) =====
+// ===== TIERRAS =====
 var TIERRAS = {
   cana: [
     { nombre: "Búsqueda: Terrenos para caña", ubicacion: "Google", precio: "Buscar", enlace: "https://www.google.com/search?q=terreno+agr%C3%ADcola+caña+de+azúcar+Bolivia+venta" },
@@ -900,7 +908,7 @@ var TIERRAS = {
   ]
 };
 
-// ===== TIENDAS (sin cambios) =====
+// ===== TIENDAS =====
 var TIENDAS = [
   { nombre:'Agropecuaria La Cosecha', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHUtNh9N79I0cxmJpp7gV05BEMCtyf9d3_5RcqwnPCcHv0dk2ynlK-nAnLKLnyCFDqKsW3sC77C5jEuwcsS_fIqJx3erOy13jTa9K5G79M1-XnMoV-8M1JQozuK94VxSTkA1hw=w408-h544-k-no', celular:'71002933', maps:'https://maps.app.goo.gl/83CWAG5FjvLgdf4S8', redes:'https://www.facebook.com/Agrop.LaCosecha/', reseña:'Venta de insumos agrícolas, semillas de soya, maíz y fertilizantes.', servicio:'insumos agrícolas, semillas y fertilizantes' },
   { nombre:'Agropecuaria SANTA CRUZ', img:'https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=h3QTaeVu6s_pDZFLC-_-vg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=13.404443&pitch=0&thumbfov=100', celular:'78545296', maps:'https://maps.app.goo.gl/sG85PZSSdYQsE7VC8', redes:'https://www.facebook.com/p/Agropecuaria-SANTA-CRUZ-100063785510666/', reseña:'Distribuidor de agroquímicos, fungicidas y herbicidas.', servicio:'agroquímicos, fungicidas y herbicidas' },
@@ -913,7 +921,7 @@ var TIENDAS = [
   { nombre:'Mainter - Oficina Central', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFOOR3zPJsZEr0go74DUsZslE8j4ShXAEQQbOIKq1KeLPYO_9U9KPxHgipqoqM3UpqQh0zq9bTp55Nskif-ggV48hBi-xj_DD7-qlUOH6hAqS1CdhrcD7tL6fEIDKpGauv56Qnuqg=w408-h306-k-no', celular:'33178000', maps:'https://maps.app.goo.gl/WHo5fDELVK3aMWJx7', redes:'https://www.facebook.com/Mainteragro/', reseña:'Maquinaria para cosecha, tractores y almacenamiento de granos.', servicio:'maquinaria para cosecha, tractores y almacenamiento de granos' }
 ];
 
-// ===== REGIONES (con arroz) =====
+// ===== REGIONES =====
 var REGIONES_BOLIVIA = [
   { nombre: 'Santa Cruz (Oriente)', coords: [-17.78, -63.18], productos: ['soya', 'maiz', 'cana', 'arroz'], descripcion: 'La región más productiva, 90% de soya, maíz, caña y arroz.' },
   { nombre: 'Beni (Norte)', coords: [-14.83, -64.90], productos: ['cana', 'arroz'], descripcion: 'Zona inundable con caña y arroz.' },
@@ -1061,7 +1069,6 @@ function navegar(sec) {
   window.scrollTo(0,0);
   if (sec === 'resenas') renderResenas();
   if (sec === 'planificador') { actualizarPlanificador(); actualizarComp(); }
-  if (sec === 'inversion') recomendarInversion();
   if (sec === 'mapa') setTimeout(iniciarMapa, 300);
   if (sec === 'tiendas') renderTiendas();
   if (sec === 'perfil-usuario') renderPerfil();
@@ -1080,7 +1087,6 @@ function iniciarApp() {
   renderTiendas();
   actualizarPlanificador();
   actualizarComp();
-  recomendarInversion();
   actualizarHeader();
   if (usuario) toast('Bienvenido ' + usuario.nombre.split(' ')[0] + '!');
 }
@@ -1216,76 +1222,6 @@ function guardarComparacion() {
   if (historial.length > 20) historial.pop();
   localStorage.setItem('agro_historial_' + usuario.correo, JSON.stringify(historial));
   toast('Comparación guardada.');
-}
-
-// ===== INVERSIÓN =====
-function recomendarInversion() {
-  var capital = parseFloat(document.getElementById('invCapital').value) || 0;
-  var moneda = document.getElementById('invMoneda').value;
-  if (capital < 1000) { toast('Ingresa un capital mayor a 1000'); return; }
-  var capitalBs = moneda === 'USD' ? capital * 6.96 : capital;
-  var cultivos = Object.keys(CULTIVOS);
-  var mejor = null;
-  var maxHa = 0;
-  cultivos.forEach(function(k) {
-    var d = CULTIVOS[k];
-    var haPosibles = Math.floor(capitalBs / d.costo);
-    if (haPosibles > 0 && haPosibles > maxHa) {
-      maxHa = haPosibles;
-      mejor = { cultivo: k, ha: haPosibles, capital: capitalBs };
-    }
-  });
-  if (!mejor) {
-    document.getElementById('inversionResultado').innerHTML = '<p style="color:#e74c3c;">Con este capital no puedes cubrir ni una hectárea de ningún cultivo. Aumenta tu presupuesto o busca terrenos más pequeños.</p>';
-    return;
-  }
-  var d = CULTIVOS[mejor.cultivo];
-  var prod = mejor.ha * d.rend;
-  var inv = mejor.ha * d.costo;
-  var gan = prod * preciosActuales[mejor.cultivo] - inv;
-  var roi = inv > 0 ? (gan / inv * 100).toFixed(1) : 0;
-  var col = gan >= 0 ? 'var(--gold)' : '#e74c3c';
-
-  var html = '<h4 style="color:var(--gold);">💡 Recomendación para tu capital</h4>';
-  html += '<p><strong>Cultivo recomendado:</strong> ' + d.emoji + ' ' + d.nombre + '</p>';
-  html += '<p><strong>Hectáreas que puedes sembrar:</strong> ' + mejor.ha + ' ha</p>';
-  html += '<p><strong>Inversión estimada:</strong> Bs ' + inv.toLocaleString('es-BO') + '</p>';
-  html += '<p><strong>Producción esperada:</strong> ' + prod.toFixed(1) + ' ton</p>';
-  html += '<p><strong>Ganancia estimada:</strong> <span style="color:' + col + ';">Bs ' + gan.toLocaleString('es-BO') + '</span></p>';
-  html += '<p><strong>ROI:</strong> <span style="color:' + col + ';">' + roi + '%</span></p>';
-  html += '<p><strong>Consejos:</strong> ' + d.consejos + '</p>';
-  html += '<p><strong>Clima ideal:</strong> ' + d.clima + '</p>';
-  document.getElementById('inversionResultado').innerHTML = html;
-
-  var tierras = TIERRAS[mejor.cultivo] || [];
-  var htmlT = '<h4 style="color:var(--gold);">🌾 Tierras sugeridas para ' + d.nombre + '</h4>';
-  if (tierras.length > 0) {
-    tierras.forEach(function(t) {
-      htmlT += '<div class="tierra-item"><div><strong>' + t.nombre + '</strong><br><span style="color:var(--text-secondary);font-size:0.9rem;">' + t.ubicacion + ' · ' + t.precio + '</span></div><a href="' + t.enlace + '" target="_blank">Ver más <i class="fas fa-arrow-right"></i></a></div>';
-    });
-    htmlT += '<div class="aviso-enlaces">📌 Si los enlaces no funcionan, busca manualmente en Google "terreno agrícola ' + d.nombre + ' Bolivia" o visita OLX/Infocasas.</div>';
-  } else {
-    htmlT += '<p>No hay tierras publicadas para este producto en este momento.</p>';
-  }
-  document.getElementById('inversionTierras').innerHTML = htmlT;
-}
-
-function enviarInversionWhatsApp() {
-  if (!usuario || !usuario.telefono) { toast('⚠️ Inicia sesión para enviar la recomendación.'); return; }
-  var texto = document.getElementById('inversionResultado').innerText;
-  var saludo = '🌱 ¡Hola! Basado en tu capital, te recomendamos esta inversión agrícola. ¡Esperamos que te sea útil!\n\n';
-  var despedida = '\n\n🙌 Gracias por usar Agrocrecimiento. ¡Mucho éxito en tu inversión! 🚜💚';
-  var txt = saludo + '💰 *Recomendación de Inversión - Agrocrecimiento*\n\n' + texto.substring(0,500) + despedida;
-  var url = 'https://api.whatsapp.com/send?phone=591' + usuario.telefono + '&text=' + encodeURIComponent(txt);
-  window.open(url, '_blank');
-}
-function enviarInversionCorreo() {
-  if (!usuario || !usuario.correo) { toast('⚠️ Inicia sesión para enviar la recomendación.'); return; }
-  var texto = document.getElementById('inversionResultado').innerText;
-  var saludo = '🌱 ¡Hola! Basado en tu capital, te recomendamos esta inversión agrícola. ¡Esperamos que te sea útil!\n\n';
-  var despedida = '\n\n🙌 Gracias por usar Agrocrecimiento. ¡Mucho éxito en tu inversión! 🚜💚';
-  var body = saludo + '💰 Recomendación de Inversión - Agrocrecimiento\n\n' + texto.substring(0,500) + despedida;
-  window.location.href = 'mailto:' + usuario.correo + '?subject=Recomendación de inversión&body=' + encodeURIComponent(body);
 }
 
 // ===== CONSULTAS =====
