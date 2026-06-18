@@ -659,7 +659,7 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
             <option value="soya">🌿 Soya</option>
             <option value="maiz">🌽 Maíz</option>
             <option value="cana">🪵 Caña</option>
-            <option value="trigo">🌾 Trigo</option>
+            <option value="arroz">🍚 Arroz</option>
           </select></div>
           <div class="calc-campo"><label>Hectáreas</label><input type="number" id="planHa" class="input-app" value="1" min="0.1" step="0.5" oninput="actualizarPlanificador()"></div>
           <div class="calc-campo"><label>Capital disponible (Bs)</label><input type="number" id="planCap" class="input-app" value="5000" min="0" oninput="actualizarPlanificador()"></div>
@@ -686,11 +686,11 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
         <div class="card-title"><i class="fas fa-balance-scale"></i> Comparar dos cultivos</div>
         <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
           <select id="compA" class="input-app" style="flex:1;min-width:120px;" onchange="actualizarComp()">
-            <option value="soya">Soya</option><option value="maiz">Maíz</option><option value="cana">Caña</option><option value="trigo">Trigo</option>
+            <option value="soya">Soya</option><option value="maiz">Maíz</option><option value="cana">Caña</option><option value="arroz">Arroz</option>
           </select>
           <span style="align-self:center;font-weight:700;color:var(--gold);">vs</span>
           <select id="compB" class="input-app" style="flex:1;min-width:120px;" onchange="actualizarComp()">
-            <option value="maiz">Maíz</option><option value="soya">Soya</option><option value="cana">Caña</option><option value="trigo">Trigo</option>
+            <option value="maiz">Maíz</option><option value="soya">Soya</option><option value="cana">Caña</option><option value="arroz">Arroz</option>
           </select>
         </div>
         <div class="comp-grid" id="compGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"></div>
@@ -751,7 +751,7 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
       <div class="card" style="flex:1;display:flex;flex-direction:column;">
         <div class="card-title"><i class="fas fa-map-marked-alt"></i> Mapa de tierras y cultivos</div>
         <div class="mapa-buscador">
-          <input type="text" id="buscarProducto" placeholder="Ej. soya, maíz, caña, trigo..." onkeyup="if(event.key==='Enter') buscarEnMapa();">
+          <input type="text" id="buscarProducto" placeholder="Ej. soya, maíz, caña, arroz..." onkeyup="if(event.key==='Enter') buscarEnMapa();">
           <button onclick="buscarEnMapa()"><i class="fas fa-search"></i> Buscar</button>
           <button onclick="limpiarBusqueda()" style="background:var(--bg-input);color:var(--text-primary);">Limpiar</button>
         </div>
@@ -804,11 +804,11 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
 // ===== CONFIGURACIÓN =====
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby_FCKAoKpf-F__l8V9mHoR7rtpjxYt3HV3YkkVRtFithrQ2-rhANBQCm_DyopChL4J/exec';
 
-// ===== CULTIVOS (SOLO 4) =====
+// ===== CULTIVOS (AHORA CON ARROZ EN LUGAR DE TRIGO) =====
 var CULTIVOS = {
   cana: {
     nombre:'Caña', emoji:'🪵', color:'#2ecc71', rend:80, costo:5000, precio:120, ciclo:400,
-    img:'https://www.herbazest.com/imgs/4/b/2/871191/cana-de-azucar.jpg',
+    img:'https://mejorconsalud.as.com/wp-content/uploads/2022/09/cana-azucar-1-768x512.jpg',
     campania:'Siembra: Mar-May / Cosecha: Jun-Ago (año siguiente)',
     produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">FAO</a>',
     economia:'Producción de azúcar y alcohol',
@@ -854,25 +854,25 @@ var CULTIVOS = {
     infestacion:60,
     consejos: 'Semillas certificadas. Monitoreo de plagas constante.'
   },
-  trigo: {
-    nombre:'Trigo', emoji:'🌾', color:'#aab7b8', rend:2.0, costo:1100, precio:300, ciclo:100,
-    img:'https://cdn.pixabay.com/photo/2018/07/18/20/10/wheat-3547078_640.jpg',
-    campania:'Siembra: May-Jun / Cosecha: Sep-Oct',
+  arroz: {
+    nombre:'Arroz', emoji:'🍚', color:'#f1c40f', rend:3.5, costo:1800, precio:380, ciclo:135,
+    img:'https://www.molineraamazonas.com/wp-content/uploads/2018/11/arroz-de-calidad.jpg',
+    campania:'Siembra: Dic-Ene / Cosecha: May-Jun',
     produccion:'<a href="https://www.fao.org/faostat/es/#rankings/commodities_by_country" target="_blank" style="color:var(--gold);text-decoration:underline;">FAO</a>',
-    economia:'Reducción de importaciones',
-    plagas:'Pulgón del trigo, Roya',
-    animales:'Pájaros insectívoros, Escarabajos',
-    datos:'Se cultiva en valles y tierras bajas.',
-    herramientas:'Trilladoras, Cosechadoras',
-    clima:'Templado (15-22°C). Fresco.',
-    clima_explicacion:'15-22°C, prefiere frescura.',
-    campania_explicacion:'Siembra May-Jun, cosecha Sep-Oct.',
+    economia:'Autosuficiencia nacional',
+    plagas:'Barrenador del tallo, Soguero',
+    animales:'Patos, Peces en arrozales',
+    datos:'Beni y Santa Cruz son los mayores productores.',
+    herramientas:'Bombas de fumigación, Trilladoras',
+    clima:'Tropical muy húmedo (28-32°C). Necesita campos inundados.',
+    clima_explicacion:'28-32°C, requiere campos inundados.',
+    campania_explicacion:'Siembra Dic-Ene, cosecha May-Jun.',
     infestacion:60,
-    consejos: 'Suelos bien drenados. Control de malezas temprano.'
+    consejos: 'Requiere riego constante y control de malezas. Ideal para zonas bajas y húmedas.'
   }
 };
 
-// ===== TIERRAS (enlaces estables) =====
+// ===== TIERRAS (con arroz) =====
 var TIERRAS = {
   cana: [
     { nombre: "Búsqueda: Terrenos para caña", ubicacion: "Google", precio: "Buscar", enlace: "https://www.google.com/search?q=terreno+agr%C3%ADcola+caña+de+azúcar+Bolivia+venta" },
@@ -892,15 +892,15 @@ var TIERRAS = {
     { nombre: "OLX - Terrenos rústicos", ubicacion: "OLX", precio: "Ver ofertas", enlace: "https://www.olx.com.bo/terrenos-rusticos_cat-33" },
     { nombre: "Infocasas - Terrenos", ubicacion: "Infocasas", precio: "Buscar", enlace: "https://www.infocasas.com.bo/terrenos/venta" }
   ],
-  trigo: [
-    { nombre: "Búsqueda: Terrenos para trigo", ubicacion: "Google", precio: "Buscar", enlace: "https://www.google.com/search?q=terreno+agr%C3%ADcola+trigo+Bolivia+venta" },
-    { nombre: "Grupo Facebook: Terrenos Tarija", ubicacion: "Facebook", precio: "Buscar", enlace: "https://www.facebook.com/groups/ventadeterrenostarija" },
+  arroz: [
+    { nombre: "Búsqueda: Terrenos para arroz", ubicacion: "Google", precio: "Buscar", enlace: "https://www.google.com/search?q=terreno+agr%C3%ADcola+arroz+Bolivia+venta" },
+    { nombre: "Grupo Facebook: Terrenos Beni", ubicacion: "Facebook", precio: "Buscar", enlace: "https://www.facebook.com/groups/terrenosbeni" },
     { nombre: "OLX - Terrenos rústicos", ubicacion: "OLX", precio: "Ver ofertas", enlace: "https://www.olx.com.bo/terrenos-rusticos_cat-33" },
-    { nombre: "Bienes Raíces Bolivia", ubicacion: "BienesRaices", precio: "Buscar", enlace: "https://www.bienesraices.com.bo/terrenos" }
+    { nombre: "Infocasas - Terrenos", ubicacion: "Infocasas", precio: "Buscar", enlace: "https://www.infocasas.com.bo/terrenos/venta" }
   ]
 };
 
-// ===== TIENDAS =====
+// ===== TIENDAS (sin cambios) =====
 var TIENDAS = [
   { nombre:'Agropecuaria La Cosecha', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHUtNh9N79I0cxmJpp7gV05BEMCtyf9d3_5RcqwnPCcHv0dk2ynlK-nAnLKLnyCFDqKsW3sC77C5jEuwcsS_fIqJx3erOy13jTa9K5G79M1-XnMoV-8M1JQozuK94VxSTkA1hw=w408-h544-k-no', celular:'71002933', maps:'https://maps.app.goo.gl/83CWAG5FjvLgdf4S8', redes:'https://www.facebook.com/Agrop.LaCosecha/', reseña:'Venta de insumos agrícolas, semillas de soya, maíz y fertilizantes.', servicio:'insumos agrícolas, semillas y fertilizantes' },
   { nombre:'Agropecuaria SANTA CRUZ', img:'https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=h3QTaeVu6s_pDZFLC-_-vg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=13.404443&pitch=0&thumbfov=100', celular:'78545296', maps:'https://maps.app.goo.gl/sG85PZSSdYQsE7VC8', redes:'https://www.facebook.com/p/Agropecuaria-SANTA-CRUZ-100063785510666/', reseña:'Distribuidor de agroquímicos, fungicidas y herbicidas.', servicio:'agroquímicos, fungicidas y herbicidas' },
@@ -913,18 +913,18 @@ var TIENDAS = [
   { nombre:'Mainter - Oficina Central', img:'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFOOR3zPJsZEr0go74DUsZslE8j4ShXAEQQbOIKq1KeLPYO_9U9KPxHgipqoqM3UpqQh0zq9bTp55Nskif-ggV48hBi-xj_DD7-qlUOH6hAqS1CdhrcD7tL6fEIDKpGauv56Qnuqg=w408-h306-k-no', celular:'33178000', maps:'https://maps.app.goo.gl/WHo5fDELVK3aMWJx7', redes:'https://www.facebook.com/Mainteragro/', reseña:'Maquinaria para cosecha, tractores y almacenamiento de granos.', servicio:'maquinaria para cosecha, tractores y almacenamiento de granos' }
 ];
 
-// ===== REGIONES =====
+// ===== REGIONES (con arroz) =====
 var REGIONES_BOLIVIA = [
-  { nombre: 'Santa Cruz (Oriente)', coords: [-17.78, -63.18], productos: ['soya', 'maiz', 'cana'], descripcion: 'La región más productiva, 90% de soya, maíz y caña.' },
-  { nombre: 'Beni (Norte)', coords: [-14.83, -64.90], productos: ['cana'], descripcion: 'Zona inundable con caña.' },
-  { nombre: 'Cochabamba (Valles)', coords: [-17.39, -66.16], productos: ['maiz', 'trigo'], descripcion: 'Valles y yungas, maíz y trigo.' },
-  { nombre: 'La Paz', coords: [-16.50, -68.15], productos: ['trigo'], descripcion: 'Altiplano y Yungas, trigo.' },
-  { nombre: 'Tarija', coords: [-21.53, -64.73], productos: ['trigo'], descripcion: 'Vitivinícola y trigo.' },
-  { nombre: 'Chuquisaca', coords: [-19.03, -65.26], productos: ['trigo', 'maiz', 'cana'], descripcion: 'Histórica, trigo, maíz y caña.' }
+  { nombre: 'Santa Cruz (Oriente)', coords: [-17.78, -63.18], productos: ['soya', 'maiz', 'cana', 'arroz'], descripcion: 'La región más productiva, 90% de soya, maíz, caña y arroz.' },
+  { nombre: 'Beni (Norte)', coords: [-14.83, -64.90], productos: ['cana', 'arroz'], descripcion: 'Zona inundable con caña y arroz.' },
+  { nombre: 'Cochabamba (Valles)', coords: [-17.39, -66.16], productos: ['maiz'], descripcion: 'Valles y yungas, maíz.' },
+  { nombre: 'La Paz', coords: [-16.50, -68.15], productos: ['arroz'], descripcion: 'Altiplano y Yungas, arroz.' },
+  { nombre: 'Tarija', coords: [-21.53, -64.73], productos: [], descripcion: 'Vitivinícola.' },
+  { nombre: 'Chuquisaca', coords: [-19.03, -65.26], productos: ['maiz', 'cana'], descripcion: 'Histórica, maíz y caña.' }
 ];
 
 // ===== VARIABLES GLOBALES =====
-var preciosActuales = { soya:450, maiz:250, cana:120, trigo:300 };
+var preciosActuales = { soya:450, maiz:250, cana:120, arroz:380 };
 var usuario = null;
 var historial = [];
 var mapaObj = null;
@@ -1089,7 +1089,7 @@ function iniciarApp() {
 function renderResenas() {
   var el = document.getElementById('resenaList'); if(!el) return;
   var html = '';
-  var keys = ['cana','maiz','soya','trigo'];
+  var keys = ['cana','maiz','soya','arroz'];
   keys.forEach(function(k) {
     var d = CULTIVOS[k];
     html += '<div class="resena-item">' +
@@ -1140,7 +1140,6 @@ function actualizarPlanificador() {
   html += capTxt + '</div></div>';
   document.getElementById('planResultado').innerHTML = html;
 
-  // Mostrar tierras (si ya está visible, actualizar)
   if (document.getElementById('tierrasPlanContainer').classList.contains('visible')) {
     actualizarTierrasPlan();
   }
@@ -1224,7 +1223,6 @@ function recomendarInversion() {
   var capital = parseFloat(document.getElementById('invCapital').value) || 0;
   var moneda = document.getElementById('invMoneda').value;
   if (capital < 1000) { toast('Ingresa un capital mayor a 1000'); return; }
-  // Convertir USD a Bs (aprox 6.96)
   var capitalBs = moneda === 'USD' ? capital * 6.96 : capital;
   var cultivos = Object.keys(CULTIVOS);
   var mejor = null;
@@ -1259,7 +1257,6 @@ function recomendarInversion() {
   html += '<p><strong>Clima ideal:</strong> ' + d.clima + '</p>';
   document.getElementById('inversionResultado').innerHTML = html;
 
-  // Mostrar tierras sugeridas
   var tierras = TIERRAS[mejor.cultivo] || [];
   var htmlT = '<h4 style="color:var(--gold);">🌾 Tierras sugeridas para ' + d.nombre + '</h4>';
   if (tierras.length > 0) {
@@ -1355,11 +1352,11 @@ function renderTiendas() {
 // ===== MAPA =====
 function buscarEnMapa() {
   var input = document.getElementById('buscarProducto').value.trim().toLowerCase();
-  if (!input) { toast('Escribe un producto: soya, maíz, caña, trigo'); return; }
-  var mapaProductos = { 'soya':'soya', 'maiz':'maiz', 'caña':'cana', 'cana':'cana', 'trigo':'trigo' };
+  if (!input) { toast('Escribe un producto: soya, maíz, caña, arroz'); return; }
+  var mapaProductos = { 'soya':'soya', 'maiz':'maiz', 'caña':'cana', 'cana':'cana', 'arroz':'arroz' };
   var clave = mapaProductos[input];
   if (!clave) {
-    document.getElementById('resultadoBusqueda').innerHTML = '<p style="color:#e74c3c;">❌ Producto no encontrado. Prueba con: soya, maíz, caña, trigo.</p>';
+    document.getElementById('resultadoBusqueda').innerHTML = '<p style="color:#e74c3c;">❌ Producto no encontrado. Prueba con: soya, maíz, caña, arroz.</p>';
     return;
   }
   var d = CULTIVOS[clave];
@@ -1399,7 +1396,7 @@ function iniciarMapa() {
   mapaIniciado = true;
   mapaObj = L.map('mapa', { maxBounds: [[-22.9, -69.6], [-9.7, -57.5]] }).setView([-16.5, -64.5], 6);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '© OpenStreetMap' }).addTo(mapaObj);
-  var cultivosPermitidos = ['cana','maiz','soya','trigo'];
+  var cultivosPermitidos = ['cana','maiz','soya','arroz'];
   REGIONES_BOLIVIA.forEach(function(region) {
     var lat = region.coords[0];
     var lng = region.coords[1];
