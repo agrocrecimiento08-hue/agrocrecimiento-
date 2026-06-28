@@ -812,6 +812,47 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
 // ===== CONFIGURACIÓN =====
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyrZVmyfoDRiJQyfgAn17tIFcCCKIHt05wUsSb73b1geX8X1P24_N5eaUr5NzQ9WLWD/exec';
 
+// ===== ALMACENAMIENTO SEGURO (sessionStorage/localStorage) =====
+// En vez de guardar los datos del usuario en texto plano legible,
+// los codificamos con Base64 antes de guardarlos y los decodificamos al leerlos.
+// Esto evita que cualquiera que abra las herramientas de desarrollador del
+// navegador (F12 > Application > Storage) vea el nombre, correo o teléfono
+// directamente como texto plano.
+function codificar(obj) {
+  try {
+    return btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
+  } catch (e) {
+    return '';
+  }
+}
+function decodificar(str) {
+  try {
+    return JSON.parse(decodeURIComponent(escape(atob(str))));
+  } catch (e) {
+    return null;
+  }
+}
+// Genera un identificador corto y no reversible a partir del correo,
+// para usarlo como clave de localStorage sin exponer el correo real.
+function idAnonimo(correo) {
+  var hash = 0;
+  var texto = (correo || '').toLowerCase().trim();
+  for (var i = 0; i < texto.length; i++) {
+    hash = ((hash << 5) - hash + texto.charCodeAt(i)) | 0;
+  }
+  return 'u' + Math.abs(hash).toString(36);
+}
+function guardarUsuarioSesion(obj) {
+  sessionStorage.setItem('agro_u', codificar(obj));
+}
+function leerUsuarioSesion() {
+  var raw = sessionStorage.getItem('agro_u');
+  return raw ? decodificar(raw) : null;
+}
+function borrarUsuarioSesion() {
+  sessionStorage.removeItem('agro_u');
+}
+
 // ===== CULTIVOS =====
 var CULTIVOS = {
   cana: {
@@ -998,7 +1039,7 @@ async function handleRegistro() {
     const data = await res.json();
     if(data.status==='success'){
       usuario = { nombre, telefono, correo, zona };
-      sessionStorage.setItem('usuario', JSON.stringify(usuario));
+      guardarUsuarioSesion(usuario);
       cerrarModalAuth();
       actualizarHeader();
       toast('¡Bienvenido ' + nombre.split(' ')[0] + '!');
@@ -1023,7 +1064,7 @@ async function handleLogin() {
     const data = await res.json();
     if(data.status==='success' && data.data){
       usuario = data.data;
-      sessionStorage.setItem('usuario', JSON.stringify(usuario));
+      guardarUsuarioSesion(usuario);
       cerrarModalAuth();
       actualizarHeader();
       toast('¡Bienvenido de nuevo, ' + usuario.nombre.split(' ')[0] + '!');
@@ -1038,7 +1079,7 @@ async function handleLogin() {
   }
 }
 function cerrarSesion() {
-  sessionStorage.removeItem('usuario');
+  borrarUsuarioSesion();
   usuario = null;
   actualizarHeader();
   toast('Sesión cerrada');
@@ -1080,8 +1121,8 @@ function iniciarApp() {
   var h = new Date().getHours();
   var sal = h < 12 ? '¡Muy buenos días, productor!' : h < 18 ? '¡Muy buenas tardes, productor!' : '¡Muy buenas noches, productor!';
   document.getElementById('saludo').textContent = sal;
-  var saved = localStorage.getItem('agro_historial_' + (usuario?usuario.correo:''));
-  if (saved) historial = JSON.parse(saved);
+  var saved = localStorage.getItem('agro_h_' + (usuario ? idAnonimo(usuario.correo) : ''));
+  if (saved) historial = decodificar(saved) || [];
   renderResenas();
   renderPerfil();
   renderTiendas();
@@ -1220,7 +1261,7 @@ function guardarComparacion() {
   var reg = { id: generarId(), fecha: new Date().toLocaleDateString('es-BO'), tipo: 'Comparación', cultivo: da.nombre + ' vs ' + db.nombre, ha: 'N/A', ganancia: 0 };
   historial.unshift(reg);
   if (historial.length > 20) historial.pop();
-  localStorage.setItem('agro_historial_' + usuario.correo, JSON.stringify(historial));
+  localStorage.setItem('agro_h_' + idAnonimo(usuario.correo), codificar(historial));
   toast('Comparación guardada.');
 }
 
@@ -1399,9 +1440,9 @@ function renderPerfil() {
 }
 
 // ===== AUTO-LOGIN =====
-var savedUser = sessionStorage.getItem('usuario');
+var savedUser = leerUsuarioSesion();
 if (savedUser) {
-  usuario = JSON.parse(savedUser);
+  usuario = savedUser;
   actualizarHeader();
 }
 iniciarApp();
